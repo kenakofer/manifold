@@ -1,29 +1,29 @@
 import {
   getInitialAnswerProbability,
   getInitialProbability,
-} from 'common/calculate'
+} from './calculate'
 import {
   CPMMMultiContract,
   Contract,
   MaybeAuthedContractParams,
-} from 'common/contract'
-import { binAvg, maxMinBin, serializeMultiPoints } from 'common/chart'
-import { getBets, getBetPoints, getTotalBetCount } from 'common/supabase/bets'
-import { getRecentTopLevelCommentsAndReplies } from 'common/supabase/comments'
+} from './contract'
+import { binAvg, maxMinBin, serializeMultiPoints } from './chart'
+import { getBets, getBetPoints, getTotalBetCount } from './supabase/bets'
+import { getRecentTopLevelCommentsAndReplies } from './supabase/comments'
 import {
   getCPMMContractUserContractMetrics,
   getTopContractMetrics,
   getContractMetricsCount,
-} from 'common/supabase/contract-metrics'
-import { getUserIsMember } from 'common/supabase/groups'
-import { getRelatedContracts } from 'common/supabase/related-contracts'
-import { removeUndefinedProps } from 'common/util/object'
-import { getIsAdmin } from 'common/supabase/is-admin'
-import { pointsToBase64 } from 'common/util/og'
-import { SupabaseClient } from 'common/supabase/utils'
-import { buildArray } from 'common/util/array'
+} from './supabase/contract-metrics'
+import { getUserIsMember } from './supabase/groups'
+import { getRelatedContracts } from './supabase/related-contracts'
+import { removeUndefinedProps } from './util/object'
+import { getIsAdmin } from './supabase/is-admin'
+import { pointsToBase64 } from './util/og'
+import { SupabaseClient } from './supabase/utils'
+import { buildArray } from './util/array'
 import { groupBy } from 'lodash'
-import { Bet } from 'common/bet'
+import { Bet } from './bet'
 
 export async function getContractParams(
   contract: Contract,

@@ -1,6 +1,6 @@
 import { Contract, PseudoNumericContract, StonkContract } from './contract'
 import { formatLargeNumber, formatPercent } from './util/format'
-import { getStonkPriceAtProb } from 'common/stonk'
+import { getStonkPriceAtProb } from './stonk'
 
 export function formatNumericProbability(
   p: number,

@@ -1,10 +1,10 @@
 import { User } from './user'
 import { last } from 'lodash'
-import { BOT_USERNAMES } from 'common/envs/constants'
-import { getPortfolioHistory } from 'common/supabase/portfolio-metrics'
-import { DAY_MS } from 'common/util/time'
-import { SupabaseClient } from 'common/supabase/utils'
-import { formatMoney } from 'common/util/format'
+import { BOT_USERNAMES } from './envs/constants'
+import { getPortfolioHistory } from './supabase/portfolio-metrics'
+import { DAY_MS } from './util/time'
+import { SupabaseClient } from './supabase/utils'
+import { formatMoney } from './util/format'
 
 export type Manalink = {
   // The link to send: https://manifold.markets/send/{slug}

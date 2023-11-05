@@ -1,4 +1,4 @@
-import { ContractMetric } from 'common/contract-metric'
+import { ContractMetric } from './contract-metric'
 
 export type WeeklyPortfolioUpdate = {
   id: string

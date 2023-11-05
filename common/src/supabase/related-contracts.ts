@@ -1,5 +1,5 @@
 import { SupabaseClient } from '@supabase/supabase-js'
-import { Contract } from 'common/contract'
+import { Contract } from '../contract'
 
 export async function getRelatedContracts(
   contract: Contract,

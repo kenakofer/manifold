@@ -1,4 +1,4 @@
-import { StonkContract } from 'common/contract'
+import { StonkContract } from './contract'
 
 export const STONK_YES = 'BUY'
 export const STONK_NO = 'SHORT'

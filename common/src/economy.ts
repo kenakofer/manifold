@@ -1,4 +1,4 @@
-import { OutcomeType } from 'common/contract'
+import { OutcomeType } from './contract'
 
 export const FIXED_ANTE = 50
 export const ANSWER_COST = FIXED_ANTE / 2

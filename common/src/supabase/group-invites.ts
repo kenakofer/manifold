@@ -1,4 +1,4 @@
-import { run, SupabaseClient } from 'common/supabase/utils'
+import { run, SupabaseClient } from '../supabase/utils'
 
 export async function getInvite(inviteId: string, db: SupabaseClient) {
   const { data: invite } = await run(

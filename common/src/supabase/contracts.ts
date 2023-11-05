@@ -9,8 +9,8 @@ import {
   tsToMillis,
 } from './utils'
 import { Contract } from '../contract'
-import { Answer } from 'common/answer'
-import { Json } from 'common/supabase/schema'
+import { Answer } from '../answer'
+import { Json } from '../supabase/schema'
 
 export const CONTRACTS_PER_SEARCH_PAGE = 40
 export const getContractFromSlug = async (

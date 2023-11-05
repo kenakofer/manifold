@@ -1,12 +1,12 @@
 import { SupabaseClient } from '@supabase/supabase-js'
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js'
 import { Row, Schema, millisToTs, run, selectJson, tsToMillis } from './utils'
-import { Bet, BetFilter } from 'common/bet'
-import { User } from 'common/user'
-import { getContractBetMetrics } from 'common/calculate'
-import { Contract } from 'common/contract'
+import { Bet, BetFilter } from '../bet'
+import { User } from '../user'
+import { getContractBetMetrics } from '../calculate'
+import { Contract } from '../contract'
 import { chunk, groupBy, maxBy, minBy } from 'lodash'
-import { removeUndefinedProps } from 'common/util/object'
+import { removeUndefinedProps } from '../util/object'
 
 export const CONTRACT_BET_FILTER: BetFilter = {
   filterRedemptions: true,

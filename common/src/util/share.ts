@@ -1,5 +1,5 @@
-import { Contract } from 'common/contract'
-import { ENV_CONFIG } from 'common/envs/constants'
+import { Contract } from '../contract'
+import { ENV_CONFIG } from '../envs/constants'
 
 export const getShareUrl = (contract: Contract, username: string | undefined) =>
   `https://${ENV_CONFIG.domain}/${contract.creatorUsername}/${contract.slug}${

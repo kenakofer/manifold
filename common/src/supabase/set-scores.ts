@@ -1,5 +1,5 @@
-import { run, SupabaseClient } from 'common/supabase/utils'
-import { QUEST_DETAILS, QuestType } from 'common/quest'
+import { run, SupabaseClient } from '../supabase/utils'
+import { QUEST_DETAILS, QuestType } from '../quest'
 
 export async function setQuestScoreValue(
   userId: string,

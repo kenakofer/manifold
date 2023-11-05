@@ -2,7 +2,7 @@ import { chunk, Dictionary, flatMap, groupBy, uniqBy } from 'lodash'
 import { Row, run, selectFrom, selectJson, SupabaseClient } from './utils'
 import { getContracts } from './contracts'
 import { Contract, CPMMContract } from '../contract'
-import { ContractMetric } from 'common/contract-metric'
+import { ContractMetric } from '../contract-metric'
 
 export async function getTopContractMetrics(
   contractId: string,

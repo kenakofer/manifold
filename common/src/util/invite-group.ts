@@ -1,5 +1,5 @@
-import { ENV_CONFIG } from 'common/envs/constants'
-import { Group } from 'common/group'
+import { ENV_CONFIG } from '../envs/constants'
+import { Group } from '../group'
 
 export const getGroupInviteUrl = (group: Group, inviteSlug: string) =>
   `https://${ENV_CONFIG.domain}/group-invite/${inviteSlug}`

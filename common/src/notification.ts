@@ -1,8 +1,8 @@
-import { OutcomeType } from 'common/contract'
+import { OutcomeType } from './contract'
 import { groupPath } from './group'
 import { PAST_BET } from './user'
 import { notification_preference } from './user-notification-preferences'
-import { Bet } from 'common/bet'
+import { Bet } from './bet'
 import { league_user_info } from './leagues'
 
 export type Notification = {

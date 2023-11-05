@@ -1,6 +1,6 @@
 import type { JSONContent } from '@tiptap/core'
 import { Visibility } from './contract'
-import { OnLover } from 'common/love/love-comment'
+import { OnLover } from './love/love-comment'
 
 export const MAX_COMMENT_LENGTH = 10000
 

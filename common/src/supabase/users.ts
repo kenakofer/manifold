@@ -1,6 +1,6 @@
 import { chunk, keyBy } from 'lodash'
 import { Row, run, selectFrom, SupabaseClient } from './utils'
-import { User } from 'common/user'
+import { User } from '../user'
 
 export const getUsernameById = async (
   userIds: string[],

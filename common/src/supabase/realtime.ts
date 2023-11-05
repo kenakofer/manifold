@@ -1,4 +1,4 @@
-import { TableName, Row, Column } from 'common/supabase/utils'
+import { TableName, Row, Column } from '../supabase/utils'
 import {
   RealtimePostgresInsertPayload,
   RealtimePostgresUpdatePayload,

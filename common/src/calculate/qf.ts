@@ -1,5 +1,5 @@
 // Functions for calculate quadratic funding amounts
-import { QfTxn } from 'common/txn'
+import { QfTxn } from '../txn'
 import { groupBy, mapValues, sumBy } from 'lodash'
 // Note: none of this allows for undone payments
 

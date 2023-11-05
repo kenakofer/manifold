@@ -1,6 +1,6 @@
-import { run, SupabaseClient } from 'common/supabase/utils'
-import { removeUndefinedProps } from 'common/util/object'
-import { Json } from 'common/supabase/schema'
+import { run, SupabaseClient } from '../supabase/utils'
+import { removeUndefinedProps } from '../util/object'
+import { Json } from '../supabase/schema'
 export type EventData = Record<string, Json | undefined>
 
 export async function insertUserEvent(

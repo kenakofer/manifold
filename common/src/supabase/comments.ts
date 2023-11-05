@@ -1,4 +1,4 @@
-import { ContractComment } from 'common/comment'
+import { ContractComment } from '../comment'
 import { convertSQLtoTS, Row, run, SupabaseClient, tsToMillis } from './utils'
 
 export async function getRecentTopLevelCommentsAndReplies(

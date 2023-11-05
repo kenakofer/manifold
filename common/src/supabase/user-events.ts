@@ -1,4 +1,4 @@
-import { SupabaseClient, run } from 'common/supabase/utils'
+import { SupabaseClient, run } from '../supabase/utils'
 
 export async function getUserShareEventsCount(
   userId: string,

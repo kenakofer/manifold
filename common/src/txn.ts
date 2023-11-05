@@ -1,7 +1,7 @@
 // A txn (pronounced "texan") respresents a payment between two ids on Manifold
 // Shortened from "transaction" to distinguish from Firebase transactions (and save chars)
 
-import { QuestType } from 'common/quest'
+import { QuestType } from './quest'
 import { league_user_info } from './leagues'
 
 type AnyTxnType =

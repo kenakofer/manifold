@@ -8,7 +8,7 @@ import {
   DPMContract,
 } from './contract'
 import { filterDefined } from './util/array'
-import { PortfolioMetrics } from 'common/portfolio-metrics'
+import { PortfolioMetrics } from './portfolio-metrics'
 import { calculateDpmRawShareValue } from './calculate-dpm'
 
 export const LOAN_DAILY_RATE = 0.04

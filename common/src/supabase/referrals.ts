@@ -1,5 +1,5 @@
-import { run, SupabaseClient } from 'common/supabase/utils'
-import { User } from 'common/user'
+import { run, SupabaseClient } from '../supabase/utils'
+import { User } from '../user'
 import { pick } from 'lodash'
 
 export async function getReferralCount(

@@ -1,5 +1,5 @@
-import { SerializedPoint } from 'common/chart'
-import { DOMAIN } from 'common/envs/constants'
+import { SerializedPoint } from '../chart'
+import { DOMAIN } from '../envs/constants'
 
 // opengraph functions that run in static props or client-side, but not in the edge (in image creation)
 

@@ -1,4 +1,4 @@
-import { Comment } from 'common/comment'
+import { Comment } from '../comment'
 
 export type OnLover = {
   commentType: 'lover'

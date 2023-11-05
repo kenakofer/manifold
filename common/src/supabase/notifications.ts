@@ -1,4 +1,4 @@
-import { Row, SupabaseClient } from 'common/supabase/utils'
+import { Row, SupabaseClient } from '../supabase/utils'
 
 export async function getNotifications(
   db: SupabaseClient,

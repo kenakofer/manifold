@@ -1,4 +1,4 @@
-import { CertTxn } from 'common/txn'
+import { CertTxn } from '../txn'
 import { sortBy, sum } from 'lodash'
 import { calculatePrice } from './uniswap2'
 

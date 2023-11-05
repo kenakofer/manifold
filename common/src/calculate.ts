@@ -34,7 +34,7 @@ import {
   StonkContract,
 } from './contract'
 import { floatingEqual } from './util/math'
-import { ContractMetric } from 'common/contract-metric'
+import { ContractMetric } from './contract-metric'
 import { Answer, DpmAnswer } from './answer'
 
 export function getProbability(

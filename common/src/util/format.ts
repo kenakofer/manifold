@@ -4,8 +4,8 @@ import {
   CPMMMultiContract,
   PseudoNumericContract,
   StonkContract,
-} from 'common/contract'
-import { STONK_NO, STONK_YES } from 'common/stonk'
+} from '../contract'
+import { STONK_NO, STONK_YES } from '../stonk'
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',

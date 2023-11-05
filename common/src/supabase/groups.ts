@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js'
-import { Row, convertSQLtoTS, run } from 'common/supabase/utils'
-import { Group } from 'common/group'
+import { Row, convertSQLtoTS, run } from '../supabase/utils'
+import { Group } from '../group'
 
 export const UNRANKED_GROUP_ID = 'f141b8ca-eac3-4400-962a-72973b3ceb62'
 export const UNSUBSIDIZED_GROUP_ID = 'f08f4130-3410-4030-9bf5-f675e5035e9c'
