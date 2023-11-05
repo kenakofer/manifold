@@ -12,7 +12,7 @@ import { computeFills, getNewMultiBetInfo } from './new-bet'
 import { getCpmmProbability } from './calculate-cpmm'
 import { removeUndefinedProps } from './util/object'
 import { logit } from './util/math'
-import { ContractMetric } from 'common/contract-metric'
+import { ContractMetric } from './contract-metric'
 
 const computeInvestmentValue = (
   bets: Bet[],

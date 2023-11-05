@@ -1,4 +1,3 @@
-import { notification_preferences } from './user-notification-preferences'
 import { ENV_CONFIG } from './envs/constants'
 import { DAY_MS } from './util/time'
 
@@ -67,7 +66,6 @@ export type PrivateUser = {
   initialDeviceToken?: string
   initialIpAddress?: string
   apiKey?: string
-  notificationPreferences: notification_preferences
   twitchInfo?: {
     twitchName: string
     controlToken: string

@@ -1,7 +1,6 @@
 import { groupBy, mapValues } from 'lodash'
 import { Visibility } from './contract'
 import { Fees } from './fees'
-import { maxMinBin } from './chart'
 
 /************************************************
 
@@ -113,19 +112,4 @@ export type BetFilter = {
   order?: 'desc' | 'asc'
   limit?: number
   commentRepliesOnly?: boolean
-}
-
-export const calculateMultiBets = (
-  betPoints: {
-    x: number
-    y: number
-    answerId: string
-  }[]
-) => {
-  return mapValues(groupBy(betPoints, 'answerId'), (bets) =>
-    maxMinBin(
-      bets.sort((a, b) => a.x - b.x),
-      500
-    )
-  )
 }

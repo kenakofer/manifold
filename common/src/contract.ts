@@ -1,11 +1,7 @@
 import { Answer, DpmAnswer } from './answer'
 import { Bet } from './bet'
-import { MultiSerializedPoints, SerializedPoint } from './chart'
 import { Fees } from './fees'
-import { JSONContent } from '@tiptap/core'
-import { GroupLink } from './group'
 import { ContractMetric, ContractMetricsByOutcome } from './contract-metric'
-import { ContractComment } from './comment'
 import { ENV_CONFIG } from './envs/constants'
 import { formatMoney, formatPercent } from './util/format'
 import { getLiquidity } from './calculate-cpmm-multi'
@@ -73,7 +69,7 @@ export type Contract<T extends AnyContractType = AnyContractType> = {
   creatorCreatedTime?: number
 
   question: string
-  description: string | JSONContent // More info about what the contract is about
+  description: string // More info about what the contract is about
   visibility: Visibility
 
   createdTime: number // Milliseconds since epoch
@@ -97,7 +93,6 @@ export type Contract<T extends AnyContractType = AnyContractType> = {
   collectedFees: Fees
 
   groupSlugs?: string[]
-  groupLinks?: GroupLink[]
   uniqueBettorCount: number
   /** @deprecated - not deprecated, only updated in supabase though*/
   popularityScore: number
@@ -389,15 +384,12 @@ export type ContractParams = {
   contract: Contract
   historyData: {
     bets: Bet[]
-    points: MultiSerializedPoints | SerializedPoint<Partial<Bet>>[]
+    points: number[]
   }
   pointsString?: string
-  comments: ContractComment[]
   userPositionsByOutcome: ContractMetricsByOutcome
   totalPositions: number
   totalBets: number
-  topContractMetrics: ContractMetric[]
-  relatedContracts: Contract[]
 }
 
 export type MaybeAuthedContractParams =

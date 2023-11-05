@@ -201,12 +201,15 @@ export const computeFills = (
 
     if (maker.matchedBetId === null) {
       // Matched against pool.
+      // @ts-ignore
       cpmmState = maker.state
+      // @ts-ignore
       totalFees = addObjects(totalFees, maker.fees)
       takers.push(taker)
     } else {
       // Matched against bet.
       i++
+      // @ts-ignore
       const { userId } = maker.bet
       const makerBalance = currentBalanceByUserId[userId]
       if (makerBalance !== undefined) {
@@ -216,12 +219,14 @@ export const computeFills = (
         const adjustedMakerBalance = currentBalanceByUserId[userId]
         if (adjustedMakerBalance !== undefined && adjustedMakerBalance <= 0) {
           // Now they've insufficient balance. Cancel maker bet.
+          // @ts-ignore
           ordersToCancel.push(maker.bet)
         }
       }
       if (floatingEqual(maker.amount, 0)) continue
 
       takers.push(taker)
+      // @ts-ignore
       makers.push(maker)
     }
 

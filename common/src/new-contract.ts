@@ -14,7 +14,6 @@ import {
 } from './contract'
 import { User } from './user'
 import { removeUndefinedProps } from './util/object'
-import { JSONContent } from '@tiptap/core'
 import { computeBinaryCpmmElasticityFromAnte } from './calculate-metrics'
 import { randomString } from './util/random'
 import { PollOption } from './poll-option'
@@ -29,7 +28,7 @@ export function getNewContract(
   creator: User,
   question: string,
   outcomeType: typeof CREATEABLE_OUTCOME_TYPES[number],
-  description: JSONContent,
+  description: string,
   initialProb: number,
   ante: number,
   closeTime: number | undefined,
