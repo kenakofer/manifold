@@ -31,5 +31,3 @@ export type ContractMetric = {
   lastBetTime: number
   answerId: string | null
 }
-
-export type ContractMetricsByOutcome = Record<string, ContractMetric[]>

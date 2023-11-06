@@ -1,7 +1,6 @@
 import { Answer, DpmAnswer } from './answer'
 import { Bet } from './bet'
 import { Fees } from './fees'
-import { ContractMetric, ContractMetricsByOutcome } from './contract-metric'
 import { ENV_CONFIG } from './envs/constants'
 import { formatMoney, formatPercent } from './util/format'
 import { getLiquidity } from './calculate-cpmm-multi'
@@ -387,7 +386,6 @@ export type ContractParams = {
     points: number[]
   }
   pointsString?: string
-  userPositionsByOutcome: ContractMetricsByOutcome
   totalPositions: number
   totalBets: number
 }
