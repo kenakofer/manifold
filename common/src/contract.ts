@@ -1,7 +1,6 @@
 import { Answer, DpmAnswer } from './answer'
 import { Bet } from './bet'
 import { Fees } from './fees'
-import { ENV_CONFIG } from './envs/constants'
 import { formatMoney, formatPercent } from './util/format'
 import { getLiquidity } from './calculate-cpmm-multi'
 import { sum } from 'lodash'
@@ -328,10 +327,6 @@ export function contractPathWithoutContract(
   slug: string
 ) {
   return `/${creatorUsername}/${slug}`
-}
-
-export function contractUrl(contract: Contract) {
-  return `https://${ENV_CONFIG.domain}${contractPath(contract)}`
 }
 
 export function contractPool(contract: Contract) {

@@ -1,4 +1,3 @@
-import { ENV_CONFIG } from '../envs/constants'
 import {
   BinaryContract,
   CPMMMultiContract,
@@ -16,7 +15,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 export function formatMoney(amount: number) {
   const newAmount = getMoneyNumber(amount)
-  return formatter.format(newAmount).replace('$', ENV_CONFIG.moneyMoniker)
+  return formatter.format(newAmount).replace('$', 'M')
 }
 
 export function formatMoneyUSD(amount: number) {
@@ -38,7 +37,7 @@ export function getMoneyNumber(amount: number) {
 }
 
 export function formatMoneyWithDecimals(amount: number) {
-  return ENV_CONFIG.moneyMoniker + amount.toFixed(2)
+  return 'M' + amount.toFixed(2)
 }
 
 export function formatMoneyToDecimal(amount: number) {
@@ -46,7 +45,7 @@ export function formatMoneyToDecimal(amount: number) {
     Math.abs(amount - Math.round(amount)) < 0.0001
       ? Math.round(amount).toFixed(0)
       : amount.toFixed(1)
-  return ENV_CONFIG.moneyMoniker + amountString
+  return 'M' + amountString
 }
 
 export function formatWithCommas(amount: number) {

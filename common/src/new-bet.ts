@@ -27,6 +27,7 @@ import {
   buyNoSharesUntilAnswersSumToOne,
   calculateCpmmMultiArbitrageBet,
 } from './calculate-cpmm-arbitrage'
+import { User } from './user'
 
 export type CandidateBet<T extends Bet = Bet> = Omit<
   T,
@@ -287,6 +288,7 @@ export const getBinaryCpmmBetInfo = (
   limitProb: number | undefined,
   unfilledBets: LimitBet[],
   balanceByUserId: { [userId: string]: number },
+  user: User,
   expiresAt?: number
 ) => {
   const cpmmState = { pool: contract.pool, p: contract.p }
@@ -310,7 +312,15 @@ export const getBinaryCpmmBetInfo = (
     unfilledBets,
     balanceByUserId
   )
-  const newBet: CandidateBet = removeUndefinedProps({
+  // const newBet: CandidateBet = removeUndefinedProps({
+  const newBet: Bet = removeUndefinedProps({
+    id: 'betID',
+    userId: user.id,
+    userAvatarUrl: user.avatarUrl,
+    userUsername: user.username,
+    userName: user.name,
+    contractId: contract.id,
+
     orderAmount,
     amount,
     shares,
@@ -318,7 +328,6 @@ export const getBinaryCpmmBetInfo = (
     isFilled,
     isCancelled: false,
     fills,
-    contractId: contract.id,
     outcome,
     probBefore,
     probAfter,

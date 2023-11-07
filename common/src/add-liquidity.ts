@@ -36,5 +36,9 @@ export const getNewLiquidityProvision = (
     createdTime: Date.now(),
   })
 
+  // Set the fields on the contract
+  contract.totalLiquidity = newTotalLiquidity
+  contract.subsidyPool = newSubsidyPool
+
   return { newLiquidityProvision, newTotalLiquidity, newSubsidyPool }
 }

@@ -1,4 +1,3 @@
-import { ENV_CONFIG } from './envs/constants'
 import { DAY_MS } from './util/time'
 
 export type User = {
@@ -84,15 +83,6 @@ export type PrivateUser = {
   installedAppPlatforms?: string[]
   discordId?: string
 }
-
-// TODO: remove. Hardcoding the strings would be better.
-// Different views require different language.
-export const BETTOR = ENV_CONFIG.bettor ?? 'trader'
-export const BETTORS = ENV_CONFIG.bettor + 's' ?? 'traders'
-export const SINGULAR_BET = ENV_CONFIG.nounBet ?? 'trade' // prediction (noun)
-export const PLURAL_BETS = ENV_CONFIG.nounBet + 's' ?? 'trades' // predictions (noun)
-// export const PRESENT_BET = ENV_CONFIG.presentBet ?? 'trade' // predict (verb)
-export const PAST_BET = ENV_CONFIG.verbPastBet ?? 'traded' // predicted (verb)
 
 export type UserAndPrivateUser = { user: User; privateUser: PrivateUser }
 export const MANIFOLD_USER_USERNAME = 'Manifold'

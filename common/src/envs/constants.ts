@@ -2,22 +2,9 @@ import { escapeRegExp } from 'lodash'
 import { DEV_CONFIG } from './dev'
 import { EnvConfig, PROD_CONFIG } from './prod'
 
-// Valid in web client & Vercel deployments only.
-export const ENV = (process.env.NEXT_PUBLIC_FIREBASE_ENV ?? 'PROD') as
-  | 'PROD'
-  | 'DEV'
-
 export const CONFIGS: { [env: string]: EnvConfig } = {
   PROD: PROD_CONFIG,
   DEV: DEV_CONFIG,
-}
-
-export const DASHBOARD_ENABLED = ENV === 'DEV'
-
-export const ENV_CONFIG = CONFIGS[ENV]
-
-export function isAdminId(id: string) {
-  return ENV_CONFIG.adminIds.includes(id)
 }
 
 export function isTrustworthy(username?: string) {
@@ -26,32 +13,6 @@ export function isTrustworthy(username?: string) {
   }
   return MOD_USERNAMES.includes(username)
 }
-export const DOMAIN = ENV_CONFIG.domain
-export const FIREBASE_CONFIG = ENV_CONFIG.firebaseConfig
-export const PROJECT_ID = ENV_CONFIG.firebaseConfig.projectId
-export const IS_PRIVATE_MANIFOLD = ENV_CONFIG.visibility === 'PRIVATE'
-
-export const AUTH_COOKIE_NAME = `FBUSER_${PROJECT_ID.toUpperCase().replace(
-  /-/g,
-  '_'
-)}`
-
-// Manifold's domain or any subdomains thereof
-export const CORS_ORIGIN_MANIFOLD = new RegExp(
-  '^https?://(?:[a-zA-Z0-9\\-]+\\.)*' + escapeRegExp(ENV_CONFIG.domain) + '$'
-)
-// Manifold's domain or any subdomains thereof
-export const CORS_ORIGIN_MANIFOLD_LOVE = new RegExp(
-  '^https?://(?:[a-zA-Z0-9\\-]+\\.)*' +
-    escapeRegExp(ENV_CONFIG.loveDomain) +
-    '$'
-)
-// Vercel deployments, used for testing.
-export const CORS_ORIGIN_VERCEL = new RegExp(
-  '^https?://[a-zA-Z0-9\\-]+' + escapeRegExp('mantic.vercel.app') + '$'
-)
-// Any localhost server on any port
-export const CORS_ORIGIN_LOCALHOST = /^http:\/\/localhost:\d+$/
 
 // TODO: These should maybe be part of the env config?
 export const BOT_USERNAMES = [
@@ -222,15 +183,6 @@ export const VERIFIED_USERNAMES = [
 ]
 
 export const HOUSE_BOT_USERNAME = 'acc'
-
-export function firestoreConsolePath(contractId: string) {
-  return `https://console.firebase.google.com/project/${PROJECT_ID}/firestore/data/~2Fcontracts~2F${contractId}`
-}
-
-export const GOOGLE_PLAY_APP_URL =
-  'https://play.google.com/store/apps/details?id=com.markets.manifold'
-export const APPLE_APP_URL =
-  'https://apps.apple.com/us/app/manifold-markets/id6444136749'
 
 export const TEN_YEARS_SECS = 60 * 60 * 24 * 365 * 10
 
