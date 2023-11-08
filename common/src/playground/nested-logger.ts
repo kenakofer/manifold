@@ -3,9 +3,13 @@ export class NestedLogger {
   private currentContext: Record<string, any> = this.logs;
   private contextStack: Array<Record<string, any>> = [];
 
-  log(key: string, message: string | Record<string, any> = ""): void {
-    // Append a message to the current context
+  log(key: string, message: string | number | Record<string, any> = ""): void {
     this.currentContext[key] = message;
+  }
+
+  throw(key: string, message: string | number | Record<string, any> = ""): void {
+    this.log(key, message);
+    throw new Error(key + " " + message.toString());
   }
 
   in(): void {
@@ -13,7 +17,7 @@ export class NestedLogger {
     const keys = Object.keys(this.currentContext);
     const lastKey = keys[keys.length - 1];
 
-    // Assert that the last key doesn't have a truthy value
+    // Assert that the last key doesn't have a truthy value since it will be overwritten
     if (this.currentContext[lastKey]) {
       throw new Error(`Cannot enter message ${lastKey} because it already has a value of ${this.currentContext[lastKey]}`);
     }
@@ -26,7 +30,6 @@ export class NestedLogger {
   }
 
   getCurrentNestingLevel(): number {
-    // Get the current nesting level
     return this.contextStack.length;
   }
 
