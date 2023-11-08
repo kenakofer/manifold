@@ -1,6 +1,8 @@
+import { User } from "./user"
+
 export type LiquidityProvision = {
   id: string
-  userId: string
+  user: User
   contractId: string
   createdTime: number
   isAnte?: boolean

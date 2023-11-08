@@ -20,7 +20,7 @@ type NormalizedBet<T extends Bet = Bet> = Omit<
 >
 
 export function getCpmmInitialLiquidity(
-  providerId: string,
+  provider: User,
   contract: CPMMBinaryContract | CPMMMultiContract,
   anteId: string,
   amount: number
@@ -31,7 +31,7 @@ export function getCpmmInitialLiquidity(
 
   const lp: LiquidityProvision = removeUndefinedProps({
     id: anteId,
-    userId: providerId,
+    user: provider,
     contractId: contract.id,
     createdTime,
     isAnte: true,
