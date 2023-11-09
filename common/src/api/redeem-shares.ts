@@ -1,3 +1,6 @@
+import { NestedLogger } from '../playground/nested-logger'
+declare global { interface Window { logger: NestedLogger; } }
+
 import * as admin from 'firebase-admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { groupBy, maxBy, sum, sumBy } from 'lodash'

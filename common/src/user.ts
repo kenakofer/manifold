@@ -15,7 +15,7 @@ export type User = {
   discordHandle?: string
 
   balance: number
-  totalDeposits: number
+  totalDeposits: number // Total deposits = all mana that enters your account that isnt from profit/losses (seems to be decremented by manalinks, charity donations, creating markets, etc.)
 
   profitCached: {
     daily: number

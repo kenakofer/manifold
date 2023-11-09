@@ -1,3 +1,6 @@
+import { NestedLogger } from '../playground/nested-logger'
+declare global { interface Window { logger: NestedLogger; } }
+
 import { Bet } from './bet'
 import {
   CPMMBinaryContract,

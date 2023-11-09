@@ -28,12 +28,18 @@ import {
   User,
 } from '../user'
 import { STONK_INITIAL_PROB } from '../stonk'
+import { PlaygroundState } from '../playground/global-state';
 
-export function createmarket (req, auth) {
-  return createMarketHelper(req.body, auth)
+export function createmarket (req, userId, playgroundState: PlaygroundState) {
+  window.logger.log('Simulating createmarket endpoint')
+  window.logger.in()
+  const contract = createMarketHelper(req.body, userId, playgroundState)
+  window.logger.out()
+  window.logger.log('Returning contract', contract)
+  return contract
 }
 
-export async function createMarketHelper(body: any, user: User) {
+export async function createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
   const {
     question,
     description,
@@ -59,6 +65,7 @@ export async function createMarketHelper(body: any, user: User) {
     loverUserId2,
   } = validateMarketBody(body)
 
+  const user = playgroundState.getUser(userId)
   if (!user) window.logger.throw("APIError", "(401) Your account was not found")
 
   const hasOtherAnswer = addAnswersMode !== 'DISABLED' && shouldAnswersSumToOne
@@ -111,6 +118,7 @@ export async function createMarketHelper(body: any, user: User) {
     contract,
     ante,
     user,
+    playgroundState
   )
 
   window.logger.log('created contract for', user.username)
@@ -126,6 +134,7 @@ const runCreateMarketTxn = async (
   contract: Contract,
   ante: number,
   user: User,
+  playgroundState: PlaygroundState
 ) => {
   const { amountSuppliedByUser, amountSuppliedByHouse } = marketCreationCosts(
     user,
@@ -138,9 +147,12 @@ const runCreateMarketTxn = async (
       //   balance: FieldValue.increment(-amountSuppliedByHouse),
       //   totalDeposits: FieldValue.increment(-amountSuppliedByHouse),
       // })
+      playgroundState.bank.balance -= amountSuppliedByHouse
+      // playgroundState.bank.totalDeposits -= amountSuppliedByHouse TODO what would totalDeposits even mean for the bank?
     }
 
     if (amountSuppliedByUser > 0) {
+      // TODO TXN
       user.balance -= amountSuppliedByUser
       user.totalDeposits -= amountSuppliedByUser
     }
@@ -161,6 +173,17 @@ const runCreateMarketTxn = async (
     //   userDocRef
     // )
 
+    // playgroundState.runNewTransaction({
+    //     fromId: user.id,
+    //     fromType: 'USER',
+    //     toId: contract.id,
+    //     toType: 'CONTRACT',
+    //     amount: amountSuppliedByUser,
+    //     token: 'M$',
+    //     category: 'BOUNTY_POSTED',
+    // })
+
+
     // if (amountSuppliedByHouse > 0 && houseDoc)
     //   await runPostBountyTxn(
     //     trans,
@@ -176,12 +199,14 @@ const runCreateMarketTxn = async (
     //     contractRef,
     //     houseDoc.ref
     //   )
+
   }
 
   if (amountSuppliedByHouse > 0) {
     // trans.update(userDocRef, {
     //   freeQuestionsCreated: FieldValue.increment(1),
     // })
+    user.freeQuestionsCreated += 1
   }
 
   return contract
@@ -198,7 +223,7 @@ async function getCloseTimestamp(
       ? closeTime
       : closeTime.getTime()
     : NO_CLOSE_TIME_TYPES.includes(outcomeType)
-    ? closeTime
+    ? undefined
     : Date.now() + 7 * 24 * 60 * 60 * 1000
 }
 
