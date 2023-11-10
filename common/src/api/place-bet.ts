@@ -3,7 +3,7 @@ declare global { interface Window { logger: NestedLogger; } }
 
 import { z } from 'zod'
 import { groupBy, mapValues, sumBy, uniq } from 'lodash'
-import { Contract, CPMM_MIN_POOL_QTY } from '../contract'
+import { Contract, CPMM, CPMM_MIN_POOL_QTY, CPMMContract, CPMMMultiContract, DPM, DPMContract } from '../contract'
 import { User } from '../user'
 import {
   BetInfo,
@@ -67,7 +67,7 @@ export const placeBetMain = async (
   const { amount, contractId, replyToCommentId } = validate(bodySchema, body)
 
   // Create and run function to get result
-  const result = async () => {
+  const result = (() => {
     const contract = playgroundState.getContract(contractId)
     const user = playgroundState.getUser(uid)
     // const userDoc = firestore.doc(`users/${uid}`)
@@ -96,7 +96,7 @@ export const placeBetMain = async (
       newP,
       makers,
       ordersToCancel,
-    } = await (async (): Promise<
+    } = (():
       BetInfo & {
         makers?: maker[]
         ordersToCancel?: LimitBet[]
@@ -107,19 +107,7 @@ export const placeBetMain = async (
           makers: maker[]
           ordersToCancel: LimitBet[]
         }[]
-      }
-    > => {
-    // const {
-    //   newBet,
-    //   otherBetResults,
-    //   newPool,
-    //   newTotalShares,
-    //   newTotalBets,
-    //   newTotalLiquidity,
-    //   newP,
-    //   makers,
-    //   ordersToCancel,
-    // } = await async function () {
+      } => {
       if (
         (outcomeType == 'BINARY' ||
           outcomeType === 'PSEUDO_NUMERIC' ||
@@ -145,7 +133,7 @@ export const placeBetMain = async (
           `Checking for limit orders in placebet for user ${uid} on contract id ${contractId}.`
         )
         const { unfilledBets, balanceByUserId } =
-          await getUnfilledBetsAndUserBalances(contract, playgroundState)
+          getUnfilledBetsAndUserBalances(contract, playgroundState)
 
         return getBinaryCpmmBetInfo(
           contract,
@@ -203,7 +191,7 @@ export const placeBetMain = async (
         }
 
         const { unfilledBets, balanceByUserId } =
-          await getUnfilledBetsAndUserBalances(
+          getUnfilledBetsAndUserBalances(
             contract,
             playgroundState,
             // Fetch all limit orders if answers should sum to one.
@@ -246,8 +234,6 @@ export const placeBetMain = async (
     }
 
     // const betDoc = contractDoc.collection('bets').doc()
-    const bets = playgroundState.getBetsByContractId(contract.id)
-
     // trans.create(
     //   betDoc,
     //   removeUndefinedProps({
@@ -261,10 +247,20 @@ export const placeBetMain = async (
     //     ...newBet,
     //   })
     // )
-    window.logger.log(`Created new bet document for ${user.username} - auth ${uid}.`)
+    const placedBet = playgroundState.addBet({
+      id: undefined,
+      userId: user.id,
+      userAvatarUrl: user.avatarUrl,
+      userUsername: user.username,
+      userName: user.name,
+      isApi,
+      replyToCommentId,
+      ...newBet,
+    })
+    window.logger.log(`Created new bet document for ${user.username} - auth ${uid}.`, placedBet)
 
     if (makers) {
-      updateMakers(makers, contract, playgroundState)
+      updateMakers(makers, contract, placedBet.id, playgroundState)
     }
     if (ordersToCancel) {
       for (const bet of ordersToCancel) {
@@ -283,6 +279,7 @@ export const placeBetMain = async (
 
     if (newBet.amount !== 0) {
       if (newBet.answerId) {
+        const multiContract = contract as CPMMMultiContract
         // Multi-cpmm-1 contract
         // trans.update(
         //   contractDoc,
@@ -290,33 +287,46 @@ export const placeBetMain = async (
         //     volume: volume + newBet.amount,
         //   })
         // )
-        contract.volume += newBet.amount;
+        multiContract.volume += newBet.amount;
 
         if (newPool) {
           const { YES: poolYes, NO: poolNo } = newPool
           const prob = getCpmmProbability(newPool, 0.5)
-          trans.update(
-            contractDoc.collection('answersCpmm').doc(newBet.answerId),
-            removeUndefinedProps({
-              poolYes,
-              poolNo,
-              prob,
-            })
-          )
+          // trans.update(
+          //   contractDoc.collection('answersCpmm').doc(newBet.answerId),
+          //   removeUndefinedProps({
+          //     poolYes,
+          //     poolNo,
+          //     prob,
+          //   })
+          // )
+          const answer = multiContract.answers.find((a) => a.id === newBet.answerId)
+          if (!answer) window.logger.throw('APIError', '(404) Answer not found')
+          answer.poolYes = poolYes
+          answer.poolNo = poolYes
+          answer.prob = prob
         }
       } else {
-        trans.update(
-          contractDoc,
-          removeUndefinedProps({
-            pool: newPool,
-            p: newP,
-            totalShares: newTotalShares,
-            totalBets: newTotalBets,
-            totalLiquidity: newTotalLiquidity,
-            collectedFees: addObjects(newBet.fees, collectedFees),
-            volume: volume + newBet.amount,
-          })
-        )
+        const anyContract = contract as any // Adding fields that could be part of the DPM or CPMM contracts
+        // trans.update(
+        //   contractDoc,
+        //   removeUndefinedProps({
+        //     pool: newPool,
+        //     p: newP,
+        //     totalShares: newTotalShares,
+        //     totalBets: newTotalBets,
+        //     totalLiquidity: newTotalLiquidity,
+        //     collectedFees: addObjects(newBet.fees, collectedFees),
+        //     volume: volume + newBet.amount,
+        //   })
+        // )
+        anyContract.pool = newPool
+        anyContract.p = newP
+        anyContract.totalShares = newTotalShares
+        anyContract.totalBets = newTotalBets
+        anyContract.totalLiquidity = newTotalLiquidity
+        anyContract.collectedFees = addObjects(newBet.fees, collectedFees)
+        anyContract.volume = volume + newBet.amount
       }
 
       if (otherBetResults) {
@@ -329,9 +339,18 @@ export const placeBetMain = async (
             Math.abs(probAfter - probBefore) < 0.00001
 
           if (!smallEnoughToIgnore || Math.random() < 0.01) {
-            const betDoc = contractDoc.collection('bets').doc()
-            trans.create(betDoc, {
-              id: betDoc.id,
+            // const betDoc = contractDoc.collection('bets').doc()
+            // trans.create(betDoc, {
+            //   id: betDoc.id,
+            //   userId: user.id,
+            //   userAvatarUrl: user.avatarUrl,
+            //   userUsername: user.username,
+            //   userName: user.name,
+            //   isApi,
+            //   ...bet,
+            // })
+            playgroundState.addBet({
+              id: undefined,
               userId: user.id,
               userAvatarUrl: user.avatarUrl,
               userUsername: user.username,
@@ -341,20 +360,25 @@ export const placeBetMain = async (
             })
             const { YES: poolYes, NO: poolNo } = cpmmState.pool
             const prob = getCpmmProbability(cpmmState.pool, 0.5)
-            trans.update(
-              contractDoc.collection('answersCpmm').doc(answer.id),
-              removeUndefinedProps({
-                poolYes,
-                poolNo,
-                prob,
-              })
-            )
+            // trans.update(
+            //   contractDoc.collection('answersCpmm').doc(answer.id),
+            //   removeUndefinedProps({
+            //     poolYes,
+            //     poolNo,
+            //     prob,
+            //   })
+            // )
+            answer.poolYes = poolYes
+            answer.poolNo = poolNo
+            answer.prob = prob
           }
-          updateMakers(makers, contract, playgroundState)
+          updateMakers(makers, contract, placedBet.id, playgroundState)
           for (const bet of ordersToCancel) {
-            trans.update(contractDoc.collection('bets').doc(bet.id), {
-              isCancelled: true,
-            })
+            // trans.update(contractDoc.collection('bets').doc(bet.id), {
+            //   isCancelled: true,
+            // })
+            bet.isCancelled = true
+            window.logger.log(`Cancelled limit order ${bet.id} for ${bet.userId} - auth ${uid}.`)
           }
         }
       }
@@ -362,12 +386,12 @@ export const placeBetMain = async (
       window.logger.log(`Updated contract ${contract.slug} properties - auth ${uid}.`)
     }
 
-    return { newBet, betId: betDoc.id, contract, makers, ordersToCancel, user }
-  }
+    return { newBet, contract, makers, ordersToCancel, user }
+  })()
 
   window.logger.log(`Main transaction finished - auth ${uid}.`)
 
-  const { newBet, betId, contract, makers, ordersToCancel, user } = result
+  const { newBet, contract, makers, ordersToCancel, user } = result
   const { mechanism } = contract
 
   if (
@@ -384,37 +408,35 @@ export const placeBetMain = async (
   if (ordersToCancel) {
     await Promise.all(
       ordersToCancel.map((order) => {
-        createLimitBetCanceledNotification(
-          user,
-          order.userId,
-          order,
-          makers?.find((m) => m.bet.id === order.id)?.amount ?? 0,
-          contract
-        )
+        // createLimitBetCanceledNotification(
+        //   user,
+        //   order.userId,
+        //   order,
+        //   makers?.find((m) => m.bet.id === order.id)?.amount ?? 0,
+        //   contract
+        // )
       })
     )
   }
 
-  return { ...newBet, betId: betId }
+  return { ...newBet }
 }
 
-const firestore = admin.firestore()
+// const getUnfilledBetsQuery = (
+//   contractDoc: DocumentReference,
+//   answerId?: string
+// ) => {
+//   const q = contractDoc
+//     .collection('bets')
+//     .where('isFilled', '==', false)
+//     .where('isCancelled', '==', false) as Query<LimitBet>
+//   if (answerId) {
+//     return q.where('answerId', '==', answerId)
+//   }
+//   return q
+// }
 
-const getUnfilledBetsQuery = (
-  contractDoc: DocumentReference,
-  answerId?: string
-) => {
-  const q = contractDoc
-    .collection('bets')
-    .where('isFilled', '==', false)
-    .where('isCancelled', '==', false) as Query<LimitBet>
-  if (answerId) {
-    return q.where('answerId', '==', answerId)
-  }
-  return q
-}
-
-export const getUnfilledBetsAndUserBalances = async (
+export const getUnfilledBetsAndUserBalances = (
   contract: Contract,
   playgroundState: PlaygroundState,
   answerId?: string
@@ -455,6 +477,7 @@ type maker = {
 export const updateMakers = (
   makers: maker[],
   contract: Contract,
+  takerBetId: string,
   playgroundState: PlaygroundState
 ) => {
   const makersByBet = groupBy(makers, (maker) => maker.bet.id)
@@ -469,13 +492,17 @@ export const updateMakers = (
     const totalAmount = sumBy(fills, 'amount')
     const isFilled = floatingEqual(totalAmount, bet.orderAmount)
 
-    window.logger.log('Updated a matched limit order.')
-    trans.update(contractDoc.collection('bets').doc(bet.id), {
-      fills,
-      isFilled,
-      amount: totalAmount,
-      shares: totalShares,
-    })
+    // trans.update(contractDoc.collection('bets').doc(bet.id), {
+    //   fills,
+    //   isFilled,
+    //   amount: totalAmount,
+    //   shares: totalShares,
+    // })
+    bet.fills = fills
+    bet.isFilled = isFilled
+    bet.amount = totalAmount
+    bet.shares = totalShares
+    window.logger.log('Updated a maker\'s limit order', bet)
   }
 
   // Deduct balance of makers.
@@ -484,7 +511,9 @@ export const updateMakers = (
     (makers) => sumBy(makers, (maker) => maker.amount)
   )
   for (const [userId, spent] of Object.entries(spentByUser)) {
-    const userDoc = firestore.collection('users').doc(userId)
-    trans.update(userDoc, { balance: FieldValue.increment(-spent) })
+    // const userDoc = firestore.collection('users').doc(userId)
+    // trans.update(userDoc, { balance: FieldValue.increment(-spent) })
+    playgroundState.getUser(userId).balance -= spent
+    window.logger.log(`Updated user ${userId} balance from ${playgroundState.getUser(userId).balance + spent} to ${playgroundState.getUser(userId).balance} (${-spent})`)
   }
 }

@@ -96,10 +96,14 @@ export class PlaygroundState {
   }
 
   addBet(bet: Bet) {
+    if (bet.id === undefined) {
+      bet.id = this.getNextId();
+    }
     if (this.bets[bet.id]) {
       window.logger.throw("PlaygroundError", `Bet ${bet.id} already exists`);
     }
     this.bets[bet.id] = bet;
+    return bet;
   }
 
   getBet(id: string) {
@@ -111,8 +115,9 @@ export class PlaygroundState {
   }
 
   getUnfilledBetsByContractId(contractId: string) {
-    return Object.values(this.bets).filter(bet => bet.contractId === contractId
-      && (bet as LimitBet).isFilled === false) as LimitBet[];
+    return (Object.values(this.bets) as LimitBet[]).filter(bet => bet.contractId === contractId
+      && bet.isFilled === false
+      && bet.isCancelled === false);
   }
 
   getBetsByAnswerId(answerId: string) {
