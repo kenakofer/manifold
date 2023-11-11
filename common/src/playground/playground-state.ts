@@ -9,6 +9,7 @@ import { Contract } from "../contract";
 import { User } from "../user";
 import { Bet, LimitBet } from "../bet";
 import { createmarket } from '../api/create-market';
+import { placebet } from '../api/place-bet';
 
 const deposit_exempt_categories: string[] = [
   'BUY_SHARES',
@@ -82,6 +83,23 @@ const DEFAULT_CONTRACT_PARAMS = {
   loverUserId2: undefined
 }
 
+const DEFAULT_BET_PARAMS = {
+  amount: 10,
+  contractId: undefined,
+  replyToCommentId: undefined,
+}
+
+const DEFAULT_BINARY_BET_PARAMS = {
+  ...DEFAULT_BET_PARAMS,
+  outcome: 'YES',
+  limitProb: undefined,
+  expiresAt: undefined,
+}
+
+const DEFAULT_MULTI_BET_PARAMS = {
+  ...DEFAULT_BINARY_BET_PARAMS,
+  answerId: undefined,
+}
 
 // Simplified version of Txn from src/ts/lib/manifold/common/src/txn.ts
 type SourceType = 'USER' | 'CONTRACT' | 'BANK'// | 'CHARITY' | 'AD' | 'LEAGUE'
@@ -209,16 +227,17 @@ export class PlaygroundState {
       this
     )
     window.logger.out()
-
-    window.logger.log(`Adding contract "${contract.id}"`, contract);
+    return this.addContract(contract);
   }
 
 
   private addContract(contract: Contract) {
+    window.logger.log(`Adding contract "${contract.id}"`, contract);
     if (this.contracts[contract.id]) {
       window.logger.throw("PlaygroundError", `Contract ${contract.id} already exists`);
     }
     this.contracts[contract.id] = contract;
+    return contract;
   }
 
   getContract(id: string) {
@@ -227,6 +246,33 @@ export class PlaygroundState {
 
   getContractsByCreatorId(userId: string) {
     return Object.values(this.contracts).filter(contract => contract.creatorId === userId);
+  }
+
+  getLatestContract() {
+    if (Object.values(this.contracts).length > 0)
+      return Object.values(this.contracts).sort((a, b) => b.createdTime - a.createdTime)[0];
+
+    window.logger.log("No contracts exist yet, creating a default contract");
+    window.logger.in()
+    const contract = this.addContractWithDefaultProps();
+    window.logger.out()
+    return contract
+  }
+
+  placeBetWithDefaultProps(body: any, userId?: string, isApi?: boolean) {
+    if (!userId) {
+      window.logger.log(`userId not specified, defaulting to first user for bet`);
+      userId = this.getFirstUser().id;
+    }
+    if (! ('contractId' in body)) {
+      window.logger.log("contractId not specified, defaulting to latest contract");
+      const contract = this.getLatestContract();
+      body.contractId = contract.id;
+    }
+    return placebet({
+      ...DEFAULT_BINARY_BET_PARAMS,
+      ...body
+    }, userId, isApi, this); // in the course of running placebet, it will call the playground's addBet
   }
 
   addBet(bet: Bet) {

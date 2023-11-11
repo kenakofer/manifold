@@ -47,10 +47,11 @@ const numericSchema = z.object({
   value: z.number(),
 })
 
-export function placebet (req, uid, isApi, playgroundState) {
-  window.logger.log('Simulating placebet endpoint')
+export function placebet (body, uid, isApi, playgroundState) {
+  window.logger.log("Request.body contents", body)
+  window.logger.log('Simulating /placebet endpoint')
   window.logger.in()
-  const bet = placeBetMain(req.body, uid, isApi, playgroundState)
+  const bet = placeBetMain(body, uid, isApi, playgroundState)
   window.logger.out()
   window.logger.log('Returning bet', bet)
   return bet

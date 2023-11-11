@@ -1,3 +1,7 @@
+import { PlaygroundState } from './playground/playground-state'
+import { NestedLogger } from './playground/nested-logger'
+declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
+
 import { sortBy, sumBy } from 'lodash'
 
 import { Bet, fill, LimitBet } from './bet'
@@ -314,7 +318,7 @@ export const getBinaryCpmmBetInfo = (
   )
   // const newBet: CandidateBet = removeUndefinedProps({
   const newBet: Bet = removeUndefinedProps({
-    id: 'betID',
+    id: window.pState.getNextId(),
     userId: user.id,
     userAvatarUrl: user.avatarUrl,
     userUsername: user.username,
