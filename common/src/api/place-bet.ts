@@ -4,7 +4,6 @@ declare global { interface Window { logger: NestedLogger; } }
 import { z } from 'zod'
 import { groupBy, mapValues, sumBy, uniq } from 'lodash'
 import { Contract, CPMM, CPMM_MIN_POOL_QTY, CPMMContract, CPMMMultiContract, DPM, DPMContract } from '../contract'
-import { User } from '../user'
 import {
   BetInfo,
   CandidateBet,
@@ -16,11 +15,10 @@ import { addObjects, removeUndefinedProps } from '../util/object'
 import { Bet, LimitBet } from '../bet'
 import { floatingEqual } from '../util/math'
 import { redeemShares } from './redeem-shares'
-import { filterDefined } from '../util/array'
 import { Answer } from '../answer'
 import { CpmmState, getCpmmProbability } from '../calculate-cpmm'
 import { validate } from './helpers';
-import { PlaygroundState } from '../playground/global-state';
+import { PlaygroundState } from '../playground/playground-state';
 
 // don't use strict() because we want to allow market-type-specific fields
 const bodySchema = z.object({
@@ -402,7 +400,7 @@ export const placeBetMain = async (
       uid,
       ...(makers ?? []).map((maker) => maker.bet.userId),
     ])
-    await Promise.all(userIds.map((userId) => redeemShares(userId, contract)))
+    await Promise.all(userIds.map((userId) => redeemShares(userId, contract, playgroundState)))
     window.logger.log(`Share redemption transaction finished - auth ${uid}.`)
   }
   if (ordersToCancel) {

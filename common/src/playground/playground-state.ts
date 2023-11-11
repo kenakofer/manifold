@@ -2,18 +2,85 @@
 // dictionary of users and contracts and the bank. The intention is that
 // anywhere a db connection is made to save data in the original code, we'll
 // replace that with transient storage in the playground state.
-import { NestedLogger } from '../playground/nested-logger'
+import { NestedLogger } from './nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 
 import { Contract } from "../contract";
 import { User } from "../user";
 import { Bet, LimitBet } from "../bet";
+import { createmarket } from '../api/create-market';
 
 const deposit_exempt_categories: string[] = [
   'BUY_SHARES',
   'SELL_SHARES',
   'RESOLUTION_PAYOUT',
 ]
+
+const EXAMPLE_USER_ID_LIST = [
+  'alice',
+  'bob',
+  'carol',
+  'dave',
+  'eve',
+  'frank',
+  'grace',
+  'heidi',
+  'ivan',
+  'judy',
+  'mallory',
+]
+
+const EXAMPLE_QUESTION_LIST = [
+  "Will we succeed in",
+  "Will we look funny in",
+  "Will we explode before",
+]
+
+const DEFAULT_USER_PARAMS = {
+    id: '0',
+    createdTime: 0,
+    name: 'user_name',
+    username: 'user_username',
+    avatarUrl: '',
+    balance: 1000,
+    totalDeposits: 0,
+    profitCached: {
+        daily: 0,
+        weekly: 0,
+        monthly: 0,
+        allTime: 0
+    },
+    creatorTraders: {
+        daily: 0,
+        weekly: 0,
+        monthly: 0,
+        allTime: 0
+    },
+    nextLoanCached: 0,
+    streakForgiveness: 0
+}
+
+const DEFAULT_CONTRACT_PARAMS = {
+  // id: '1', // assigned in createmarket
+  // slug: 'slug', // assigned in createmarket
+  // userId: 'userId', // taken from the request body on manifold, passed in as a separate argument here
+  question: 'Will we succeed?', //question
+  outcomeType: 'BINARY',
+  description: 'This is a description', //description
+  initialProb: 50,
+  ante: 50,
+  closeTime: undefined,
+  visibility: 'public',
+  isTwitchContract: false,
+  min: undefined,
+  max: undefined,
+  isLogScale: undefined,
+  answers: undefined,
+  addAnswersMode: undefined,
+  shouldAnswersSumToOne: undefined,
+  loverUserId1: undefined,
+  loverUserId2: undefined
+}
 
 
 // Simplified version of Txn from src/ts/lib/manifold/common/src/txn.ts
@@ -52,6 +119,8 @@ export class PlaygroundState {
   private bets: { [key: string]: Bet };
   private txns: { [key: string]: Txn };
   private id_index: number;
+  private user_id_index: number;
+  private example_question_index: number;
 
   constructor() {
     this.users = {};
@@ -62,11 +131,30 @@ export class PlaygroundState {
       id: "bank",
       balance: 100000,
     };
-    this.id_index = 0;
+    this.id_index = 1;
+    this.user_id_index = 0;
+    this.example_question_index = 0;
   }
 
   getNextId() {
     return "" + this.id_index++;
+  }
+
+  getNextUserId() {
+    // From the list of example users
+    let id = EXAMPLE_USER_ID_LIST[this.user_id_index % EXAMPLE_USER_ID_LIST.length];
+    // If we reached the end of the list, go back and add a 1, etc.
+    if (this.user_id_index >= EXAMPLE_USER_ID_LIST.length) {
+      id += Math.floor(this.user_id_index / EXAMPLE_USER_ID_LIST.length) + 1;
+    }
+    this.user_id_index++
+    this.getNextId()
+    return id
+  }
+
+  getNextExampleQuestion() {
+    return EXAMPLE_QUESTION_LIST[this.example_question_index % EXAMPLE_QUESTION_LIST.length]
+    + " " + (2024 + Math.floor(this.example_question_index++ / EXAMPLE_QUESTION_LIST.length)) + "?";
   }
 
   addUser(user: User) {
@@ -74,13 +162,59 @@ export class PlaygroundState {
       window.logger.throw("PlaygroundError", `User ${user.id} already exists`);
     }
     this.users[user.id] = user;
+    window.logger.log(`Adding user "${user.id}"`, user);
+    return user
+  }
+
+  addUserWithDefaultProps(overrides: Partial<User> = {}) {
+    const id = this.getNextUserId();
+    const user = {
+      ...DEFAULT_USER_PARAMS,
+      id: id,
+      username: id,
+      createdTime: Date.now(),
+      ...overrides,
+    } as User;
+    return this.addUser(user);
   }
 
   getUser(id: string) {
     return this.users[id];
   }
 
-  addContract(contract: Contract) {
+  getFirstUser() {
+    const users = Object.values(this.users);
+    if (users.length === 1) return users[0];
+
+    window.logger.log(`No users created, creating a default user`);
+    window.logger.in()
+    const user = this.addUserWithDefaultProps();
+    window.logger.out()
+    return user
+  }
+
+  addContractWithDefaultProps(userId = undefined, overrides: any = {}) {
+    if (!userId) {
+      userId = this.getFirstUser().id;
+      window.logger.log(`Defaulting to create with first user ${userId}`);
+    }
+    window.logger.log(`Creating contract with user ${userId}`);
+
+    window.logger.in()
+    const contract = createmarket({
+      ...DEFAULT_CONTRACT_PARAMS,
+      ...overrides,
+      },
+      userId,
+      this
+    )
+    window.logger.out()
+
+    window.logger.log(`Adding contract "${contract.id}"`, contract);
+  }
+
+
+  private addContract(contract: Contract) {
     if (this.contracts[contract.id]) {
       window.logger.throw("PlaygroundError", `Contract ${contract.id} already exists`);
     }

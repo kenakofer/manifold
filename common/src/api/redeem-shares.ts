@@ -1,66 +1,56 @@
 import { NestedLogger } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 
-import * as admin from 'firebase-admin'
-import { FieldValue } from 'firebase-admin/firestore'
 import { groupBy, maxBy, sum, sumBy } from 'lodash'
-
-import { Bet } from 'common/bet'
-import { getBinaryRedeemableAmount, getRedemptionBets } from 'common/redeem'
-import { floatingEqual } from 'common/util/math'
-import { CPMMContract, CPMMMultiContract } from 'common/contract'
-import { APIError } from './helpers'
+import { getBinaryRedeemableAmount, getRedemptionBets } from '../redeem'
+import { floatingEqual } from '../util/math'
+import { CPMMContract, CPMMMultiContract } from '../contract'
+import { PlaygroundState } from '../playground/playground-state';
 
 export const redeemShares = async (
   userId: string,
-  contract: CPMMContract | CPMMMultiContract
+  contract: CPMMContract | CPMMMultiContract,
+  playgroundState: PlaygroundState
 ) => {
-  return await firestore.runTransaction(async (trans) => {
-    const { id: contractId } = contract
+  const { id: contractId } = contract
 
-    const betsColl = firestore.collection(`contracts/${contractId}/bets`)
-    const betsSnap = await trans.get(betsColl.where('userId', '==', userId))
-    const bets = betsSnap.docs.map((doc) => doc.data() as Bet)
+  const bets = playgroundState.getBetsByContractId(contractId).filter(bet => bet.userId === userId)
 
-    const betsByAnswerId = groupBy(bets, (bet) => bet.answerId)
-    let totalAmount = 0
+  const betsByAnswerId = groupBy(bets, (bet) => bet.answerId)
+  let totalAmount = 0
 
-    for (const [answerId, bets] of Object.entries(betsByAnswerId)) {
-      const { shares, loanPayment, netAmount } = getBinaryRedeemableAmount(bets)
-      if (floatingEqual(shares, 0)) {
-        continue
-      }
-      if (!isFinite(netAmount)) {
-        throw new APIError(
-          500,
-          'Invalid redemption amount, no clue what happened here.'
-        )
-      }
-
-      totalAmount += netAmount
-
-      const lastProb = maxBy(bets, (b) => b.createdTime)?.probAfter as number
-      const [yesBet, noBet] = getRedemptionBets(
-        contract,
-        shares,
-        loanPayment,
-        lastProb,
-        answerId
-      )
-      const yesDoc = betsColl.doc()
-      const noDoc = betsColl.doc()
-
-      trans.create(yesDoc, { id: yesDoc.id, userId, ...yesBet })
-      trans.create(noDoc, { id: noDoc.id, userId, ...noBet })
-
-      console.log('redeemed', shares, 'shares for', netAmount)
+  for (const [answerId, bets] of Object.entries(betsByAnswerId)) {
+    const { shares, loanPayment, netAmount } = getBinaryRedeemableAmount(bets)
+    if (floatingEqual(shares, 0)) {
+      continue
+    }
+    if (!isFinite(netAmount)) {
+      window.logger.throw('Error 400', `Invalid redemption amount ${netAmount}, no clue what happened here.`)
     }
 
-    const userDoc = firestore.collection('users').doc(userId)
-    trans.update(userDoc, { balance: FieldValue.increment(totalAmount) })
+    totalAmount += netAmount
 
-    return { status: 'success' }
-  })
+    const lastProb = maxBy(bets, (b) => b.createdTime)?.probAfter as number
+    const [yesBet, noBet] = getRedemptionBets(
+      contract,
+      shares,
+      loanPayment,
+      lastProb,
+      answerId
+    )
+    // const yesDoc = betsColl.doc()
+    // const noDoc = betsColl.doc()
+
+    // trans.create(yesDoc, { id: yesDoc.id, userId, ...yesBet })
+    // trans.create(noDoc, { id: noDoc.id, userId, ...noBet })
+
+    window.logger.log(`${userId} redeemed ${shares} shares for ${netAmount}`)
+  }
+
+  // const userDoc = firestore.collection('users').doc(userId)
+  // trans.update(userDoc, { balance: FieldValue.increment(totalAmount) })
+  playgroundState.getUser(userId).balance += totalAmount
+  window.logger.log(`Increased ${userId}'s balance by ${totalAmount}`)
+
+  return { status: 'success' }
 }
-
-const firestore = admin.firestore()

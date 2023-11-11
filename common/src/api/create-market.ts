@@ -28,18 +28,20 @@ import {
   User,
 } from '../user'
 import { STONK_INITIAL_PROB } from '../stonk'
-import { PlaygroundState } from '../playground/global-state';
+import { PlaygroundState } from '../playground/playground-state';
+import { slugify } from '../util/slugify';
 
-export function createmarket (req, userId, playgroundState: PlaygroundState) {
-  window.logger.log('Simulating createmarket endpoint')
+export function createmarket (body, userId, playgroundState: PlaygroundState) {
+  window.logger.log('Request.body contents', body)
+  window.logger.log('Simulating /createmarket endpoint')
   window.logger.in()
-  const contract = createMarketHelper(req.body, userId, playgroundState)
+  const contract = createMarketHelper(body, userId, playgroundState)
   window.logger.out()
   window.logger.log('Returning contract', contract)
   return contract
 }
 
-export async function createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
+export function createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
   const {
     question,
     description,
@@ -75,7 +77,7 @@ export async function createMarketHelper(body: any, userId: string, playgroundSt
 
   if (ante < 1) window.logger.throw('APIError', '(400) Ante must be at least 1')
 
-  const closeTime = await getCloseTimestamp(
+  const closeTime = getCloseTimestamp(
     closeTimeRaw,
     question,
     outcomeType,
@@ -92,8 +94,8 @@ export async function createMarketHelper(body: any, userId: string, playgroundSt
   if (ante > getAvailableBalancePerQuestion(user)) window.logger.throw("APIError", `(403) Balance must be at least ${amountSuppliedByUser}.`)
 
   const contract = getNewContract(
-    'myMarketId',
-    'myMarketSlug',
+    playgroundState.getNextId(),
+    slugify(question),
     user,
     question,
     outcomeType,
@@ -125,7 +127,7 @@ export async function createMarketHelper(body: any, userId: string, playgroundSt
   window.logger.log('on', question)
   window.logger.log('with ante', ante)
 
-  await generateAntes(user, contract, outcomeType, ante)
+  generateAntes(user, contract, outcomeType, ante)
 
   return contract
 }
@@ -212,12 +214,12 @@ const runCreateMarketTxn = async (
   return contract
 }
 
-async function getCloseTimestamp(
+function getCloseTimestamp(
   closeTime: number | Date | undefined,
   question: string,
   outcomeType: OutcomeType,
   utcOffset?: number
-): Promise<number | undefined> {
+): number | undefined {
   return closeTime
     ? typeof closeTime === 'number'
       ? closeTime

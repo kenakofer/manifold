@@ -1,4 +1,4 @@
-import { NestedLogger } from '../playground/nested-logger'
+import { NestedLogger } from './playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 
 import { Bet } from './bet'
@@ -34,7 +34,7 @@ export function getCpmmInitialLiquidity(
 
   const lp: LiquidityProvision = removeUndefinedProps({
     id: anteId,
-    user: provider,
+    userId: provider.id,
     contractId: contract.id,
     createdTime,
     isAnte: true,

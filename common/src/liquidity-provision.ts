@@ -2,7 +2,7 @@ import { User } from "./user"
 
 export type LiquidityProvision = {
   id: string
-  user: User
+  userId: string
   contractId: string
   createdTime: number
   isAnte?: boolean
