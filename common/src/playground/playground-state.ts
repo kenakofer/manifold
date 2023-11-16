@@ -44,7 +44,7 @@ const DEFAULT_USER_PARAMS = {
     username: 'user_username',
     avatarUrl: '',
     balance: 1000,
-    totalDeposits: 0,
+    totalDeposits: 1000,
     profitCached: {
         daily: 0,
         weekly: 0,

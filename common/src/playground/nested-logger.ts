@@ -12,7 +12,7 @@ export class NestedLogger {
     while (fullKey in this.currentContext) {
       fullKey = `${key} (${repetition_index++})`;
     }
-    this.currentContext[fullKey] = message;
+    this.currentContext[fullKey] = JSON.parse(JSON.stringify(message));
     if (message) {
       return key + " " + message.toString();
     } else {
