@@ -1,4 +1,4 @@
-import { NestedLogger } from '../playground/nested-logger'
+import { NestedLogger, logIndent } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 
 import { z } from 'zod'
@@ -49,15 +49,14 @@ const numericSchema = z.object({
 
 export function placebet (body, uid, isApi, playgroundState) {
   window.logger.log("Request.body contents", body)
-  window.logger.log('Simulating /placebet endpoint')
-  window.logger.in()
   const bet = placeBetMain(body, uid, isApi, playgroundState)
-  window.logger.out()
   window.logger.log('Returning bet', bet)
   return bet
 }
 
-export const placeBetMain = async (
+export const placeBetMain =
+logIndent("Simulating /placebet endpoint",
+(
   body: unknown,
   uid: string,
   isApi: boolean,
@@ -377,12 +376,12 @@ export const placeBetMain = async (
             //   isCancelled: true,
             // })
             bet.isCancelled = true
-            window.logger.log(`Cancelled limit order ${bet.id} for ${bet.userId} - auth ${uid}.`)
+            window.logger.log(`Cancelled limit order ${bet.id} for ${bet.userId} `)
           }
         }
       }
 
-      window.logger.log(`Updated contract ${contract.slug} properties - auth ${uid}.`)
+      window.logger.log(`Updated contract ${contract.id} properties`)
     }
 
     return { newBet, contract, makers, ordersToCancel, user }
@@ -401,25 +400,25 @@ export const placeBetMain = async (
       uid,
       ...(makers ?? []).map((maker) => maker.bet.userId),
     ])
-    await Promise.all(userIds.map((userId) => redeemShares(userId, contract, playgroundState)))
+    userIds.map((userId) => redeemShares(userId, contract, playgroundState))
     window.logger.log(`Share redemption transaction finished - auth ${uid}.`)
   }
   if (ordersToCancel) {
-    await Promise.all(
-      ordersToCancel.map((order) => {
-        // createLimitBetCanceledNotification(
-        //   user,
-        //   order.userId,
-        //   order,
-        //   makers?.find((m) => m.bet.id === order.id)?.amount ?? 0,
-        //   contract
-        // )
-      })
-    )
+    ordersToCancel.map((order) => {
+      // TODO
+      throw new Error('TODO: Not implemented, is it needed?')
+      // createLimitBetCanceledNotification(
+      //   user,
+      //   order.userId,
+      //   order,
+      //   makers?.find((m) => m.bet.id === order.id)?.amount ?? 0,
+      //   contract
+      // )
+    })
   }
 
   return { ...newBet }
-}
+})
 
 // const getUnfilledBetsQuery = (
 //   contractDoc: DocumentReference,
@@ -435,7 +434,9 @@ export const placeBetMain = async (
 //   return q
 // }
 
-export const getUnfilledBetsAndUserBalances = (
+export const getUnfilledBetsAndUserBalances =
+logIndent("Entering getUnfilledBetsAndUserBalances",
+(
   contract: Contract,
   playgroundState: PlaygroundState,
   answerId?: string
@@ -465,7 +466,7 @@ export const getUnfilledBetsAndUserBalances = (
   )
 
   return { unfilledBets, balanceByUserId }
-}
+})
 
 type maker = {
   bet: LimitBet
@@ -473,7 +474,9 @@ type maker = {
   shares: number
   timestamp: number
 }
-export const updateMakers = (
+export const updateMakers =
+logIndent("Entering updateMakers",
+(
   makers: maker[],
   contract: Contract,
   takerBetId: string,
@@ -515,4 +518,4 @@ export const updateMakers = (
     playgroundState.getUser(userId).balance -= spent
     window.logger.log(`Updated user ${userId} balance from ${playgroundState.getUser(userId).balance + spent} to ${playgroundState.getUser(userId).balance} (${-spent})`)
   }
-}
+})

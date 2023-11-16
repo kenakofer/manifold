@@ -1,3 +1,7 @@
+import { PlaygroundState } from '../playground/playground-state'
+import { NestedLogger } from '../playground/nested-logger'
+declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
+
 // import * as functions from 'firebase-functions'
 // import * as admin from 'firebase-admin'
 // import { groupBy, keyBy, sumBy } from 'lodash'
@@ -44,7 +48,11 @@ import { Answer } from '../answer'
 import { MINUTE_MS } from '../util/time'
 
 export function onCreateBet(bet: Bet, contract: Contract, bettor: User) {
-  if (bet.isChallenge) return
+  window.logger.log('Triggering onCreateBet')
+  if (bet.isChallenge) {
+    window.logger.log('Exiting onCreateBet because bet is a challenge')
+    return
+  }
 
   // TODO not sure if we need the metrics
   // if (bet.shares !== 0) {
@@ -52,9 +60,15 @@ export function onCreateBet(bet: Bet, contract: Contract, bettor: User) {
   // }
 
   // Note: Anything that applies to redemption bets should be above this line.
-  if (bet.isRedemption) return
+  if (bet.isRedemption) {
+    window.logger.log('Exiting onCreateBet because bet is a redemption')
+    return
+  } else {
+    window.logger.log('bet is not a redemption, continuing')
+  }
 
   const isApiOrBot = bet.isApi || BOT_USERNAMES.includes(bettor.username)
+  window.logger.log('bet is not a redemption, continuing')
   if (isApiOrBot) {
     // assess flat fee for bots
     bettor.balance -= FLAT_TRADE_FEE

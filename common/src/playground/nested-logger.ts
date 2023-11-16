@@ -3,8 +3,18 @@ export class NestedLogger {
   private currentContext: Record<string, any> = this.logs;
   private contextStack: Array<Record<string, any>> = [];
 
-  log(key: string, message: string | number | Record<string, any> = ""): void {
-    this.currentContext[key] = message;
+  log(key: string, message: string | number | Record<string, any> = ""): string {
+    let repetition_index = 2;
+    let fullKey = key;
+    while (fullKey in this.currentContext) {
+      fullKey = `${key} (${repetition_index++})`;
+    }
+    this.currentContext[fullKey] = message;
+    if (message) {
+      return key + " " + message.toString();
+    } else {
+      return key;
+    }
   }
 
   throw(key: string, message: string | number | Record<string, any> = ""): void {
@@ -52,6 +62,21 @@ export class NestedLogger {
     // Get the complete logs object
     return this.logs;
   }
+}
+
+export function logIndent<T extends (...args: any[]) => any>(message: string, func: T): T {
+  return function (...args: any[]) {
+    const indent_level = window.logger.getCurrentNestingLevel();
+    window.logger.log(message);
+    try {
+      window.logger.in();
+      window.logger.log(`...with args`, args);
+      const result = func.apply(this, args);
+      return result;
+    } finally {
+      window.logger.out(indent_level);
+    }
+  } as T;
 }
 
 //// Example usage:

@@ -94,7 +94,7 @@ export function createMarketHelper(body: any, userId: string, playgroundState: P
   if (ante > getAvailableBalancePerQuestion(user)) window.logger.throw("APIError", `(403) Balance must be at least ${amountSuppliedByUser}.`)
 
   const contract = getNewContract(
-    playgroundState.getNextId(),
+    playgroundState.getNextContractId(),
     slugify(question),
     user,
     question,
@@ -123,7 +123,7 @@ export function createMarketHelper(body: any, userId: string, playgroundState: P
     playgroundState
   )
 
-  window.logger.log('created contract for', user.username)
+  window.logger.log(`created contract "${contract.id}" for`, user.username)
   window.logger.log('on', question)
   window.logger.log('with ante', ante)
 
@@ -150,13 +150,16 @@ const runCreateMarketTxn = async (
       //   totalDeposits: FieldValue.increment(-amountSuppliedByHouse),
       // })
       playgroundState.bank.balance -= amountSuppliedByHouse
+      window.logger.log(`Decreasing house balance by ${amountSuppliedByHouse} to ${playgroundState.bank.balance}`)
       // playgroundState.bank.totalDeposits -= amountSuppliedByHouse TODO what would totalDeposits even mean for the bank?
     }
 
     if (amountSuppliedByUser > 0) {
       // TODO TXN
       user.balance -= amountSuppliedByUser
+      window.logger.log(`Decreasing ${user.username}'s balance by ${amountSuppliedByUser} to ${user.balance}`)
       user.totalDeposits -= amountSuppliedByUser
+      window.logger.log(`Decreasing ${user.username}'s totalDeposits by ${amountSuppliedByUser} to ${user.totalDeposits}`)
     }
   } else {
     // Even if their debit is 0, it seems important that the user posts the bounty
@@ -209,6 +212,7 @@ const runCreateMarketTxn = async (
     //   freeQuestionsCreated: FieldValue.increment(1),
     // })
     user.freeQuestionsCreated += 1
+    window.logger.log(`House supplied funds. This is ${user.username}'s free question #${user.freeQuestionsCreated}`)
   }
 
   return contract

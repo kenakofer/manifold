@@ -137,6 +137,7 @@ export class PlaygroundState {
   private bets: { [key: string]: Bet };
   private txns: { [key: string]: Txn };
   private id_index: number;
+  private contract_id_index: number;
   private user_id_index: number;
   private example_question_index: number;
 
@@ -151,6 +152,7 @@ export class PlaygroundState {
     };
     this.id_index = 1;
     this.user_id_index = 0;
+    this.contract_id_index = 0;
     this.example_question_index = 0;
   }
 
@@ -167,6 +169,17 @@ export class PlaygroundState {
     }
     this.user_id_index++
     this.getNextId()
+    return id
+  }
+
+  getNextContractId() {
+    // Cycle through A to Z, then AA to ZZ
+    let id = ""
+    if (this.contract_id_index >= 26) {
+      id += String.fromCharCode(65 + Math.floor(this.contract_id_index / 26) - 1);
+    }
+    id += String.fromCharCode(65 + this.contract_id_index % 26);
+    this.contract_id_index++
     return id
   }
 
@@ -190,6 +203,7 @@ export class PlaygroundState {
       ...DEFAULT_USER_PARAMS,
       id: id,
       username: id,
+      name: id.charAt(0).toUpperCase() + id.slice(1),
       createdTime: Date.now(),
       ...overrides,
     } as User;
@@ -204,7 +218,7 @@ export class PlaygroundState {
     const users = Object.values(this.users);
     if (users.length === 1) return users[0];
 
-    window.logger.log(`No users created, creating a default user`);
+    window.logger.log(`No users exist. Creating a default user`);
     window.logger.in()
     const user = this.addUserWithDefaultProps();
     window.logger.out()
@@ -214,9 +228,10 @@ export class PlaygroundState {
   addContractWithDefaultProps(userId = undefined, overrides: any = {}) {
     if (!userId) {
       userId = this.getFirstUser().id;
-      window.logger.log(`Defaulting to create with first user ${userId}`);
+      window.logger.log(`Defaulting to create with first user`, userId);
+    } else {
+      window.logger.log(`Creating contract with user ${userId}`);
     }
-    window.logger.log(`Creating contract with user ${userId}`);
 
     window.logger.in()
     const contract = createmarket({
@@ -265,7 +280,7 @@ export class PlaygroundState {
       userId = this.getFirstUser().id;
     }
     if (! ('contractId' in body)) {
-      window.logger.log("contractId not specified, defaulting to latest contract");
+      window.logger.log("contractId not specified, defaulting to newest");
       const contract = this.getLatestContract();
       body.contractId = contract.id;
     }

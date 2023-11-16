@@ -1,3 +1,4 @@
+import { logIndent } from './playground/nested-logger'
 import { DAY_MS } from './util/time'
 
 export type User = {
@@ -102,33 +103,47 @@ export const getAvailableBalancePerQuestion = (user: User): number => {
   )
 }
 
-export const marketCreationCosts = (user: User, ante: number) => {
+export const marketCreationCosts =
+logIndent('Entering marketCreationCosts',
+(user: User, ante: number) => {
   let amountSuppliedByUser = ante
   let amountSuppliedByHouse = 0
   if (freeQuestionRemaining(user.freeQuestionsCreated, user.createdTime) > 0) {
     amountSuppliedByUser = Math.max(ante - MAX_FREE_QUESTION_VALUE, 0)
     amountSuppliedByHouse = Math.min(ante, MAX_FREE_QUESTION_VALUE)
+    window.logger.log(`User had free questions remaining, the house will cover up to ${MAX_FREE_QUESTION_VALUE} mana of the ante.`)
   }
+  window.logger.log(`Cost to [user, house]`, [amountSuppliedByUser, amountSuppliedByHouse])
   return { amountSuppliedByUser, amountSuppliedByHouse }
-}
+})
 
-export const freeQuestionRemaining = (
+export const freeQuestionRemaining =
+logIndent("Entering freeQuestionRemaining",
+(
   freeQuestionsCreated: number | undefined = 0,
   createdTime: number | undefined
 ) => {
   if (!createdTime) return 0
   // hide if account less than one hour old
-  if (createdTime > Date.now() - 60 * 60 * 1000) return 0
+  if (createdTime > Date.now() - 60 * 60 * 1000) {
+    window.logger.log(`User is less than one hour old, hiding free questions.`)
+    return 0
+  }
 
   const now = getCurrentUtcTime()
   if (freeQuestionsCreated >= MAX_FREE_QUESTIONS) {
+    window.logger.log(`User has already created all of their ${MAX_FREE_QUESTIONS} free questions.`)
     return 0
   }
   const daysSinceCreation =
     (now.getTime() - createdTime) / (DAYS_TO_USE_FREE_QUESTIONS * DAY_MS)
-  if (daysSinceCreation >= 1) return 0
+  if (daysSinceCreation >= 1) {
+    window.logger.log(`User waited too long (>${DAYS_TO_USE_FREE_QUESTIONS} days) to use their free questions.`)
+    return 0
+  }
+  window.logger.log(`User has ${MAX_FREE_QUESTIONS - freeQuestionsCreated} free questions available to use.`)
   return MAX_FREE_QUESTIONS - freeQuestionsCreated
-}
+})
 
 export function getCurrentUtcTime(): Date {
   const currentDate = new Date()
