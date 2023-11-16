@@ -193,7 +193,7 @@ export class PlaygroundState {
       window.logger.throw("PlaygroundError", `User ${user.id} already exists`);
     }
     this.users[user.id] = user;
-    window.logger.log(`Adding user "${user.id}"`, user);
+    window.logger.pLog(`Adding user "${user.id}"`, user);
     return user
   }
 
@@ -218,7 +218,7 @@ export class PlaygroundState {
     const users = Object.values(this.users);
     if (users.length === 1) return users[0];
 
-    window.logger.log(`No users exist. Creating a default user`);
+    window.logger.pLog(`No users exist. Creating a default user`);
     window.logger.in()
     const user = this.addUserWithDefaultProps();
     window.logger.out()
@@ -228,9 +228,9 @@ export class PlaygroundState {
   addContractWithDefaultProps(userId = undefined, overrides: any = {}) {
     if (!userId) {
       userId = this.getFirstUser().id;
-      window.logger.log(`Defaulting to create with first user`, userId);
+      window.logger.pLog(`Defaulting to create with first user`, userId);
     } else {
-      window.logger.log(`Creating contract with user ${userId}`);
+      window.logger.pLog(`Creating contract with user ${userId}`);
     }
 
     window.logger.in()
@@ -247,7 +247,7 @@ export class PlaygroundState {
 
 
   private addContract(contract: Contract) {
-    window.logger.log(`Adding contract "${contract.id}"`, contract);
+    window.logger.pLog(`Adding contract "${contract.id}"`, contract);
     if (this.contracts[contract.id]) {
       window.logger.throw("PlaygroundError", `Contract ${contract.id} already exists`);
     }
@@ -267,7 +267,7 @@ export class PlaygroundState {
     if (Object.values(this.contracts).length > 0)
       return Object.values(this.contracts).sort((a, b) => b.createdTime - a.createdTime)[0];
 
-    window.logger.log("No contracts exist yet, creating a default contract");
+    window.logger.pLog("No contracts exist yet, creating a default contract");
     window.logger.in()
     const contract = this.addContractWithDefaultProps();
     window.logger.out()
@@ -276,11 +276,11 @@ export class PlaygroundState {
 
   placeBetWithDefaultProps(body: any, userId?: string, isApi?: boolean) {
     if (!userId) {
-      window.logger.log(`userId not specified, defaulting to first user for bet`);
+      window.logger.pLog(`userId not specified, defaulting to first user for bet`);
       userId = this.getFirstUser().id;
     }
     if (! ('contractId' in body)) {
-      window.logger.log("contractId not specified, defaulting to newest");
+      window.logger.pLog("contractId not specified, defaulting to newest");
       const contract = this.getLatestContract();
       body.contractId = contract.id;
     }

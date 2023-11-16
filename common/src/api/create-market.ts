@@ -1,5 +1,7 @@
-import { NestedLogger } from '../playground/nested-logger'
+import { NestedLogger, logIndent, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
+const file = 'backend/api/src/create-market.ts'
+const u = (p: string, n?: number) => codeUrl(p, file, n)
 
 import { MAX_ANSWERS } from '../answer'
 import { z } from 'zod'
@@ -32,16 +34,14 @@ import { PlaygroundState } from '../playground/playground-state';
 import { slugify } from '../util/slugify';
 
 export function createmarket (body, userId, playgroundState: PlaygroundState) {
-  window.logger.log('Request.body contents', body)
-  window.logger.log('Simulating /createmarket endpoint')
-  window.logger.in()
+  window.logger.log(`Request.body from ${userId}`, body)
   const contract = createMarketHelper(body, userId, playgroundState)
-  window.logger.out()
   window.logger.log('Returning contract', contract)
   return contract
 }
 
-export function createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
+export const createMarketHelper = logIndent(`Simulating ${u("/createmarket", 51)} endpoint`, LcreateMarketHelper)
+export function LcreateMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
   const {
     question,
     description,

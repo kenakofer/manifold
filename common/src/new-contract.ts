@@ -1,3 +1,8 @@
+import { NestedLogger, logIndent, codeUrl } from './playground/nested-logger'
+declare global { interface Window { logger: NestedLogger; } }
+const file = 'common/src/new-contract.ts'
+const u = (p: string, n?: number) => codeUrl(p, file, n)
+
 import {
   add_answers_mode,
   Binary,
@@ -22,7 +27,9 @@ import { getMultiCpmmLiquidity } from './calculate-cpmm'
 
 export const NEW_MARKET_IMPORTANCE_SCORE = 0.25
 
-export function getNewContract(
+
+export const getNewContract = logIndent(`Entering ${u('getNewContract()', 26)}`, LgetNewContract)
+export function LgetNewContract(
   id: string,
   slug: string,
   creator: User,

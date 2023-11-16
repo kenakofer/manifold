@@ -1,4 +1,4 @@
-import { NestedLogger, logIndent } from '../playground/nested-logger'
+import { NestedLogger, codeUrl, logIndent } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 
 import { z } from 'zod'
@@ -48,14 +48,14 @@ const numericSchema = z.object({
 })
 
 export function placebet (body, uid, isApi, playgroundState) {
-  window.logger.log("Request.body contents", body)
+  window.logger.log(`Request.body from ${uid}`, body)
   const bet = placeBetMain(body, uid, isApi, playgroundState)
   window.logger.log('Returning bet', bet)
   return bet
 }
 
 export const placeBetMain =
-logIndent("Simulating /placebet endpoint",
+logIndent(`Simulating ${codeUrl("/placebet", "https://google.com")} endpoint`,
 (
   body: unknown,
   uid: string,

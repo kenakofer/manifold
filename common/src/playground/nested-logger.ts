@@ -1,9 +1,12 @@
+const MANIFOLD_GIT_SHA='74ab5cae'
+const MANIFOLD_GIT_URL=`https://github.com/manifoldmarkets/manifold/blob/${MANIFOLD_GIT_SHA}/`
+
 export class NestedLogger {
   private logs: Record<string, any> = {};
   private currentContext: Record<string, any> = this.logs;
   private contextStack: Array<Record<string, any>> = [];
 
-  log(key: string, message: string | number | Record<string, any> = ""): string {
+  baseLog(key: string, message: string | number | Record<string, any> = ""): string {
     let repetition_index = 2;
     let fullKey = key;
     while (fullKey in this.currentContext) {
@@ -17,8 +20,19 @@ export class NestedLogger {
     }
   }
 
+  log(key: string, message: string | number | Record<string, any> = ""): string {
+    const wrapped_key = `<span class='manifold-op'>${key}</span>`;
+    return this.baseLog(wrapped_key, message);
+  }
+
+  pLog(key: string, message: string | number | Record<string, any> = ""): string {
+    const wrapped_key = `<span class='playground-op'>${key}</span>`;
+    return this.baseLog(wrapped_key, message);
+  }
+
   throw(key: string, message: string | number | Record<string, any> = ""): void {
-    this.log(key, message);
+    const wrapped_key = `<span class='error-op'>${key}</span>`;
+    this.baseLog(wrapped_key, message);
     throw new Error(key + " " + message.toString());
   }
 
@@ -62,6 +76,11 @@ export class NestedLogger {
     // Get the complete logs object
     return this.logs;
   }
+}
+
+//Return an html string that will be displayed in the log
+export function codeUrl(text: string, url: string, line_number?: number) {
+  return `<a href="${MANIFOLD_GIT_URL}${url}#L${line_number}" target="_blank">${text}</a>`;
 }
 
 export function logIndent<T extends (...args: any[]) => any>(message: string, func: T): T {
