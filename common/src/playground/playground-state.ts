@@ -198,7 +198,7 @@ export class PlaygroundState {
   }
 
   addUserWithDefaultProps(overrides: Partial<User> = {}) {
-    const id = this.getNextUserId();
+    const id = overrides['id'] || this.getNextUserId();
     const user = {
       ...DEFAULT_USER_PARAMS,
       id: id,
@@ -216,7 +216,7 @@ export class PlaygroundState {
 
   getFirstUser() {
     const users = Object.values(this.users);
-    if (users.length === 1) return users[0];
+    if (users.length > 0) return users[0];
 
     window.logger.pLog(`No users exist. Creating a default user`);
     window.logger.in()
