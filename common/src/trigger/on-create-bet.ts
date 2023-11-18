@@ -1,8 +1,8 @@
+import { PlaygroundState } from '../playground/playground-state'
+import { NestedLogger, logIndent, codeUrl } from '../playground/nested-logger'
+declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/backend/functions/src/triggers/on-create-bet.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/backend/functions/src/triggers/on-create-bet.ts'
-import { PlaygroundState } from '../playground/playground-state'
-import { NestedLogger } from '../playground/nested-logger'
-declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 
 // import * as functions from 'firebase-functions'
 // import * as admin from 'firebase-admin'

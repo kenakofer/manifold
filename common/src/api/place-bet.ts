@@ -1,7 +1,8 @@
+import { PlaygroundState } from '../playground/playground-state'
+import { NestedLogger, logIndent, codeUrl } from '../playground/nested-logger'
+declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/backend/api/src/place-bet.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/backend/api/src/place-bet.ts'
-import { NestedLogger, codeUrl, logIndent } from '../playground/nested-logger'
-declare global { interface Window { logger: NestedLogger; } }
 
 import { z } from 'zod'
 import { groupBy, mapValues, sumBy, uniq } from 'lodash'
@@ -20,7 +21,6 @@ import { redeemShares } from './redeem-shares'
 import { Answer } from '../answer'
 import { CpmmState, getCpmmProbability } from '../calculate-cpmm'
 import { validate } from './helpers';
-import { PlaygroundState } from '../playground/playground-state';
 
 // don't use strict() because we want to allow market-type-specific fields
 const bodySchema = z.object({
