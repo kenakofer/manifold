@@ -1,7 +1,9 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/backend/api/src/create-market.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/backend/api/src/create-market.ts'
+const github_path = 'backend/api/src/create-market.ts'
 import { NestedLogger, logIndent, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
-const file = 'backend/api/src/create-market.ts'
-const u = (p: string, n?: number) => codeUrl(p, file, n)
+const u = (p: string, n?: number) => codeUrl(p, github_path, n)
 
 import { MAX_ANSWERS } from '../answer'
 import { z } from 'zod'

@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/weekly-portfolio-update.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/weekly-portfolio-update.ts'
 import { ContractMetric } from './contract-metric'
 
 export type WeeklyPortfolioUpdate = {

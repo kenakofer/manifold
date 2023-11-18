@@ -12,7 +12,13 @@ export class NestedLogger {
     while (fullKey in this.currentContext) {
       fullKey = `${key} (${repetition_index++})`;
     }
+
     this.currentContext[fullKey] = JSON.parse(JSON.stringify(message));
+    // If message is a list filter out objects in the list with "ignore" set to true.
+    // This is mostly to keep the playground states out of the arg lists
+    // if (Array.isArray(this.currentContext[fullKey])) {
+    //   this.currentContext[fullKey] = this.currentContext[fullKey].filter((item) => !item.ignoreInArgList);
+    // }
     if (message) {
       return key + " " + message.toString();
     } else {

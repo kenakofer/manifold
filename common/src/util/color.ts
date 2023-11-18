@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/color.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/color.ts'
 export const interpolateColor = (color1: string, color2: string, p: number) => {
   const rgb1 = parseInt(color1.replace('#', ''), 16)
   const rgb2 = parseInt(color2.replace('#', ''), 16)

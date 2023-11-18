@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/calculate-fixed-payouts.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/calculate-fixed-payouts.ts'
 import { sum } from 'lodash'
 import { Bet } from './bet'
 import { getProbability } from './calculate'

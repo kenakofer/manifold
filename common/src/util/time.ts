@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/time.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/time.ts'
 export const MINUTE_MS = 60 * 1000
 export const HOUR_MS = 60 * MINUTE_MS
 export const DAY_MS = 24 * HOUR_MS

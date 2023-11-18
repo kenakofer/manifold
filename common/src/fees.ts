@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/fees.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/fees.ts'
 export const FLAT_TRADE_FEE = 0.25
 export const FLAT_COMMENT_FEE = 1
 

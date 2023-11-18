@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/contract.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/contract.ts'
 import { Answer, DpmAnswer } from './answer'
 import { Bet } from './bet'
 import { Fees } from './fees'

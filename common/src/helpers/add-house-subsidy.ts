@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/backend/shared/src/helpers/add-house-subsidy.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/backend/shared/src/helpers/add-house-subsidy.ts'
 import { CPMMContract, CPMMMultiContract } from '../contract'
 import {
   DEV_HOUSE_LIQUIDITY_PROVIDER_ID,

@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/calculate-dpm.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/calculate-dpm.ts'
 import { sum, sumBy, mapValues } from 'lodash'
 import { Bet, NumericBet } from './bet'
 import { DPMBinaryContract, DPMContract } from './contract'

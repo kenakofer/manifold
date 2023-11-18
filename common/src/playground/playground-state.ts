@@ -132,6 +132,7 @@ type Bank = {
 
 export class PlaygroundState {
   bank: Bank;
+  ignoreInArgList: boolean;
   private users: { [key: string]: User };
   private contracts: { [key: string]: Contract };
   private bets: { [key: string]: Bet };
@@ -140,6 +141,7 @@ export class PlaygroundState {
   private contract_id_index: number;
   private user_id_index: number;
   private example_question_index: number;
+
 
   constructor() {
     this.users = {};
@@ -154,6 +156,7 @@ export class PlaygroundState {
     this.user_id_index = 0;
     this.contract_id_index = 0;
     this.example_question_index = 0;
+    this.ignoreInArgList = true;
   }
 
   getNextId() {

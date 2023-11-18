@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/object.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/object.ts'
 import { isEqual, mapValues, union } from 'lodash'
 
 export const removeUndefinedProps = <T extends object>(obj: T): T => {

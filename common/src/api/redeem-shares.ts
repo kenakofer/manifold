@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/backend/api/src/redeem-shares.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/backend/api/src/redeem-shares.ts'
 import { NestedLogger } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 
