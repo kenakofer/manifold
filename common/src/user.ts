@@ -107,9 +107,7 @@ export const getAvailableBalancePerQuestion = (user: User): number => {
   )
 }
 
-export const marketCreationCosts =
-logIndent('Entering marketCreationCosts',
-(user: User, ante: number) => {
+export const marketCreationCosts = (user: User, ante: number) => {
   let amountSuppliedByUser = ante
   let amountSuppliedByHouse = 0
   if (freeQuestionRemaining(user.freeQuestionsCreated, user.createdTime) > 0) {
@@ -119,11 +117,9 @@ logIndent('Entering marketCreationCosts',
   }
   window.logger.log(`Cost to [user, house]`, [amountSuppliedByUser, amountSuppliedByHouse])
   return { amountSuppliedByUser, amountSuppliedByHouse }
-})
+}
 
-export const freeQuestionRemaining =
-logIndent("Entering freeQuestionRemaining",
-(
+export const freeQuestionRemaining = (
   freeQuestionsCreated: number | undefined = 0,
   createdTime: number | undefined
 ) => {
@@ -147,7 +143,7 @@ logIndent("Entering freeQuestionRemaining",
   }
   window.logger.log(`User has ${MAX_FREE_QUESTIONS - freeQuestionsCreated} free questions available to use.`)
   return MAX_FREE_QUESTIONS - freeQuestionsCreated
-})
+}
 
 export function getCurrentUtcTime(): Date {
   const currentDate = new Date()

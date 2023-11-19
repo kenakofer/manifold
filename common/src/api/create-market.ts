@@ -3,7 +3,6 @@ const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5c
 const github_path = 'backend/api/src/create-market.ts'
 import { NestedLogger, logIndent, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
-const u = (p: string, n?: number) => codeUrl(p, github_path, n)
 
 import { MAX_ANSWERS } from '../answer'
 import { z } from 'zod'
@@ -42,8 +41,7 @@ export function createmarket (body, userId, playgroundState: PlaygroundState) {
   return contract
 }
 
-export const createMarketHelper = logIndent(`Simulating ${u("/createmarket", 51)} endpoint`, LcreateMarketHelper)
-export function LcreateMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
+export function createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
   const {
     question,
     description,

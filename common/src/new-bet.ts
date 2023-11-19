@@ -49,9 +49,7 @@ export type BetInfo = {
   newP?: number
 }
 
-const computeFill =
-logIndent('Entering computeFill',
-(
+const computeFill = (
   amount: number,
   outcome: 'YES' | 'NO',
   limitProb: number | undefined,
@@ -153,11 +151,9 @@ logIndent('Entering computeFill',
     timestamp,
   }
   return { maker, taker }
-})
+}
 
-export const computeFills =
-logIndent('Entering computeFills',
-(
+export const computeFills = (
   state: CpmmState,
   outcome: 'YES' | 'NO',
   betAmount: number,
@@ -248,11 +244,9 @@ logIndent('Entering computeFills',
   }
 
   return { takers, makers, totalFees, cpmmState, ordersToCancel }
-})
+}
 
-export const computeCpmmBet =
-logIndent('Entering computeCpmmBet',
-(
+export const computeCpmmBet = (
   cpmmState: CpmmState,
   outcome: 'YES' | 'NO',
   betAmount: number,
@@ -292,11 +286,9 @@ logIndent('Entering computeCpmmBet',
     ordersToCancel,
     ...afterCpmmState,
   }
-});
+}
 
-export const getBinaryCpmmBetInfo =
-logIndent('Entering getBinaryCpmmBetInfo',
-(
+export const getBinaryCpmmBetInfo = (
   contract: CPMMBinaryContract | PseudoNumericContract | StonkContract,
   outcome: 'YES' | 'NO',
   betAmount: number,
@@ -363,11 +355,9 @@ logIndent('Entering getBinaryCpmmBetInfo',
     makers,
     ordersToCancel,
   }
-})
+}
 
-export const getNewMultiBetInfo =
-logIndent('Entering getNewMultiBetInfo',
-(
+export const getNewMultiBetInfo = (
   outcome: string,
   amount: number,
   contract: DPMContract
@@ -405,11 +395,9 @@ logIndent('Entering getNewMultiBetInfo',
   }
 
   return { newBet, newPool, newTotalShares, newTotalBets }
-})
+}
 
-export const getNewMultiCpmmBetInfo =
-logIndent('Entering getNewMultiCpmmBetInfo',
-(
+export const getNewMultiCpmmBetInfo = (
   contract: CPMMMultiContract,
   answers: Answer[],
   answer: Answer,
@@ -485,11 +473,9 @@ logIndent('Entering getNewMultiCpmmBetInfo',
   })
 
   return { newBet, newPool, makers, ordersToCancel }
-})
+}
 
-const getNewMultiCpmmBetInfoSumsToOne =
-logIndent('Entering getNewMultiCpmmBetInfoSumsToOne',
-(
+const getNewMultiCpmmBetInfoSumsToOne = (
   contract: CPMMMultiContract,
   answers: Answer[],
   answer: Answer,
@@ -577,11 +563,9 @@ logIndent('Entering getNewMultiCpmmBetInfoSumsToOne',
     ordersToCancel: newBetResult.ordersToCancel,
     otherBetResults: otherResultsWithBet,
   }
-})
+}
 
-export const getBetDownToOneMultiBetInfo =
-logIndent('Entering getBetDownToOneMultiBetInfo',
-(
+export const getBetDownToOneMultiBetInfo = (
   contract: CPMMMultiContract,
   answers: Answer[],
   unfilledBets: LimitBet[],
@@ -630,4 +614,4 @@ logIndent('Entering getBetDownToOneMultiBetInfo',
     betResults,
     extraMana,
   }
-})
+}

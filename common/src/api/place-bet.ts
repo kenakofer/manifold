@@ -56,9 +56,7 @@ export function placebet (body, uid, isApi, playgroundState) {
   return bet
 }
 
-export const placeBetMain =
-logIndent(`Simulating ${codeUrl("/placebet", "https://google.com")} endpoint`,
-(
+export const placeBetMain = (
   body: unknown,
   uid: string,
   isApi: boolean,
@@ -420,7 +418,7 @@ logIndent(`Simulating ${codeUrl("/placebet", "https://google.com")} endpoint`,
   }
 
   return { ...newBet }
-})
+}
 
 // const getUnfilledBetsQuery = (
 //   contractDoc: DocumentReference,
@@ -436,9 +434,7 @@ logIndent(`Simulating ${codeUrl("/placebet", "https://google.com")} endpoint`,
 //   return q
 // }
 
-export const getUnfilledBetsAndUserBalances =
-logIndent("Entering getUnfilledBetsAndUserBalances",
-(
+export const getUnfilledBetsAndUserBalances = (
   contract: Contract,
   playgroundState: PlaygroundState,
   answerId?: string
@@ -468,7 +464,7 @@ logIndent("Entering getUnfilledBetsAndUserBalances",
   )
 
   return { unfilledBets, balanceByUserId }
-})
+}
 
 type maker = {
   bet: LimitBet
@@ -476,9 +472,7 @@ type maker = {
   shares: number
   timestamp: number
 }
-export const updateMakers =
-logIndent("Entering updateMakers",
-(
+export const updateMakers = (
   makers: maker[],
   contract: Contract,
   takerBetId: string,
@@ -520,4 +514,4 @@ logIndent("Entering updateMakers",
     playgroundState.getUser(userId).balance -= spent
     window.logger.log(`Updated user ${userId} balance from ${playgroundState.getUser(userId).balance + spent} to ${playgroundState.getUser(userId).balance} (${-spent})`)
   }
-})
+}
