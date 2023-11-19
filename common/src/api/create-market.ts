@@ -31,16 +31,15 @@ import {
   User,
 } from '../user'
 import { STONK_INITIAL_PROB } from '../stonk'
-import { PlaygroundState } from '../playground/playground-state';
 import { slugify } from '../util/slugify';
 
-/*WRAPPED*/ export function _createmarket (body, userId, playgroundState: PlaygroundState) {
-  const contract = createMarketHelper(body, userId, playgroundState)
+/*WRAPPED*/ export function _createmarket (body, userId) {
+  const contract = createMarketHelper(body, userId)
   return contract
 }
 /*LOG2   */ export const createmarket = logCall('Entering ' + codeUrl('createmarket()', github_file_url, 51), _createmarket);
 
-/*WRAPPED*/ export function _createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
+/*WRAPPED*/ export function _createMarketHelper(body: any, userId: string) {
   const {
     question,
     description,
@@ -66,7 +65,7 @@ import { slugify } from '../util/slugify';
     loverUserId2,
   } = validateMarketBody(body)
 
-  const user = playgroundState.getUser(userId)
+  const user = window.pState.getUser(userId)
   if (!user) window.logger.throw("APIError", "(401) Your account was not found")
 
   const hasOtherAnswer = addAnswersMode !== 'DISABLED' && shouldAnswersSumToOne
@@ -93,7 +92,7 @@ import { slugify } from '../util/slugify';
   if (ante > getAvailableBalancePerQuestion(user)) window.logger.throw("APIError", `(403) Balance must be at least ${amountSuppliedByUser}.`)
 
   const contract = getNewContract(
-    playgroundState.getNextContractId(),
+    window.pState.getNextContractId(),
     slugify(question),
     user,
     question,
@@ -118,8 +117,7 @@ import { slugify } from '../util/slugify';
   runCreateMarketTxn(
     contract,
     ante,
-    user,
-    playgroundState
+    user
   )
 
   window.logger.log(`created contract "${contract.id}" for`, user.username)
@@ -136,7 +134,6 @@ import { slugify } from '../util/slugify';
   contract: Contract,
   ante: number,
   user: User,
-  playgroundState: PlaygroundState
 ) => {
   const { amountSuppliedByUser, amountSuppliedByHouse } = marketCreationCosts(
     user,
@@ -149,9 +146,9 @@ import { slugify } from '../util/slugify';
       //   balance: FieldValue.increment(-amountSuppliedByHouse),
       //   totalDeposits: FieldValue.increment(-amountSuppliedByHouse),
       // })
-      playgroundState.bank.balance -= amountSuppliedByHouse
-      window.logger.log(`Decreasing house balance by ${amountSuppliedByHouse} to ${playgroundState.bank.balance}`)
-      // playgroundState.bank.totalDeposits -= amountSuppliedByHouse TODO what would totalDeposits even mean for the bank?
+      window.pState.bank.balance -= amountSuppliedByHouse
+      window.logger.log(`Decreasing house balance by ${amountSuppliedByHouse} to ${window.pState.bank.balance}`)
+      // window.pState.bank.totalDeposits -= amountSuppliedByHouse TODO what would totalDeposits even mean for the bank?
     }
 
     if (amountSuppliedByUser > 0) {
@@ -178,7 +175,7 @@ import { slugify } from '../util/slugify';
     //   userDocRef
     // )
 
-    // playgroundState.runNewTransaction({
+    // window.pState.runNewTransaction({
     //     fromId: user.id,
     //     fromType: 'USER',
     //     toId: contract.id,

@@ -12,11 +12,10 @@ import { CPMMContract, CPMMMultiContract } from '../contract'
 /*WRAPPED*/ export const _redeemShares = async (
   userId: string,
   contract: CPMMContract | CPMMMultiContract,
-  playgroundState: PlaygroundState
 ) => {
   const { id: contractId } = contract
 
-  const bets = playgroundState.getBetsByContractId(contractId).filter(bet => bet.userId === userId)
+  const bets = window.pState.getBetsByContractId(contractId).filter(bet => bet.userId === userId)
 
   const betsByAnswerId = groupBy(bets, (bet) => bet.answerId)
   let totalAmount = 0
@@ -51,7 +50,7 @@ import { CPMMContract, CPMMMultiContract } from '../contract'
 
   // const userDoc = firestore.collection('users').doc(userId)
   // trans.update(userDoc, { balance: FieldValue.increment(totalAmount) })
-  playgroundState.getUser(userId).balance += totalAmount
+  window.pState.getUser(userId).balance += totalAmount
   window.logger.log(`Increased ${userId}'s balance by ${totalAmount}`)
 
   return { status: 'success' }

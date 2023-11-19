@@ -49,8 +49,8 @@ const numericSchema = z.object({
   value: z.number(),
 })
 
-/*WRAPPED*/ export function _placebet (body, uid, isApi, playgroundState) {
-  const bet = placeBetMain(body, uid, isApi, playgroundState)
+/*WRAPPED*/ export function _placebet (body, uid, isApi) {
+  const bet = placeBetMain(body, uid, isApi)
   return bet
 }
 /*LOG2   */ export const placebet = logCall('Entering ' + codeUrl('placebet()', github_file_url, 58), _placebet);
@@ -59,14 +59,13 @@ const numericSchema = z.object({
   body: unknown,
   uid: string,
   isApi: boolean,
-  playgroundState: PlaygroundState
 ) => {
   const { amount, contractId, replyToCommentId } = validate(bodySchema, body)
 
   // Create and run function to get result
   const result = (() => {
-    const contract = playgroundState.getContract(contractId)
-    const user = playgroundState.getUser(uid)
+    const contract = window.pState.getContract(contractId)
+    const user = window.pState.getUser(uid)
     // const userDoc = firestore.doc(`users/${uid}`)
     // const [contractSnap, userSnap] = await trans.getAll(contractDoc, userDoc)
 
@@ -130,7 +129,7 @@ const numericSchema = z.object({
           `Checking for limit orders in placebet for user ${uid} on contract id ${contractId}.`
         )
         const { unfilledBets, balanceByUserId } =
-          getUnfilledBetsAndUserBalances(contract, playgroundState)
+          getUnfilledBetsAndUserBalances(contract)
 
         return getBinaryCpmmBetInfo(
           contract,
@@ -190,7 +189,6 @@ const numericSchema = z.object({
         const { unfilledBets, balanceByUserId } =
           getUnfilledBetsAndUserBalances(
             contract,
-            playgroundState,
             // Fetch all limit orders if answers should sum to one.
             shouldAnswersSumToOne ? undefined : answerId
           )
@@ -244,7 +242,7 @@ const numericSchema = z.object({
     //     ...newBet,
     //   })
     // )
-    const placedBet = playgroundState.addBet({
+    const placedBet = window.pState.addBet({
       id: undefined,
       userId: user.id,
       userAvatarUrl: user.avatarUrl,
@@ -257,7 +255,7 @@ const numericSchema = z.object({
     window.logger.log(`Created new bet document for ${user.username} - auth ${uid}.`, placedBet)
 
     if (makers) {
-      updateMakers(makers, contract, placedBet.id, playgroundState)
+      updateMakers(makers, contract, placedBet.id)
     }
     if (ordersToCancel) {
       for (const bet of ordersToCancel) {
@@ -346,7 +344,7 @@ const numericSchema = z.object({
             //   isApi,
             //   ...bet,
             // })
-            playgroundState.addBet({
+            window.pState.addBet({
               id: undefined,
               userId: user.id,
               userAvatarUrl: user.avatarUrl,
@@ -369,7 +367,7 @@ const numericSchema = z.object({
             answer.poolNo = poolNo
             answer.prob = prob
           }
-          updateMakers(makers, contract, placedBet.id, playgroundState)
+          updateMakers(makers, contract, placedBet.id)
           for (const bet of ordersToCancel) {
             // trans.update(contractDoc.collection('bets').doc(bet.id), {
             //   isCancelled: true,
@@ -399,7 +397,7 @@ const numericSchema = z.object({
       uid,
       ...(makers ?? []).map((maker) => maker.bet.userId),
     ])
-    userIds.map((userId) => redeemShares(userId, contract, playgroundState))
+    userIds.map((userId) => redeemShares(userId, contract))
     window.logger.log(`Share redemption transaction finished - auth ${uid}.`)
   }
   if (ordersToCancel) {
@@ -436,13 +434,12 @@ const numericSchema = z.object({
 
 /*WRAPPED*/ export const _getUnfilledBetsAndUserBalances = (
   contract: Contract,
-  playgroundState: PlaygroundState,
   answerId?: string
 ) => {
   // const unfilledBets = await trans.get(
   //   getUnfilledBetsQuery(contractDoc, answerId)
   // )
-  let unfilledBets = playgroundState.getUnfilledBetsByContractId(contract.id)
+  let unfilledBets = window.pState.getUnfilledBetsByContractId(contract.id)
 
   if (answerId !== undefined) {
     unfilledBets = unfilledBets.filter((bet) => bet.answerId === answerId)
@@ -458,7 +455,7 @@ const numericSchema = z.object({
   const userIds = uniq(unfilledBets.map((bet) => bet.userId))
 
   // const users = filterDefined(userDocs.map((doc) => doc.data() as User))
-  const users = userIds.map((userId) => playgroundState.getUser(userId))
+  const users = userIds.map((userId) => window.pState.getUser(userId))
   const balanceByUserId = Object.fromEntries(
     users.map((user) => [user.id, user.balance])
   )
@@ -477,7 +474,6 @@ type maker = {
   makers: maker[],
   contract: Contract,
   takerBetId: string,
-  playgroundState: PlaygroundState
 ) => {
   const makersByBet = groupBy(makers, (maker) => maker.bet.id)
   for (const makers of Object.values(makersByBet)) {
@@ -512,8 +508,8 @@ type maker = {
   for (const [userId, spent] of Object.entries(spentByUser)) {
     // const userDoc = firestore.collection('users').doc(userId)
     // trans.update(userDoc, { balance: FieldValue.increment(-spent) })
-    playgroundState.getUser(userId).balance -= spent
-    window.logger.log(`Updated user ${userId} balance from ${playgroundState.getUser(userId).balance + spent} to ${playgroundState.getUser(userId).balance} (${-spent})`)
+    window.pState.getUser(userId).balance -= spent
+    window.logger.log(`Updated user ${userId} balance from ${window.pState.getUser(userId).balance + spent} to ${window.pState.getUser(userId).balance} (${-spent})`)
   }
 }
 /*LOG2   */ export const updateMakers = logCall('Entering ' + codeUrl('updateMakers()', github_file_url, 444), _updateMakers);

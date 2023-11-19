@@ -242,7 +242,6 @@ export class PlaygroundState {
       ...overrides,
       },
       userId,
-      this
     )
     window.logger.out()
     return this.addContract(contract);
@@ -290,7 +289,7 @@ export class PlaygroundState {
     return placebet({
       ...DEFAULT_BINARY_BET_PARAMS,
       ...body
-    }, userId, isApi, this); // in the course of running placebet, it will call the playground's addBet
+    }, userId, isApi); // in the course of running placebet, it will call the playground's addBet
   }
 
   addBet(bet: Bet) {
