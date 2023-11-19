@@ -196,7 +196,7 @@ export class PlaygroundState {
       window.logger.throw("PlaygroundError", `User ${user.id} already exists`);
     }
     this.users[user.id] = user;
-    window.logger.pLog(`Adding user "${user.id}"`, user);
+    window.logger.pLog(`Saving user "${user.id}"`, user);
     return user
   }
 
@@ -250,10 +250,10 @@ export class PlaygroundState {
 
 
   private addContract(contract: Contract) {
-    window.logger.pLog(`Adding contract "${contract.id}"`, contract);
     if (this.contracts[contract.id]) {
       window.logger.throw("PlaygroundError", `Contract ${contract.id} already exists`);
     }
+    window.logger.pLog(`Saving contract "${contract.id}"`, contract);
     this.contracts[contract.id] = contract;
     return contract;
   }

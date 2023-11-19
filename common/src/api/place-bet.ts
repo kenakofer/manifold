@@ -50,9 +50,7 @@ const numericSchema = z.object({
 })
 
 /*WRAPPED*/ export function _placebet (body, uid, isApi, playgroundState) {
-  window.logger.log(`Request.body from ${uid}`, body)
   const bet = placeBetMain(body, uid, isApi, playgroundState)
-  window.logger.log('Returning bet', bet)
   return bet
 }
 /*LOG2   */ export const placebet = logCall('Entering ' + codeUrl('placebet()', github_file_url, 58), _placebet);

@@ -97,6 +97,7 @@ export function logCall<T extends (...args: any[]) => any>(message: string, func
       window.logger.in();
       window.logger.log(`...with args`, args);
       const result = func.apply(this, args);
+      window.logger.log(`...returning`, result);
       return result;
     } finally {
       window.logger.out(indent_level);

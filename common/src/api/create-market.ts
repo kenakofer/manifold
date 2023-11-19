@@ -35,9 +35,7 @@ import { PlaygroundState } from '../playground/playground-state';
 import { slugify } from '../util/slugify';
 
 /*WRAPPED*/ export function _createmarket (body, userId, playgroundState: PlaygroundState) {
-  window.logger.log(`Request.body from ${userId}`, body)
   const contract = createMarketHelper(body, userId, playgroundState)
-  window.logger.log('Returning contract', contract)
   return contract
 }
 /*LOG2   */ export const createmarket = logCall('Entering ' + codeUrl('createmarket()', github_file_url, 51), _createmarket);
