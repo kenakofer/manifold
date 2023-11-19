@@ -3,7 +3,7 @@ import { NestedLogger, logCall, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/love/constants.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/love/constants.ts'
-const isProd = () => {
+/*WRAPPED*/ const _isProd = () => {
   // mqp: kind of hacky rn. the first clause is for cloud run API service,
   // second clause is for local scripts and cloud functions
   if (process.env.ENVIRONMENT) {
@@ -16,6 +16,7 @@ const isProd = () => {
     return admin.app().options.projectId === 'mantic-markets'
   }
 }
+/*LOG2   */ const isProd = logCall('Entering ' + codeUrl('isProd()', github_file_url, 1), _isProd);
 
 export const manifoldLoveUserId = isProd()
   ? 'tRZZ6ihugZQLXPf6aPRneGpWLmz1'

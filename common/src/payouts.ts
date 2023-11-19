@@ -32,7 +32,7 @@ export type Payout = {
   payout: number
 }
 
-export const getLoanPayouts = (bets: Bet[]): Payout[] => {
+/*WRAPPED*/ export const _getLoanPayouts = (bets: Bet[]): Payout[] => {
   const betsWithLoans = bets.filter((bet) => bet.loanAmount)
   const betsByUser = groupBy(betsWithLoans, (bet) => bet.userId)
   const loansByUser = mapValues(betsByUser, (bets) =>
@@ -43,11 +43,13 @@ export const getLoanPayouts = (bets: Bet[]): Payout[] => {
     payout,
   }))
 }
+/*LOG2   */ export const getLoanPayouts = logCall('Entering ' + codeUrl('getLoanPayouts()', github_file_url, 30), _getLoanPayouts);
 
-export const groupPayoutsByUser = (payouts: Payout[]) => {
+/*WRAPPED*/ export const _groupPayoutsByUser = (payouts: Payout[]) => {
   const groups = groupBy(payouts, (payout) => payout.userId)
   return mapValues(groups, (group) => sumBy(group, (g) => g.payout))
 }
+/*LOG2   */ export const groupPayoutsByUser = logCall('Entering ' + codeUrl('groupPayoutsByUser()', github_file_url, 42), _groupPayoutsByUser);
 
 export type PayoutInfo = {
   payouts: Payout[]
@@ -56,7 +58,7 @@ export type PayoutInfo = {
   collectedFees: Fees
 }
 
-export const getPayouts = (
+/*WRAPPED*/ export const _getPayouts = (
   outcome: string | undefined,
   contract: Contract,
   bets: Bet[],
@@ -113,8 +115,9 @@ export const getPayouts = (
   }
   throw new Error('getPayouts not implemented')
 }
+/*LOG2   */ export const getPayouts = logCall('Entering ' + codeUrl('getPayouts()', github_file_url, 54), _getPayouts);
 
-export const getFixedPayouts = (
+/*WRAPPED*/ export const _getFixedPayouts = (
   outcome: string | undefined,
   contract:
     | CPMMContract
@@ -139,8 +142,9 @@ export const getFixedPayouts = (
       return getFixedCancelPayouts(bets, liquidities)
   }
 }
+/*LOG2   */ export const getFixedPayouts = logCall('Entering ' + codeUrl('getFixedPayouts()', github_file_url, 112), _getFixedPayouts);
 
-const getDpmPayouts = (
+/*WRAPPED*/ const _getDpmPayouts = (
   outcome: string | undefined,
   contract: StillOpenDPMContract,
   bets: Bet[],
@@ -167,3 +171,4 @@ const getDpmPayouts = (
       return getDpmStandardPayouts(outcome, contract, openBets)
   }
 }
+/*LOG2   */ const getDpmPayouts = logCall('Entering ' + codeUrl('getDpmPayouts()', github_file_url, 138), _getDpmPayouts);

@@ -3,7 +3,7 @@ import { NestedLogger, logCall, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/algos.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/algos.ts'
-export function binarySearch(
+/*WRAPPED*/ export function _binarySearch(
   min: number,
   max: number,
   comparator: (x: number) => number
@@ -34,3 +34,4 @@ export function binarySearch(
   }
   return mid
 }
+/*LOG2   */ export const binarySearch = logCall('Entering ' + codeUrl('binarySearch()', github_file_url, 1), _binarySearch);

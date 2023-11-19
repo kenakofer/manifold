@@ -8,12 +8,13 @@ import { Bet, NumericBet } from './bet'
 import { DPMBinaryContract, DPMContract } from './contract'
 import { DPM_FEES } from './fees'
 
-export function getDpmProbability(totalShares: { [outcome: string]: number }) {
+/*WRAPPED*/ export function _getDpmProbability(totalShares: { [outcome: string]: number }) {
   // For binary contracts only.
   return getDpmOutcomeProbability(totalShares, 'YES')
 }
+/*LOG2   */ export const getDpmProbability = logCall('Entering ' + codeUrl('getDpmProbability()', github_file_url, 6), _getDpmProbability);
 
-export function getDpmOutcomeProbability(
+/*WRAPPED*/ export function _getDpmOutcomeProbability(
   totalShares: {
     [outcome: string]: number
   },
@@ -23,15 +24,17 @@ export function getDpmOutcomeProbability(
   const shares = totalShares[outcome] ?? 0
   return shares ** 2 / squareSum
 }
+/*LOG2   */ export const getDpmOutcomeProbability = logCall('Entering ' + codeUrl('getDpmOutcomeProbability()', github_file_url, 11), _getDpmOutcomeProbability);
 
-export function getDpmOutcomeProbabilities(totalShares: {
+/*WRAPPED*/ export function _getDpmOutcomeProbabilities(totalShares: {
   [outcome: string]: number
 }) {
   const squareSum = sumBy(Object.values(totalShares), (shares) => shares ** 2)
   return mapValues(totalShares, (shares) => shares ** 2 / squareSum)
 }
+/*LOG2   */ export const getDpmOutcomeProbabilities = logCall('Entering ' + codeUrl('getDpmOutcomeProbabilities()', github_file_url, 22), _getDpmOutcomeProbabilities);
 
-export function getDpmOutcomeProbabilityAfterBet(
+/*WRAPPED*/ export function _getDpmOutcomeProbabilityAfterBet(
   totalShares: {
     [outcome: string]: number
   },
@@ -45,8 +48,9 @@ export function getDpmOutcomeProbabilityAfterBet(
 
   return getDpmOutcomeProbability(newTotalShares, outcome)
 }
+/*LOG2   */ export const getDpmOutcomeProbabilityAfterBet = logCall('Entering ' + codeUrl('getDpmOutcomeProbabilityAfterBet()', github_file_url, 29), _getDpmOutcomeProbabilityAfterBet);
 
-export function getDpmProbabilityAfterSale(
+/*WRAPPED*/ export function _getDpmProbabilityAfterSale(
   totalShares: {
     [outcome: string]: number
   },
@@ -59,8 +63,9 @@ export function getDpmProbabilityAfterSale(
   const predictionOutcome = outcome === 'NO' ? 'YES' : outcome
   return getDpmOutcomeProbability(newTotalShares, predictionOutcome)
 }
+/*LOG2   */ export const getDpmProbabilityAfterSale = logCall('Entering ' + codeUrl('getDpmProbabilityAfterSale()', github_file_url, 44), _getDpmProbabilityAfterSale);
 
-export function calculateDpmShares(
+/*WRAPPED*/ export function _calculateDpmShares(
   totalShares: {
     [outcome: string]: number
   },
@@ -74,8 +79,9 @@ export function calculateDpmShares(
 
   return Math.sqrt(bet ** 2 + shares ** 2 + c) - shares
 }
+/*LOG2   */ export const calculateDpmShares = logCall('Entering ' + codeUrl('calculateDpmShares()', github_file_url, 58), _calculateDpmShares);
 
-export function calculateDpmRawShareValue(
+/*WRAPPED*/ export function _calculateDpmRawShareValue(
   totalShares: {
     [outcome: string]: number
   },
@@ -96,8 +102,9 @@ export function calculateDpmRawShareValue(
 
   return currentValue - postSaleValue
 }
+/*LOG2   */ export const calculateDpmRawShareValue = logCall('Entering ' + codeUrl('calculateDpmRawShareValue()', github_file_url, 73), _calculateDpmRawShareValue);
 
-export function calculateDpmMoneyRatio(
+/*WRAPPED*/ export function _calculateDpmMoneyRatio(
   contract: DPMContract,
   bet: Bet,
   shareValue: number
@@ -123,8 +130,9 @@ export function calculateDpmMoneyRatio(
 
   return actual / expected
 }
+/*LOG2   */ export const calculateDpmMoneyRatio = logCall('Entering ' + codeUrl('calculateDpmMoneyRatio()', github_file_url, 95), _calculateDpmMoneyRatio);
 
-export function calculateDpmShareValue(contract: DPMContract, bet: Bet) {
+/*WRAPPED*/ export function _calculateDpmShareValue(contract: DPMContract, bet: Bet) {
   const { pool, totalShares } = contract
   const { shares, outcome } = bet
 
@@ -135,14 +143,16 @@ export function calculateDpmShareValue(contract: DPMContract, bet: Bet) {
   const adjShareValue = Math.min(Math.min(1, f) * shareValue, myPool)
   return adjShareValue
 }
+/*LOG2   */ export const calculateDpmShareValue = logCall('Entering ' + codeUrl('calculateDpmShareValue()', github_file_url, 122), _calculateDpmShareValue);
 
-export function calculateDpmSaleAmount(contract: DPMContract, bet: Bet) {
+/*WRAPPED*/ export function _calculateDpmSaleAmount(contract: DPMContract, bet: Bet) {
   const { amount } = bet
   const winnings = calculateDpmShareValue(contract, bet)
   return deductDpmFees(amount, winnings)
 }
+/*LOG2   */ export const calculateDpmSaleAmount = logCall('Entering ' + codeUrl('calculateDpmSaleAmount()', github_file_url, 134), _calculateDpmSaleAmount);
 
-export function calculateDpmPayout(
+/*WRAPPED*/ export function _calculateDpmPayout(
   contract: DPMContract,
   bet: Bet,
   outcome: string
@@ -152,16 +162,18 @@ export function calculateDpmPayout(
 
   return calculateStandardDpmPayout(contract, bet, outcome)
 }
+/*LOG2   */ export const calculateDpmPayout = logCall('Entering ' + codeUrl('calculateDpmPayout()', github_file_url, 140), _calculateDpmPayout);
 
-function calculateDpmCancelPayout(contract: DPMContract, bet: Bet) {
+/*WRAPPED*/ function _calculateDpmCancelPayout(contract: DPMContract, bet: Bet) {
   const { totalBets, pool } = contract
   const betTotal = sum(Object.values(totalBets))
   const poolTotal = sum(Object.values(pool))
 
   return (bet.amount / betTotal) * poolTotal
 }
+/*LOG2   */ const calculateDpmCancelPayout = logCall('Entering ' + codeUrl('calculateDpmCancelPayout()', github_file_url, 151), _calculateDpmCancelPayout);
 
-export function calculateStandardDpmPayout(
+/*WRAPPED*/ export function _calculateStandardDpmPayout(
   contract: DPMContract,
   bet: Bet,
   outcome: string
@@ -193,8 +205,9 @@ export function calculateStandardDpmPayout(
   const payout = amount + (1 - DPM_FEES) * Math.max(0, winnings - amount)
   return payout
 }
+/*LOG2   */ export const calculateStandardDpmPayout = logCall('Entering ' + codeUrl('calculateStandardDpmPayout()', github_file_url, 159), _calculateStandardDpmPayout);
 
-export function calculateDpmPayoutAfterCorrectBet(
+/*WRAPPED*/ export function _calculateDpmPayoutAfterCorrectBet(
   contract: DPMContract,
   bet: Bet
 ) {
@@ -227,8 +240,9 @@ export function calculateDpmPayoutAfterCorrectBet(
 
   return calculateStandardDpmPayout(newContract as any, bet, outcome)
 }
+/*LOG2   */ export const calculateDpmPayoutAfterCorrectBet = logCall('Entering ' + codeUrl('calculateDpmPayoutAfterCorrectBet()', github_file_url, 192), _calculateDpmPayoutAfterCorrectBet);
 
-function calculateMktDpmPayout(contract: DPMContract, bet: Bet) {
+/*WRAPPED*/ function _calculateMktDpmPayout(contract: DPMContract, bet: Bet) {
   if (contract.outcomeType === 'BINARY')
     return calculateBinaryMktDpmPayout(contract, bet)
 
@@ -257,8 +271,9 @@ function calculateMktDpmPayout(contract: DPMContract, bet: Bet) {
   const winnings = poolFrac * totalPool
   return deductDpmFees(amount, winnings)
 }
+/*LOG2   */ const calculateMktDpmPayout = logCall('Entering ' + codeUrl('calculateMktDpmPayout()', github_file_url, 226), _calculateMktDpmPayout);
 
-function calculateBinaryMktDpmPayout(contract: DPMBinaryContract, bet: Bet) {
+/*WRAPPED*/ function _calculateBinaryMktDpmPayout(contract: DPMBinaryContract, bet: Bet) {
   const { resolutionProbability, totalShares, phantomShares } = contract
   const p =
     resolutionProbability !== undefined
@@ -278,14 +293,16 @@ function calculateBinaryMktDpmPayout(contract: DPMBinaryContract, bet: Bet) {
 
   return deductDpmFees(amount, winnings)
 }
+/*LOG2   */ const calculateBinaryMktDpmPayout = logCall('Entering ' + codeUrl('calculateBinaryMktDpmPayout()', github_file_url, 256), _calculateBinaryMktDpmPayout);
 
-export const deductDpmFees = (betAmount: number, winnings: number) => {
+/*WRAPPED*/ export const _deductDpmFees = (betAmount: number, winnings: number) => {
   return winnings > betAmount
     ? betAmount + (1 - DPM_FEES) * (winnings - betAmount)
     : winnings
 }
+/*LOG2   */ export const deductDpmFees = logCall('Entering ' + codeUrl('deductDpmFees()', github_file_url, 277), _deductDpmFees);
 
-export const calcDpmInitialPool = (
+/*WRAPPED*/ export const _calcDpmInitialPool = (
   initialProbInt: number,
   ante: number,
   phantomAnte: number
@@ -304,3 +321,4 @@ export const calcDpmInitialPool = (
 
   return { sharesYes, sharesNo, poolYes, poolNo, phantomYes, phantomNo }
 }
+/*LOG2   */ export const calcDpmInitialPool = logCall('Entering ' + codeUrl('calcDpmInitialPool()', github_file_url, 283), _calcDpmInitialPool);

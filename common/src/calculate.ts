@@ -42,21 +42,23 @@ import { floatingEqual } from './util/math'
 import { ContractMetric } from './contract-metric'
 import { Answer, DpmAnswer } from './answer'
 
-export function getProbability(
+/*WRAPPED*/ export function _getProbability(
   contract: BinaryContract | PseudoNumericContract | StonkContract
 ) {
   return contract.mechanism === 'cpmm-1'
     ? getCpmmProbability(contract.pool, contract.p)
     : getDpmProbability(contract.totalShares)
 }
+/*LOG2   */ export const getProbability = logCall('Entering ' + codeUrl('getProbability()', github_file_url, 40), _getProbability);
 
-export function getDisplayProbability(
+/*WRAPPED*/ export function _getDisplayProbability(
   contract: BinaryContract | PseudoNumericContract | StonkContract
 ) {
   return contract.resolutionProbability ?? getProbability(contract)
 }
+/*LOG2   */ export const getDisplayProbability = logCall('Entering ' + codeUrl('getDisplayProbability()', github_file_url, 48), _getDisplayProbability);
 
-export function getInitialProbability(
+/*WRAPPED*/ export function _getInitialProbability(
   contract: BinaryContract | PseudoNumericContract | StonkContract
 ) {
   if (contract.initialProbability) return contract.initialProbability
@@ -69,8 +71,9 @@ export function getInitialProbability(
 
   return getCpmmProbability(contract.pool, contract.p)
 }
+/*LOG2   */ export const getInitialProbability = logCall('Entering ' + codeUrl('getInitialProbability()', github_file_url, 54), _getInitialProbability);
 
-export function getOutcomeProbability(contract: Contract, outcome: string) {
+/*WRAPPED*/ export function _getOutcomeProbability(contract: Contract, outcome: string) {
   const { mechanism } = contract
   switch (mechanism) {
     case 'cpmm-1':
@@ -87,8 +90,9 @@ export function getOutcomeProbability(contract: Contract, outcome: string) {
       throw new Error('getOutcomeProbability not implemented')
   }
 }
+/*LOG2   */ export const getOutcomeProbability = logCall('Entering ' + codeUrl('getOutcomeProbability()', github_file_url, 68), _getOutcomeProbability);
 
-export function getAnswerProbability(
+/*WRAPPED*/ export function _getAnswerProbability(
   contract: MultiContract,
   answerId: string
 ) {
@@ -119,8 +123,9 @@ export function getAnswerProbability(
       (contract as any).mechanism
   )
 }
+/*LOG2   */ export const getAnswerProbability = logCall('Entering ' + codeUrl('getAnswerProbability()', github_file_url, 86), _getAnswerProbability);
 
-export function getInitialAnswerProbability(
+/*WRAPPED*/ export function _getInitialAnswerProbability(
   contract: MultiContract,
   answer: Answer | DpmAnswer
 ) {
@@ -158,8 +163,9 @@ export function getInitialAnswerProbability(
       (contract as any).mechanism
   )
 }
+/*LOG2   */ export const getInitialAnswerProbability = logCall('Entering ' + codeUrl('getInitialAnswerProbability()', github_file_url, 118), _getInitialAnswerProbability);
 
-export function getOutcomeProbabilityAfterBet(
+/*WRAPPED*/ export function _getOutcomeProbabilityAfterBet(
   contract: Contract,
   outcome: string,
   bet: number
@@ -182,8 +188,9 @@ export function getOutcomeProbabilityAfterBet(
       throw new Error('getOutcomeProbabilityAfterBet not implemented')
   }
 }
+/*LOG2   */ export const getOutcomeProbabilityAfterBet = logCall('Entering ' + codeUrl('getOutcomeProbabilityAfterBet()', github_file_url, 157), _getOutcomeProbabilityAfterBet);
 
-export function getOutcomeProbabilityAfterBetMulti(
+/*WRAPPED*/ export function _getOutcomeProbabilityAfterBetMulti(
   answers: Answer[],
   answerId: string,
   outcome: 'YES' | 'NO',
@@ -203,8 +210,9 @@ export function getOutcomeProbabilityAfterBetMulti(
     amount
   )
 }
+/*LOG2   */ export const getOutcomeProbabilityAfterBetMulti = logCall('Entering ' + codeUrl('getOutcomeProbabilityAfterBetMulti()', github_file_url, 181), _getOutcomeProbabilityAfterBetMulti);
 
-export function calculateSharesBought(
+/*WRAPPED*/ export function _calculateSharesBought(
   contract: Contract,
   outcome: string,
   amount: number
@@ -221,7 +229,8 @@ export function calculateSharesBought(
       throw new Error('calculateSharesBought not implemented')
   }
 }
-export function calculateSharesBoughtMulti(
+/*LOG2   */ export const calculateSharesBought = logCall('Entering ' + codeUrl('calculateSharesBought()', github_file_url, 202), _calculateSharesBought);
+/*WRAPPED*/ export function _calculateSharesBoughtMulti(
   answers: Answer[],
   answerId: string,
   outcome: 'YES' | 'NO',
@@ -238,8 +247,9 @@ export function calculateSharesBoughtMulti(
     outcome
   ).shares
 }
+/*LOG2   */ export const calculateSharesBoughtMulti = logCall('Entering ' + codeUrl('calculateSharesBoughtMulti()', github_file_url, 219), _calculateSharesBoughtMulti);
 
-export function calculatePayout(contract: Contract, bet: Bet, outcome: string) {
+/*WRAPPED*/ export function _calculatePayout(contract: Contract, bet: Bet, outcome: string) {
   const { mechanism } = contract
   return mechanism === 'cpmm-1'
     ? calculateFixedPayout(contract, bet, outcome)
@@ -249,8 +259,9 @@ export function calculatePayout(contract: Contract, bet: Bet, outcome: string) {
     ? calculateDpmPayout(contract, bet, outcome)
     : bet?.amount ?? 0
 }
+/*LOG2   */ export const calculatePayout = logCall('Entering ' + codeUrl('calculatePayout()', github_file_url, 237), _calculatePayout);
 
-export function resolvedPayout(contract: Contract, bet: Bet) {
+/*WRAPPED*/ export function _resolvedPayout(contract: Contract, bet: Bet) {
   const { resolution, mechanism } = contract
   if (!resolution) throw new Error('Contract not resolved')
 
@@ -262,8 +273,9 @@ export function resolvedPayout(contract: Contract, bet: Bet) {
     ? calculateDpmPayout(contract, bet, resolution)
     : bet?.amount ?? 0
 }
+/*LOG2   */ export const resolvedPayout = logCall('Entering ' + codeUrl('resolvedPayout()', github_file_url, 248), _resolvedPayout);
 
-function getCpmmInvested(yourBets: Bet[]) {
+/*WRAPPED*/ function _getCpmmInvested(yourBets: Bet[]) {
   const totalShares: { [outcome: string]: number } = {}
   const totalSpent: { [outcome: string]: number } = {}
 
@@ -289,8 +301,9 @@ function getCpmmInvested(yourBets: Bet[]) {
 
   return sum(Object.values(totalSpent))
 }
+/*LOG2   */ const getCpmmInvested = logCall('Entering ' + codeUrl('getCpmmInvested()', github_file_url, 261), _getCpmmInvested);
 
-function getDpmInvested(yourBets: Bet[]) {
+/*WRAPPED*/ function _getDpmInvested(yourBets: Bet[]) {
   const sortedBets = sortBy(yourBets, 'createdTime')
 
   return sumBy(sortedBets, (bet) => {
@@ -305,14 +318,16 @@ function getDpmInvested(yourBets: Bet[]) {
     return amount
   })
 }
+/*LOG2   */ const getDpmInvested = logCall('Entering ' + codeUrl('getDpmInvested()', github_file_url, 288), _getDpmInvested);
 
-export function getSimpleCpmmInvested(yourBets: Bet[]) {
+/*WRAPPED*/ export function _getSimpleCpmmInvested(yourBets: Bet[]) {
   const total = sumBy(yourBets, (b) => b.amount)
   if (total < 0) return 0
   return total
 }
+/*LOG2   */ export const getSimpleCpmmInvested = logCall('Entering ' + codeUrl('getSimpleCpmmInvested()', github_file_url, 304), _getSimpleCpmmInvested);
 
-export function getInvested(contract: Contract, yourBets: Bet[]) {
+/*WRAPPED*/ export function _getInvested(contract: Contract, yourBets: Bet[]) {
   const { mechanism } = contract
   if (mechanism === 'cpmm-1') return getCpmmInvested(yourBets)
   if (mechanism === 'cpmm-multi-1') {
@@ -322,8 +337,9 @@ export function getInvested(contract: Contract, yourBets: Bet[]) {
   }
   return getDpmInvested(yourBets)
 }
+/*LOG2   */ export const getInvested = logCall('Entering ' + codeUrl('getInvested()', github_file_url, 310), _getInvested);
 
-function getCpmmOrDpmProfit(
+/*WRAPPED*/ function _getCpmmOrDpmProfit(
   contract: Contract,
   yourBets: Bet[],
   answer?: Answer
@@ -380,8 +396,9 @@ function getCpmmOrDpmProfit(
     payout,
   }
 }
+/*LOG2   */ const getCpmmOrDpmProfit = logCall('Entering ' + codeUrl('getCpmmOrDpmProfit()', github_file_url, 321), _getCpmmOrDpmProfit);
 
-export function getProfitMetrics(contract: Contract, yourBets: Bet[]) {
+/*WRAPPED*/ export function _getProfitMetrics(contract: Contract, yourBets: Bet[]) {
   const { mechanism } = contract
   if (mechanism === 'cpmm-multi-1') {
     const betsByAnswerId = groupBy(yourBets, 'answerId')
@@ -405,8 +422,9 @@ export function getProfitMetrics(contract: Contract, yourBets: Bet[]) {
   }
   return getCpmmOrDpmProfit(contract, yourBets)
 }
+/*LOG2   */ export const getProfitMetrics = logCall('Entering ' + codeUrl('getProfitMetrics()', github_file_url, 379), _getProfitMetrics);
 
-export function getCpmmShares(yourBets: Bet[]) {
+/*WRAPPED*/ export function _getCpmmShares(yourBets: Bet[]) {
   const totalShares: { [outcome: string]: number } = {}
   for (const bet of yourBets) {
     const { shares, outcome } = bet
@@ -428,8 +446,9 @@ export function getCpmmShares(yourBets: Bet[]) {
     hasNoShares,
   }
 }
+/*LOG2   */ export const getCpmmShares = logCall('Entering ' + codeUrl('getCpmmShares()', github_file_url, 404), _getCpmmShares);
 
-export function getCpmmMultiShares(yourBets: Bet[]) {
+/*WRAPPED*/ export function _getCpmmMultiShares(yourBets: Bet[]) {
   const betsByAnswerId = groupBy(yourBets, 'answerId')
   const sharesByAnswerId = mapValues(betsByAnswerId, (bets) =>
     getCpmmShares(bets)
@@ -444,8 +463,9 @@ export function getCpmmMultiShares(yourBets: Bet[]) {
     sharesByAnswerId,
   }
 }
+/*LOG2   */ export const getCpmmMultiShares = logCall('Entering ' + codeUrl('getCpmmMultiShares()', github_file_url, 427), _getCpmmMultiShares);
 
-export const getContractBetMetrics = (
+/*WRAPPED*/ export const _getContractBetMetrics = (
   contract: Contract,
   yourBets: Bet[],
   answerId?: string
@@ -478,7 +498,8 @@ export const getContractBetMetrics = (
     answerId: answerId ?? null,
   }
 }
-export const getContractBetMetricsPerAnswer = (
+/*LOG2   */ export const getContractBetMetrics = logCall('Entering ' + codeUrl('getContractBetMetrics()', github_file_url, 443), _getContractBetMetrics);
+/*WRAPPED*/ export const _getContractBetMetricsPerAnswer = (
   contract: Contract,
   yourBets: Bet[]
 ) => {
@@ -494,8 +515,9 @@ export const getContractBetMetricsPerAnswer = (
   }
   return metricsPerAnswer
 }
+/*LOG2   */ export const getContractBetMetricsPerAnswer = logCall('Entering ' + codeUrl('getContractBetMetricsPerAnswer()', github_file_url, 476), _getContractBetMetricsPerAnswer);
 
-export function getContractBetNullMetrics() {
+/*WRAPPED*/ export function _getContractBetNullMetrics() {
   return {
     invested: 0,
     loan: 0,
@@ -509,15 +531,17 @@ export function getContractBetNullMetrics() {
     maxSharesOutcome: null,
   } as ContractMetric
 }
-export function getTopAnswer(contract: MultiContract) {
+/*LOG2   */ export const getContractBetNullMetrics = logCall('Entering ' + codeUrl('getContractBetNullMetrics()', github_file_url, 493), _getContractBetNullMetrics);
+/*WRAPPED*/ export function _getTopAnswer(contract: MultiContract) {
   const { answers } = contract
   const top = maxBy<Answer | DpmAnswer>(answers, (answer) =>
     'prob' in answer ? answer.prob : getOutcomeProbability(contract, answer.id)
   )
   return top
 }
+/*LOG2   */ export const getTopAnswer = logCall('Entering ' + codeUrl('getTopAnswer()', github_file_url, 507), _getTopAnswer);
 
-export function getTopNSortedAnswers(contract: MultiContract, n: number) {
+/*WRAPPED*/ export function _getTopNSortedAnswers(contract: MultiContract, n: number) {
   const { answers, resolution, resolutions } = contract
 
   const [winningAnswers, losingAnswers] = partition(
@@ -538,8 +562,9 @@ export function getTopNSortedAnswers(contract: MultiContract, n: number) {
   ].slice(0, n)
   return sortedAnswers
 }
+/*LOG2   */ export const getTopNSortedAnswers = logCall('Entering ' + codeUrl('getTopNSortedAnswers()', github_file_url, 515), _getTopNSortedAnswers);
 
-export function getLargestPosition(contract: Contract, userBets: Bet[]) {
+/*WRAPPED*/ export function _getLargestPosition(contract: Contract, userBets: Bet[]) {
   if (userBets.length === 0) {
     return null
   }
@@ -579,3 +604,4 @@ export function getLargestPosition(contract: Contract, userBets: Bet[]) {
   const shares = totalShares[outcome]
   return { outcome, shares }
 }
+/*LOG2   */ export const getLargestPosition = logCall('Entering ' + codeUrl('getLargestPosition()', github_file_url, 537), _getLargestPosition);

@@ -8,7 +8,7 @@ import { sortBy, sum } from 'lodash'
 import { calculatePrice } from './uniswap2'
 
 // e.g. { 'user/jasldfjdkl': 900, 'contract/afsdjkla': 100 }
-export function getCertOwnership(txns: CertTxn[]) {
+/*WRAPPED*/ export function _getCertOwnership(txns: CertTxn[]) {
   const ownership: { [id: string]: number } = {}
   const sortedTxns = sortBy(txns, 'createdTime')
   for (const txn of sortedTxns) {
@@ -23,10 +23,11 @@ export function getCertOwnership(txns: CertTxn[]) {
   }
   return ownership
 }
+/*LOG2   */ export const getCertOwnership = logCall('Entering ' + codeUrl('getCertOwnership()', github_file_url, 6), _getCertOwnership);
 
 // Like the above, but with userIds only.
 // We mapping any CONTRACT types to 'USER/{creatorId}'
-export function getCertOwnershipUsers(creatorId: string, txns: CertTxn[]) {
+/*WRAPPED*/ export function _getCertOwnershipUsers(creatorId: string, txns: CertTxn[]) {
   const ownership = getCertOwnership(txns)
   const users: { [userId: string]: number } = {}
   for (const ownerId in ownership) {
@@ -41,10 +42,11 @@ export function getCertOwnershipUsers(creatorId: string, txns: CertTxn[]) {
   }
   return users
 }
+/*LOG2   */ export const getCertOwnershipUsers = logCall('Entering ' + codeUrl('getCertOwnershipUsers()', github_file_url, 24), _getCertOwnershipUsers);
 
 // Map each user to amount to pay
 // E.g. { 'alice': -100, 'bob': 25, 'carol': 75 }
-export function getDividendPayouts(
+/*WRAPPED*/ export function _getDividendPayouts(
   providerId: string,
   totalDividend: number,
   txns: CertTxn[]
@@ -64,16 +66,18 @@ export function getDividendPayouts(
   }))
   return payouts
 }
-export function toPayoutsMap(payouts: { userId: string; payout: number }[]) {
+/*LOG2   */ export const getDividendPayouts = logCall('Entering ' + codeUrl('getDividendPayouts()', github_file_url, 42), _getDividendPayouts);
+/*WRAPPED*/ export function _toPayoutsMap(payouts: { userId: string; payout: number }[]) {
   return Object.fromEntries(
     payouts.map(({ userId, payout }) => [userId, payout])
   )
 }
+/*LOG2   */ export const toPayoutsMap = logCall('Entering ' + codeUrl('toPayoutsMap()', github_file_url, 62), _toPayoutsMap);
 
 // For each cert txn, calculate a point: {x: timestamp, y: price}
 // Right now, txns don't have a "priceAfter" field
 // so instead we calculate the current pool at each step after the latest txn has been applied
-export function getCertPoints(txns: CertTxn[]) {
+/*WRAPPED*/ export function _getCertPoints(txns: CertTxn[]) {
   const points: { x: number; y: number }[] = []
   const sortedTxns = sortBy(txns, 'createdTime')
   const currentPool = { SHARE: 0, M$: 0 }
@@ -103,3 +107,4 @@ export function getCertPoints(txns: CertTxn[]) {
   }
   return points
 }
+/*LOG2   */ export const getCertPoints = logCall('Entering ' + codeUrl('getCertPoints()', github_file_url, 71), _getCertPoints);

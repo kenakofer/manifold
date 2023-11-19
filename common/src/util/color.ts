@@ -3,7 +3,7 @@ import { NestedLogger, logCall, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/color.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/color.ts'
-export const interpolateColor = (color1: string, color2: string, p: number) => {
+/*WRAPPED*/ export const _interpolateColor = (color1: string, color2: string, p: number) => {
   const rgb1 = parseInt(color1.replace('#', ''), 16)
   const rgb2 = parseInt(color2.replace('#', ''), 16)
 
@@ -19,11 +19,13 @@ export const interpolateColor = (color1: string, color2: string, p: number) => {
   const hex = `#${'0'.repeat(6 - hexString.length)}${hexString}`
   return hex
 }
+/*LOG2   */ export const interpolateColor = logCall('Entering ' + codeUrl('interpolateColor()', github_file_url, 1), _interpolateColor);
 
-function toArray(rgb: number) {
+/*WRAPPED*/ function _toArray(rgb: number) {
   const r = rgb >> 16
   const g = (rgb >> 8) % 256
   const b = rgb % 256
 
   return [r, g, b]
 }
+/*LOG2   */ const toArray = logCall('Entering ' + codeUrl('toArray()', github_file_url, 18), _toArray);

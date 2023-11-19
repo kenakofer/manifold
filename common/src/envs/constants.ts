@@ -12,12 +12,13 @@ export const CONFIGS: { [env: string]: EnvConfig } = {
   DEV: DEV_CONFIG,
 }
 
-export function isTrustworthy(username?: string) {
+/*WRAPPED*/ export function _isTrustworthy(username?: string) {
   if (!username) {
     return false
   }
   return MOD_USERNAMES.includes(username)
 }
+/*LOG2   */ export const isTrustworthy = logCall('Entering ' + codeUrl('isTrustworthy()', github_file_url, 23), _isTrustworthy);
 
 // TODO: These should maybe be part of the env config?
 export const BOT_USERNAMES = [

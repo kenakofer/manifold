@@ -22,15 +22,16 @@ export type CpmmState = {
   p: number
 }
 
-export function getCpmmProbability(
+/*WRAPPED*/ export function _getCpmmProbability(
   pool: { [outcome: string]: number },
   p: number
 ) {
   const { YES, NO } = pool
   return (p * NO) / ((1 - p) * YES + p * NO)
 }
+/*LOG2   */ export const getCpmmProbability = logCall('Entering ' + codeUrl('getCpmmProbability()', github_file_url, 20), _getCpmmProbability);
 
-export function getCpmmProbabilityAfterBetBeforeFees(
+/*WRAPPED*/ export function _getCpmmProbabilityAfterBetBeforeFees(
   state: CpmmState,
   outcome: string,
   bet: number
@@ -46,8 +47,9 @@ export function getCpmmProbabilityAfterBetBeforeFees(
 
   return getCpmmProbability({ YES: newY, NO: newN }, p)
 }
+/*LOG2   */ export const getCpmmProbabilityAfterBetBeforeFees = logCall('Entering ' + codeUrl('getCpmmProbabilityAfterBetBeforeFees()', github_file_url, 28), _getCpmmProbabilityAfterBetBeforeFees);
 
-export function getCpmmOutcomeProbabilityAfterBet(
+/*WRAPPED*/ export function _getCpmmOutcomeProbabilityAfterBet(
   state: CpmmState,
   outcome: string,
   bet: number
@@ -56,9 +58,10 @@ export function getCpmmOutcomeProbabilityAfterBet(
   const p = getCpmmProbability(newPool, state.p)
   return outcome === 'NO' ? 1 - p : p
 }
+/*LOG2   */ export const getCpmmOutcomeProbabilityAfterBet = logCall('Entering ' + codeUrl('getCpmmOutcomeProbabilityAfterBet()', github_file_url, 45), _getCpmmOutcomeProbabilityAfterBet);
 
 // before liquidity fee
-function calculateCpmmShares(
+/*WRAPPED*/ function _calculateCpmmShares(
   pool: {
     [outcome: string]: number
   },
@@ -76,8 +79,9 @@ function calculateCpmmShares(
       y + bet - (k * (bet + n) ** (p - 1)) ** (1 / p)
     : n + bet - (k * (bet + y) ** -p) ** (1 / (1 - p))
 }
+/*LOG2   */ const calculateCpmmShares = logCall('Entering ' + codeUrl('calculateCpmmShares()', github_file_url, 56), _calculateCpmmShares);
 
-export function getCpmmFees(state: CpmmState, bet: number, outcome: string) {
+/*WRAPPED*/ export function _getCpmmFees(state: CpmmState, bet: number, outcome: string) {
   const prob = getCpmmProbabilityAfterBetBeforeFees(state, outcome, bet)
   const betP = outcome === 'YES' ? 1 - prob : prob
 
@@ -91,8 +95,9 @@ export function getCpmmFees(state: CpmmState, bet: number, outcome: string) {
 
   return { remainingBet, totalFees, fees }
 }
+/*LOG2   */ export const getCpmmFees = logCall('Entering ' + codeUrl('getCpmmFees()', github_file_url, 75), _getCpmmFees);
 
-export function calculateCpmmSharesAfterFee(
+/*WRAPPED*/ export function _calculateCpmmSharesAfterFee(
   state: CpmmState,
   bet: number,
   outcome: string
@@ -102,8 +107,9 @@ export function calculateCpmmSharesAfterFee(
 
   return calculateCpmmShares(pool, p, remainingBet, outcome)
 }
+/*LOG2   */ export const calculateCpmmSharesAfterFee = logCall('Entering ' + codeUrl('calculateCpmmSharesAfterFee()', github_file_url, 90), _calculateCpmmSharesAfterFee);
 
-export function calculateCpmmPurchase(
+/*WRAPPED*/ export function _calculateCpmmPurchase(
   state: CpmmState,
   bet: number,
   outcome: string
@@ -127,8 +133,9 @@ export function calculateCpmmPurchase(
 
   return { shares, newPool, newP, fees }
 }
+/*LOG2   */ export const calculateCpmmPurchase = logCall('Entering ' + codeUrl('calculateCpmmPurchase()', github_file_url, 101), _calculateCpmmPurchase);
 
-export function calculateCpmmAmountToProb(
+/*WRAPPED*/ export function _calculateCpmmAmountToProb(
   state: CpmmState,
   prob: number,
   outcome: 'YES' | 'NO'
@@ -146,8 +153,9 @@ export function calculateCpmmAmountToProb(
     : (((1 - p) * (prob - 1)) / (-p * prob)) ** (p - 1) *
         (k - y * (((1 - p) * (prob - 1)) / (-p * prob)) ** (1 - p))
 }
+/*LOG2   */ export const calculateCpmmAmountToProb = logCall('Entering ' + codeUrl('calculateCpmmAmountToProb()', github_file_url, 126), _calculateCpmmAmountToProb);
 
-export function calculateCpmmAmountToBuySharesFixedP(
+/*WRAPPED*/ export function _calculateCpmmAmountToBuySharesFixedP(
   state: CpmmState,
   shares: number,
   outcome: 'YES' | 'NO'
@@ -169,9 +177,10 @@ export function calculateCpmmAmountToBuySharesFixedP(
     (shares - y - n + Math.sqrt(4 * y * shares + (y + n - shares) ** 2)) / 2
   )
 }
+/*LOG2   */ export const calculateCpmmAmountToBuySharesFixedP = logCall('Entering ' + codeUrl('calculateCpmmAmountToBuySharesFixedP()', github_file_url, 145), _calculateCpmmAmountToBuySharesFixedP);
 
 // Faster version assuming p = 0.5
-export function calculateAmountToBuySharesFixedP(
+/*WRAPPED*/ export function _calculateAmountToBuySharesFixedP(
   state: CpmmState,
   shares: number,
   outcome: 'YES' | 'NO',
@@ -230,8 +239,9 @@ export function calculateAmountToBuySharesFixedP(
   )
   return currAmount + fillAmount
 }
+/*LOG2   */ export const calculateAmountToBuySharesFixedP = logCall('Entering ' + codeUrl('calculateAmountToBuySharesFixedP()', github_file_url, 169), _calculateAmountToBuySharesFixedP);
 
-export function calculateCpmmMultiSumsToOneSale(
+/*WRAPPED*/ export function _calculateCpmmMultiSumsToOneSale(
   answers: Answer[],
   answerToSell: Answer,
   shares: number,
@@ -289,8 +299,9 @@ export function calculateCpmmMultiSumsToOneSale(
     otherBetResults,
   }
 }
+/*LOG2   */ export const calculateCpmmMultiSumsToOneSale = logCall('Entering ' + codeUrl('calculateCpmmMultiSumsToOneSale()', github_file_url, 229), _calculateCpmmMultiSumsToOneSale);
 
-export function calculateAmountToBuyShares(
+/*WRAPPED*/ export function _calculateAmountToBuyShares(
   state: CpmmState,
   shares: number,
   outcome: 'YES' | 'NO',
@@ -316,8 +327,9 @@ export function calculateAmountToBuyShares(
     return totalShares - shares
   })
 }
+/*LOG2   */ export const calculateAmountToBuyShares = logCall('Entering ' + codeUrl('calculateAmountToBuyShares()', github_file_url, 288), _calculateAmountToBuyShares);
 
-export function calculateCpmmSale(
+/*WRAPPED*/ export function _calculateCpmmSale(
   state: CpmmState,
   shares: number,
   outcome: 'YES' | 'NO',
@@ -369,8 +381,9 @@ export function calculateCpmmSale(
     ordersToCancel,
   }
 }
+/*LOG2   */ export const calculateCpmmSale = logCall('Entering ' + codeUrl('calculateCpmmSale()', github_file_url, 315), _calculateCpmmSale);
 
-export function getCpmmProbabilityAfterSale(
+/*WRAPPED*/ export function _getCpmmProbabilityAfterSale(
   state: CpmmState,
   shares: number,
   outcome: 'YES' | 'NO',
@@ -386,20 +399,23 @@ export function getCpmmProbabilityAfterSale(
   )
   return getCpmmProbability(cpmmState.pool, cpmmState.p)
 }
+/*LOG2   */ export const getCpmmProbabilityAfterSale = logCall('Entering ' + codeUrl('getCpmmProbabilityAfterSale()', github_file_url, 368), _getCpmmProbabilityAfterSale);
 
-export function getCpmmLiquidity(
+/*WRAPPED*/ export function _getCpmmLiquidity(
   pool: { [outcome: string]: number },
   p: number
 ) {
   const { YES, NO } = pool
   return YES ** p * NO ** (1 - p)
 }
+/*LOG2   */ export const getCpmmLiquidity = logCall('Entering ' + codeUrl('getCpmmLiquidity()', github_file_url, 385), _getCpmmLiquidity);
 
-export function getMultiCpmmLiquidity(pool: { YES: number; NO: number }) {
+/*WRAPPED*/ export function _getMultiCpmmLiquidity(pool: { YES: number; NO: number }) {
   return getCpmmLiquidity(pool, 0.5)
 }
+/*LOG2   */ export const getMultiCpmmLiquidity = logCall('Entering ' + codeUrl('getMultiCpmmLiquidity()', github_file_url, 393), _getMultiCpmmLiquidity);
 
-export function addCpmmLiquidity(
+/*WRAPPED*/ export function _addCpmmLiquidity(
   pool: { [outcome: string]: number },
   p: number,
   amount: number
@@ -420,8 +436,9 @@ export function addCpmmLiquidity(
 
   return { newPool, liquidity, newP }
 }
+/*LOG2   */ export const addCpmmLiquidity = logCall('Entering ' + codeUrl('addCpmmLiquidity()', github_file_url, 397), _addCpmmLiquidity);
 
-export function addCpmmLiquidityFixedP(
+/*WRAPPED*/ export function _addCpmmLiquidityFixedP(
   pool: { YES: number; NO: number },
   amount: number
 ) {
@@ -446,8 +463,9 @@ export function addCpmmLiquidityFixedP(
 
   return { newPool, liquidity, sharesThrownAway }
 }
+/*LOG2   */ export const addCpmmLiquidityFixedP = logCall('Entering ' + codeUrl('addCpmmLiquidityFixedP()', github_file_url, 419), _addCpmmLiquidityFixedP);
 
-export function addCpmmMultiLiquidityToAnswersIndependently(
+/*WRAPPED*/ export function _addCpmmMultiLiquidityToAnswersIndependently(
   pools: { [answerId: string]: { YES: number; NO: number } },
   amount: number
 ) {
@@ -457,8 +475,9 @@ export function addCpmmMultiLiquidityToAnswersIndependently(
     (pool) => addCpmmLiquidityFixedP(pool, amountPerAnswer).newPool
   )
 }
+/*LOG2   */ export const addCpmmMultiLiquidityToAnswersIndependently = logCall('Entering ' + codeUrl('addCpmmMultiLiquidityToAnswersIndependently()', github_file_url, 445), _addCpmmMultiLiquidityToAnswersIndependently);
 
-export function addCpmmMultiLiquidityAnswersSumToOne(
+/*WRAPPED*/ export function _addCpmmMultiLiquidityAnswersSumToOne(
   pools: { [answerId: string]: { YES: number; NO: number } },
   amount: number
 ) {
@@ -500,8 +519,9 @@ export function addCpmmMultiLiquidityAnswersSumToOne(
   }
   return newPools
 }
+/*LOG2   */ export const addCpmmMultiLiquidityAnswersSumToOne = logCall('Entering ' + codeUrl('addCpmmMultiLiquidityAnswersSumToOne()', github_file_url, 456), _addCpmmMultiLiquidityAnswersSumToOne);
 
-export function getCpmmLiquidityPoolWeights(liquidities: LiquidityProvision[]) {
+/*WRAPPED*/ export function _getCpmmLiquidityPoolWeights(liquidities: LiquidityProvision[]) {
   const userAmounts = groupBy(liquidities, (w) => w.userId)
   const totalAmount = sumBy(liquidities, (w) => w.amount)
 
@@ -510,8 +530,9 @@ export function getCpmmLiquidityPoolWeights(liquidities: LiquidityProvision[]) {
     (amounts) => sumBy(amounts, (w) => w.amount) / totalAmount
   )
 }
+/*LOG2   */ export const getCpmmLiquidityPoolWeights = logCall('Entering ' + codeUrl('getCpmmLiquidityPoolWeights()', github_file_url, 499), _getCpmmLiquidityPoolWeights);
 
-export function getUserLiquidityShares(
+/*WRAPPED*/ export function _getUserLiquidityShares(
   userId: string,
   pool: { [outcome: string]: number },
   liquidities: LiquidityProvision[]
@@ -521,3 +542,4 @@ export function getUserLiquidityShares(
 
   return mapValues(pool, (shares) => userWeight * shares)
 }
+/*LOG2   */ export const getUserLiquidityShares = logCall('Entering ' + codeUrl('getUserLiquidityShares()', github_file_url, 509), _getUserLiquidityShares);

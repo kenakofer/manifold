@@ -22,7 +22,7 @@ type SparseMatrix = [number, number][][]
  * @param REGULARIZATION_RATE Regularization amount, i.e. amount of bias reduction
  * @returns An array containing the two factor matrices
  */
-export function factorizeMatrix(
+/*WRAPPED*/ export function _factorizeMatrix(
   TARGET_MATRIX: SparseMatrix,
   FEATURES = 5,
   ITERS = 5000,
@@ -89,11 +89,12 @@ export function factorizeMatrix(
 
   return [mFeatures, nFeatures, dotProduct] as const
 }
+/*LOG2   */ export const factorizeMatrix = logCall('Entering ' + codeUrl('factorizeMatrix()', github_file_url, 20), _factorizeMatrix);
 
 /**
  * Creates an m x n matrix filled with the result of given fill function.
  */
-function fillMatrix(m: number, n: number, fill: () => number) {
+/*WRAPPED*/ function _fillMatrix(m: number, n: number, fill: () => number) {
   const matrix = new Float64Array(m * n)
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
@@ -102,3 +103,4 @@ function fillMatrix(m: number, n: number, fill: () => number) {
   }
   return matrix
 }
+/*LOG2   */ const fillMatrix = logCall('Entering ' + codeUrl('fillMatrix()', github_file_url, 91), _fillMatrix);

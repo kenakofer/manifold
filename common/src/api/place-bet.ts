@@ -49,14 +49,15 @@ const numericSchema = z.object({
   value: z.number(),
 })
 
-export function placebet (body, uid, isApi, playgroundState) {
+/*WRAPPED*/ export function _placebet (body, uid, isApi, playgroundState) {
   window.logger.log(`Request.body from ${uid}`, body)
   const bet = placeBetMain(body, uid, isApi, playgroundState)
   window.logger.log('Returning bet', bet)
   return bet
 }
+/*LOG2   */ export const placebet = logCall('Entering ' + codeUrl('placebet()', github_file_url, 58), _placebet);
 
-export const placeBetMain = (
+/*WRAPPED*/ export const _placeBetMain = (
   body: unknown,
   uid: string,
   isApi: boolean,
@@ -419,6 +420,7 @@ export const placeBetMain = (
 
   return { ...newBet }
 }
+/*LOG2   */ export const placeBetMain = logCall('Entering ' + codeUrl('placeBetMain()', github_file_url, 64), _placeBetMain);
 
 // const getUnfilledBetsQuery = (
 //   contractDoc: DocumentReference,
@@ -434,7 +436,7 @@ export const placeBetMain = (
 //   return q
 // }
 
-export const getUnfilledBetsAndUserBalances = (
+/*WRAPPED*/ export const _getUnfilledBetsAndUserBalances = (
   contract: Contract,
   playgroundState: PlaygroundState,
   answerId?: string
@@ -465,6 +467,7 @@ export const getUnfilledBetsAndUserBalances = (
 
   return { unfilledBets, balanceByUserId }
 }
+/*LOG2   */ export const getUnfilledBetsAndUserBalances = logCall('Entering ' + codeUrl('getUnfilledBetsAndUserBalances()', github_file_url, 412), _getUnfilledBetsAndUserBalances);
 
 type maker = {
   bet: LimitBet
@@ -472,7 +475,7 @@ type maker = {
   shares: number
   timestamp: number
 }
-export const updateMakers = (
+/*WRAPPED*/ export const _updateMakers = (
   makers: maker[],
   contract: Contract,
   takerBetId: string,
@@ -515,3 +518,4 @@ export const updateMakers = (
     window.logger.log(`Updated user ${userId} balance from ${playgroundState.getUser(userId).balance + spent} to ${playgroundState.getUser(userId).balance} (${-spent})`)
   }
 }
+/*LOG2   */ export const updateMakers = logCall('Entering ' + codeUrl('updateMakers()', github_file_url, 444), _updateMakers);

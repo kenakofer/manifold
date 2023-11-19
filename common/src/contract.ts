@@ -316,7 +316,7 @@ export const CREATEABLE_OUTCOME_TYPES = [
   'POLL',
 ] as const
 
-export const renderResolution = (resolution: string, prob?: number) => {
+/*WRAPPED*/ export const _renderResolution = (resolution: string, prob?: number) => {
   return (
     {
       YES: 'YES',
@@ -326,15 +326,17 @@ export const renderResolution = (resolution: string, prob?: number) => {
     }[resolution] || resolution
   )
 }
+/*LOG2   */ export const renderResolution = logCall('Entering ' + codeUrl('renderResolution()', github_file_url, 321), _renderResolution);
 
-export function contractPathWithoutContract(
+/*WRAPPED*/ export function _contractPathWithoutContract(
   creatorUsername: string,
   slug: string
 ) {
   return `/${creatorUsername}/${slug}`
 }
+/*LOG2   */ export const contractPathWithoutContract = logCall('Entering ' + codeUrl('contractPathWithoutContract()', github_file_url, 332), _contractPathWithoutContract);
 
-export function contractPool(contract: Contract) {
+/*WRAPPED*/ export function _contractPool(contract: Contract) {
   return contract.mechanism === 'cpmm-1'
     ? formatMoney(contract.totalLiquidity)
     : contract.mechanism === 'cpmm-2'
@@ -351,12 +353,14 @@ export function contractPool(contract: Contract) {
       )
     : 'Empty pool'
 }
+/*LOG2   */ export const contractPool = logCall('Entering ' + codeUrl('contractPool()', github_file_url, 343), _contractPool);
 
-export function getBinaryProbPercent(contract: BinaryContract) {
+/*WRAPPED*/ export function _getBinaryProbPercent(contract: BinaryContract) {
   return formatPercent(getDisplayProbability(contract))
 }
+/*LOG2   */ export const getBinaryProbPercent = logCall('Entering ' + codeUrl('getBinaryProbPercent()', github_file_url, 361), _getBinaryProbPercent);
 
-export function tradingAllowed(contract: Contract, answer?: Answer) {
+/*WRAPPED*/ export function _tradingAllowed(contract: Contract, answer?: Answer) {
   return (
     !contract.isResolved &&
     (!contract.closeTime || contract.closeTime > Date.now()) &&
@@ -364,6 +368,7 @@ export function tradingAllowed(contract: Contract, answer?: Answer) {
     (!answer || !answer.resolution)
   )
 }
+/*LOG2   */ export const tradingAllowed = logCall('Entering ' + codeUrl('tradingAllowed()', github_file_url, 365), _tradingAllowed);
 
 export const MAX_QUESTION_LENGTH = 120
 export const MAX_DESCRIPTION_LENGTH = 16000
@@ -375,9 +380,10 @@ export const VISIBILITIES = ['public', 'unlisted'] as const
 
 export const MINUTES_ALLOWED_TO_UNRESOLVE = 10
 
-export function contractPath(contract: Contract) {
+/*WRAPPED*/ export function _contractPath(contract: Contract) {
   return `/${contract.creatorUsername}/${contract.slug}`
 }
+/*LOG2   */ export const contractPath = logCall('Entering ' + codeUrl('contractPath()', github_file_url, 384), _contractPath);
 
 export type ContractParams = {
   contract: Contract

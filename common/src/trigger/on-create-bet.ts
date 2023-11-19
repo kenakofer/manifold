@@ -49,7 +49,7 @@ import { removeUndefinedProps } from '../util/object'
 import { Answer } from '../answer'
 import { MINUTE_MS } from '../util/time'
 
-export function onCreateBet(bet: Bet, contract: Contract, bettor: User) {
+/*WRAPPED*/ export function _onCreateBet(bet: Bet, contract: Contract, bettor: User) {
   window.logger.log('Triggering onCreateBet')
   if (bet.isChallenge) {
     window.logger.log('Exiting onCreateBet because bet is a challenge')
@@ -86,6 +86,7 @@ export function onCreateBet(bet: Bet, contract: Contract, bettor: User) {
 
   updateUniqueBettors(contract, bet)
 }
+/*LOG2   */ export const onCreateBet = logCall('Entering ' + codeUrl('onCreateBet()', github_file_url, 69), _onCreateBet);
 
 const MED_BALANCE_PERCENTAGE_FOR_FEED = 0.005
 const MED_BET_SIZE_FOR_FEED = 100
@@ -93,12 +94,13 @@ const MED_BET_SIZE_FOR_FEED = 100
 const MIN_BALANCE_PERCENTAGE_FOR_FEED = 0.05
 const MIN_BET_SIZE_GIVEN_PERCENTAGE = 20
 
-export const updateUniqueBettors = async (contract: Contract, bet: Bet) => {
+/*WRAPPED*/ export const _updateUniqueBettors = async (contract: Contract, bet: Bet) => {
   // TODO sub out supabase
   // contract.uniqueBettorCount = supabaseUniqueBettorIds.length
 }
+/*LOG2   */ export const updateUniqueBettors = logCall('Entering ' + codeUrl('updateUniqueBettors()', github_file_url, 314), _updateUniqueBettors);
 
-export const giveUniqueBettorAndLiquidityBonus = async (
+/*WRAPPED*/ export const _giveUniqueBettorAndLiquidityBonus = async (
   contract: Contract,
   bettor: User,
   bet: Bet
@@ -196,6 +198,7 @@ export const giveUniqueBettorAndLiquidityBonus = async (
   }
 
 }
+/*LOG2   */ export const giveUniqueBettorAndLiquidityBonus = logCall('Entering ' + codeUrl('giveUniqueBettorAndLiquidityBonus()', github_file_url, 327), _giveUniqueBettorAndLiquidityBonus);
 
 // const updateContractMetrics = async (contract: Contract, users: User[]) => {
 //   const metrics = await Promise.all(

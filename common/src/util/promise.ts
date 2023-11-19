@@ -8,11 +8,12 @@ export type RetryPolicy = {
   retries: number
 }
 
-export const delay = (ms: number) => {
+/*WRAPPED*/ export const _delay = (ms: number) => {
   return new Promise<void>((resolve) => setTimeout(() => resolve(), ms))
 }
+/*LOG2   */ export const delay = logCall('Entering ' + codeUrl('delay()', github_file_url, 6), _delay);
 
-export async function withRetries<T>(q: PromiseLike<T>, policy?: RetryPolicy) {
+/*WRAPPED*/ export async function _withRetries<T>(q: PromiseLike<T>, policy?: RetryPolicy) {
   let err: Error | undefined
   let delaySec = policy?.initialBackoffSec ?? 5
   const maxRetries = policy?.retries ?? 5
@@ -30,8 +31,9 @@ export async function withRetries<T>(q: PromiseLike<T>, policy?: RetryPolicy) {
   }
   throw err
 }
+/*LOG2   */ export const withRetries = logCall('Entering ' + codeUrl('withRetries()', github_file_url, 10), _withRetries);
 
-export const mapAsyncChunked = async <T, U>(
+/*WRAPPED*/ export const _mapAsyncChunked = async <T, U>(
   items: T[],
   f: (item: T, index: number) => Promise<U>,
   chunkSize = 100
@@ -48,8 +50,9 @@ export const mapAsyncChunked = async <T, U>(
 
   return results
 }
+/*LOG2   */ export const mapAsyncChunked = logCall('Entering ' + codeUrl('mapAsyncChunked()', github_file_url, 29), _mapAsyncChunked);
 
-export const mapAsync = <T, U>(
+/*WRAPPED*/ export const _mapAsync = <T, U>(
   items: T[],
   f: (item: T, index: number) => Promise<U>,
   maxConcurrentRequests = 100
@@ -85,3 +88,4 @@ export const mapAsync = <T, U>(
     else doWork()
   }).finally(() => clearInterval(intervalId))
 }
+/*LOG2   */ export const mapAsync = logCall('Entering ' + codeUrl('mapAsync()', github_file_url, 47), _mapAsync);

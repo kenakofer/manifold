@@ -25,7 +25,7 @@ export type CandidateBet<T extends Bet> = Omit<
   'id' | 'userId' | 'userAvatarUrl' | 'userName' | 'userUsername'
 >
 
-export const getSellBetInfo = (bet: Bet, contract: DPMContract) => {
+/*WRAPPED*/ export const _getSellBetInfo = (bet: Bet, contract: DPMContract) => {
   const { pool, totalShares, totalBets } = contract
   const { id: betId, amount, shares, outcome, loanAmount } = bet
 
@@ -93,8 +93,9 @@ export const getSellBetInfo = (bet: Bet, contract: DPMContract) => {
     fees,
   }
 }
+/*LOG2   */ export const getSellBetInfo = logCall('Entering ' + codeUrl('getSellBetInfo()', github_file_url, 23), _getSellBetInfo);
 
-export const getCpmmSellBetInfo = (
+/*WRAPPED*/ export const _getCpmmSellBetInfo = (
   shares: number,
   outcome: 'YES' | 'NO',
   contract: CPMMContract | CPMMMultiContract,
@@ -170,8 +171,9 @@ export const getCpmmSellBetInfo = (
     ordersToCancel,
   }
 }
+/*LOG2   */ export const getCpmmSellBetInfo = logCall('Entering ' + codeUrl('getCpmmSellBetInfo()', github_file_url, 92), _getCpmmSellBetInfo);
 
-export const getCpmmMultiSellBetInfo = (
+/*WRAPPED*/ export const _getCpmmMultiSellBetInfo = (
   contract: CPMMMultiContract,
   answers: Answer[],
   answerToSell: Answer,
@@ -262,3 +264,4 @@ export const getCpmmMultiSellBetInfo = (
     otherResultsWithBet,
   }
 }
+/*LOG2   */ export const getCpmmMultiSellBetInfo = logCall('Entering ' + codeUrl('getCpmmMultiSellBetInfo()', github_file_url, 169), _getCpmmMultiSellBetInfo);

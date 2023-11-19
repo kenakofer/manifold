@@ -9,7 +9,7 @@ import { getBinaryRedeemableAmount, getRedemptionBets } from '../redeem'
 import { floatingEqual } from '../util/math'
 import { CPMMContract, CPMMMultiContract } from '../contract'
 
-export const redeemShares = async (
+/*WRAPPED*/ export const _redeemShares = async (
   userId: string,
   contract: CPMMContract | CPMMMultiContract,
   playgroundState: PlaygroundState
@@ -56,3 +56,4 @@ export const redeemShares = async (
 
   return { status: 'success' }
 }
+/*LOG2   */ export const redeemShares = logCall('Entering ' + codeUrl('redeemShares()', github_file_url, 11), _redeemShares);

@@ -34,14 +34,15 @@ import { STONK_INITIAL_PROB } from '../stonk'
 import { PlaygroundState } from '../playground/playground-state';
 import { slugify } from '../util/slugify';
 
-export function createmarket (body, userId, playgroundState: PlaygroundState) {
+/*WRAPPED*/ export function _createmarket (body, userId, playgroundState: PlaygroundState) {
   window.logger.log(`Request.body from ${userId}`, body)
   const contract = createMarketHelper(body, userId, playgroundState)
   window.logger.log('Returning contract', contract)
   return contract
 }
+/*LOG2   */ export const createmarket = logCall('Entering ' + codeUrl('createmarket()', github_file_url, 51), _createmarket);
 
-export function createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
+/*WRAPPED*/ export function _createMarketHelper(body: any, userId: string, playgroundState: PlaygroundState) {
   const {
     question,
     description,
@@ -131,8 +132,9 @@ export function createMarketHelper(body: any, userId: string, playgroundState: P
 
   return contract
 }
+/*LOG2   */ export const createMarketHelper = logCall('Entering ' + codeUrl('createMarketHelper()', github_file_url, 55), _createMarketHelper);
 
-const runCreateMarketTxn = async (
+/*WRAPPED*/ const _runCreateMarketTxn = async (
   contract: Contract,
   ante: number,
   user: User,
@@ -217,8 +219,9 @@ const runCreateMarketTxn = async (
 
   return contract
 }
+/*LOG2   */ const runCreateMarketTxn = logCall('Entering ' + codeUrl('runCreateMarketTxn()', github_file_url, 213), _runCreateMarketTxn);
 
-function getCloseTimestamp(
+/*WRAPPED*/ function _getCloseTimestamp(
   closeTime: number | Date | undefined,
   question: string,
   outcomeType: OutcomeType,
@@ -232,8 +235,9 @@ function getCloseTimestamp(
     ? undefined
     : Date.now() + 7 * 24 * 60 * 60 * 1000
 }
+/*LOG2   */ const getCloseTimestamp = logCall('Entering ' + codeUrl('getCloseTimestamp()', github_file_url, 305), _getCloseTimestamp);
 
-function validateMarketBody(body: any) {
+/*WRAPPED*/ function _validateMarketBody(body: any) {
   const {
     question,
     description,
@@ -327,8 +331,9 @@ function validateMarketBody(body: any) {
     loverUserId2,
   }
 }
+/*LOG2   */ const validateMarketBody = logCall('Entering ' + codeUrl('validateMarketBody()', github_file_url, 342), _validateMarketBody);
 
-async function generateAntes(
+/*WRAPPED*/ async function _generateAntes(
   user: User,
   contract: Contract,
   outcomeType: string,
@@ -349,6 +354,7 @@ async function generateAntes(
     )
   }
 }
+/*LOG2   */ const generateAntes = logCall('Entering ' + codeUrl('generateAntes()', github_file_url, 499), _generateAntes);
 
 const bodySchema = z.object({
   question: z.string().min(1).max(MAX_QUESTION_LENGTH),

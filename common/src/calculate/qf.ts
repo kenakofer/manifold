@@ -9,13 +9,15 @@ import { groupBy, mapValues, sumBy } from 'lodash'
 // Note: none of this allows for undone payments
 
 // Return a map of answer ids to totals
-export function calculateTotals(txns: QfTxn[]) {
+/*WRAPPED*/ export function _calculateTotals(txns: QfTxn[]) {
   const payTxns = txns.filter((txn) => txn.category === 'QF_PAYMENT')
   const grouped = groupBy(payTxns, 'data.answerId')
   return mapValues(grouped, (txns) => sumBy(txns, 'amount'))
 }
+/*LOG2   */ export const calculateTotals = logCall('Entering ' + codeUrl('calculateTotals()', github_file_url, 7), _calculateTotals);
 
-export function totalPaid(txns: QfTxn[]) {
+/*WRAPPED*/ export function _totalPaid(txns: QfTxn[]) {
   const payTxns = txns.filter((txn) => txn.category === 'QF_PAYMENT')
   return sumBy(payTxns, 'amount')
 }
+/*LOG2   */ export const totalPaid = logCall('Entering ' + codeUrl('totalPaid()', github_file_url, 13), _totalPaid);

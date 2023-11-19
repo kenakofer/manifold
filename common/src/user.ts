@@ -98,7 +98,7 @@ const MAX_FREE_QUESTIONS = 3
 export const DAYS_TO_USE_FREE_QUESTIONS = 3
 export const MAX_FREE_QUESTION_VALUE = 250
 
-export const getAvailableBalancePerQuestion = (user: User): number => {
+/*WRAPPED*/ export const _getAvailableBalancePerQuestion = (user: User): number => {
   return (
     user.balance +
     (freeQuestionRemaining(user.freeQuestionsCreated, user.createdTime) > 0
@@ -106,8 +106,9 @@ export const getAvailableBalancePerQuestion = (user: User): number => {
       : 0)
   )
 }
+/*LOG2   */ export const getAvailableBalancePerQuestion = logCall('Entering ' + codeUrl('getAvailableBalancePerQuestion()', github_file_url, 108), _getAvailableBalancePerQuestion);
 
-export const marketCreationCosts = (user: User, ante: number) => {
+/*WRAPPED*/ export const _marketCreationCosts = (user: User, ante: number) => {
   let amountSuppliedByUser = ante
   let amountSuppliedByHouse = 0
   if (freeQuestionRemaining(user.freeQuestionsCreated, user.createdTime) > 0) {
@@ -118,8 +119,9 @@ export const marketCreationCosts = (user: User, ante: number) => {
   window.logger.log(`Cost to [user, house]`, [amountSuppliedByUser, amountSuppliedByHouse])
   return { amountSuppliedByUser, amountSuppliedByHouse }
 }
+/*LOG2   */ export const marketCreationCosts = logCall('Entering ' + codeUrl('marketCreationCosts()', github_file_url, 117), _marketCreationCosts);
 
-export const freeQuestionRemaining = (
+/*WRAPPED*/ export const _freeQuestionRemaining = (
   freeQuestionsCreated: number | undefined = 0,
   createdTime: number | undefined
 ) => {
@@ -144,11 +146,13 @@ export const freeQuestionRemaining = (
   window.logger.log(`User has ${MAX_FREE_QUESTIONS - freeQuestionsCreated} free questions available to use.`)
   return MAX_FREE_QUESTIONS - freeQuestionsCreated
 }
+/*LOG2   */ export const freeQuestionRemaining = logCall('Entering ' + codeUrl('freeQuestionRemaining()', github_file_url, 127), _freeQuestionRemaining);
 
-export function getCurrentUtcTime(): Date {
+/*WRAPPED*/ export function _getCurrentUtcTime(): Date {
   const currentDate = new Date()
   const utcDate = currentDate.toISOString()
   return new Date(utcDate)
 }
+/*LOG2   */ export const getCurrentUtcTime = logCall('Entering ' + codeUrl('getCurrentUtcTime()', github_file_url, 145), _getCurrentUtcTime);
 
 export const MINUTES_ALLOWED_TO_REFER = 60

@@ -3,12 +3,12 @@ import { NestedLogger, logCall, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/random.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/random.ts'
-export const randomString = (length = 12) =>
+/*WRAPPED*/ export const _randomString = (length = 12) =>
   Math.random()
     .toString(16)
     .substring(2, length + 2)
 
-export function genHash(str: string) {
+/*WRAPPED*/ export function _genHash(str: string) {
   // xmur3
 
   // Route around compiler bug by using object?
@@ -27,8 +27,10 @@ export function genHash(str: string) {
     return (h ^= h >>> 16) >>> 0
   }
 }
+/*LOG2   */ export const genHash = logCall('Entering ' + codeUrl('genHash()', github_file_url, 6), _genHash);
+/*LOG2   */ export const randomString = logCall('Entering ' + codeUrl('randomString()', github_file_url, 1), _randomString);
 
-export function createRNG(seed: string) {
+/*WRAPPED*/ export function _createRNG(seed: string) {
   // https://stackoverflow.com/a/47593316/1592933
 
   const gen = genHash(seed)
@@ -50,10 +52,12 @@ export function createRNG(seed: string) {
     return (t >>> 0) / 4294967296
   }
 }
+/*LOG2   */ export const createRNG = logCall('Entering ' + codeUrl('createRNG()', github_file_url, 26), _createRNG);
 
-export const shuffle = (array: unknown[], rand: () => number) => {
+/*WRAPPED*/ export const _shuffle = (array: unknown[], rand: () => number) => {
   for (let i = 0; i < array.length; i++) {
     const swapIndex = i + Math.floor(rand() * (array.length - i))
     ;[array[i], array[swapIndex]] = [array[swapIndex], array[i]]
   }
 }
+/*LOG2   */ export const shuffle = logCall('Entering ' + codeUrl('shuffle()', github_file_url, 49), _shuffle);

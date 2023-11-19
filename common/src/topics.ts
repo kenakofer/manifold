@@ -72,11 +72,11 @@ export const TOPICS_TO_SUBTOPICS: { [key: string]: TopicInfo[] } = {
   ],
 }
 
-export const removeEmojis = (input: string) =>
+/*WRAPPED*/ export const _removeEmojis = (input: string) =>
   // eslint-disable-next-line no-control-regex
   input.replace(/[^\x00-\x7F]/g, '').trim()
 
-export const getSubtopics = (topic: string) =>
+/*WRAPPED*/ export const _getSubtopics = (topic: string) =>
   TOPICS_TO_SUBTOPICS[topic].map(
     (subtopic) =>
       [subtopic.name, removeEmojis(subtopic.name), subtopic.groupId] as const
@@ -84,3 +84,6 @@ export const getSubtopics = (topic: string) =>
 export const ALL_TOPICS = Object.keys(TOPICS_TO_SUBTOPICS)
   .map((topic) => getSubtopics(topic).map(([_, subtopic]) => subtopic))
   .flat()
+
+/*LOG2   */ export const getSubtopics = logCall('Entering ' + codeUrl('getSubtopics()', github_file_url, 74), _getSubtopics);
+/*LOG2   */ export const removeEmojis = logCall('Entering ' + codeUrl('removeEmojis()', github_file_url, 70), _removeEmojis);

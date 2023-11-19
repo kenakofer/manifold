@@ -19,7 +19,7 @@ import { removeUndefinedProps } from './util/object'
 import { logit } from './util/math'
 import { ContractMetric } from './contract-metric'
 
-const computeInvestmentValue = (
+/*WRAPPED*/ const _computeInvestmentValue = (
   bets: Bet[],
   contractsDict: { [k: string]: Contract }
 ) => {
@@ -46,8 +46,9 @@ const computeInvestmentValue = (
     return value
   })
 }
+/*LOG2   */ const computeInvestmentValue = logCall('Entering ' + codeUrl('computeInvestmentValue()', github_file_url, 17), _computeInvestmentValue);
 
-export const computeInvestmentValueCustomProb = (
+/*WRAPPED*/ export const _computeInvestmentValueCustomProb = (
   bets: Bet[],
   contract: Contract,
   p: number
@@ -64,8 +65,9 @@ export const computeInvestmentValueCustomProb = (
     return value
   })
 }
+/*LOG2   */ export const computeInvestmentValueCustomProb = logCall('Entering ' + codeUrl('computeInvestmentValueCustomProb()', github_file_url, 45), _computeInvestmentValueCustomProb);
 
-const getLoanTotal = (
+/*WRAPPED*/ const _getLoanTotal = (
   bets: Bet[],
   contractsDict: { [k: string]: Contract }
 ) => {
@@ -76,10 +78,11 @@ const getLoanTotal = (
     return bet.loanAmount ?? 0
   })
 }
+/*LOG2   */ const getLoanTotal = logCall('Entering ' + codeUrl('getLoanTotal()', github_file_url, 63), _getLoanTotal);
 
 export const ELASTICITY_BET_AMOUNT = 100
 
-export const computeElasticity = (
+/*WRAPPED*/ export const _computeElasticity = (
   unfilledBets: LimitBet[],
   contract: Contract,
   betAmount = ELASTICITY_BET_AMOUNT
@@ -93,8 +96,9 @@ export const computeElasticity = (
       return 1
   }
 }
+/*LOG2   */ export const computeElasticity = logCall('Entering ' + codeUrl('computeElasticity()', github_file_url, 77), _computeElasticity);
 
-export const computeBinaryCpmmElasticity = (
+/*WRAPPED*/ export const _computeBinaryCpmmElasticity = (
   unfilledBets: LimitBet[],
   contract: CPMMContract,
   betAmount: number
@@ -144,8 +148,9 @@ export const computeBinaryCpmmElasticity = (
 
   return logit(safeYes) - logit(safeNo)
 }
+/*LOG2   */ export const computeBinaryCpmmElasticity = logCall('Entering ' + codeUrl('computeBinaryCpmmElasticity()', github_file_url, 92), _computeBinaryCpmmElasticity);
 
-export const computeBinaryCpmmElasticityFromAnte = (
+/*WRAPPED*/ export const _computeBinaryCpmmElasticityFromAnte = (
   ante: number,
   betAmount = ELASTICITY_BET_AMOUNT
 ) => {
@@ -173,8 +178,9 @@ export const computeBinaryCpmmElasticityFromAnte = (
 
   return logit(safeYes) - logit(safeNo)
 }
+/*LOG2   */ export const computeBinaryCpmmElasticityFromAnte = logCall('Entering ' + codeUrl('computeBinaryCpmmElasticityFromAnte()', github_file_url, 143), _computeBinaryCpmmElasticityFromAnte);
 
-export const computeDpmElasticity = (
+/*WRAPPED*/ export const _computeDpmElasticity = (
   contract: DPMContract,
   betAmount: number
 ) => {
@@ -185,8 +191,9 @@ export const computeDpmElasticity = (
 
   return logit(afterProb) - logit(initialProb)
 }
+/*LOG2   */ export const computeDpmElasticity = logCall('Entering ' + codeUrl('computeDpmElasticity()', github_file_url, 172), _computeDpmElasticity);
 
-export const calculateNewPortfolioMetrics = (
+/*WRAPPED*/ export const _calculateNewPortfolioMetrics = (
   user: User,
   contractsById: { [k: string]: Contract },
   unresolvedBets: Bet[]
@@ -202,8 +209,9 @@ export const calculateNewPortfolioMetrics = (
     userId: user.id,
   }
 }
+/*LOG2   */ export const calculateNewPortfolioMetrics = logCall('Entering ' + codeUrl('calculateNewPortfolioMetrics()', github_file_url, 184), _calculateNewPortfolioMetrics);
 
-export const calculateMetricsByContractAndAnswer = (
+/*WRAPPED*/ export const _calculateMetricsByContractAndAnswer = (
   betsByContractId: Dictionary<Bet[]>,
   contractsById: Dictionary<Contract>,
   user?: User
@@ -213,8 +221,9 @@ export const calculateMetricsByContractAndAnswer = (
     return calculateUserMetrics(contract, bets, user)
   })
 }
+/*LOG2   */ export const calculateMetricsByContractAndAnswer = logCall('Entering ' + codeUrl('calculateMetricsByContractAndAnswer()', github_file_url, 201), _calculateMetricsByContractAndAnswer);
 
-export const calculateUserMetrics = (
+/*WRAPPED*/ export const _calculateUserMetrics = (
   contract: Contract,
   bets: Bet[],
   user?: User
@@ -245,8 +254,9 @@ export const calculateUserMetrics = (
     } as ContractMetric)
   })
 }
+/*LOG2   */ export const calculateUserMetrics = logCall('Entering ' + codeUrl('calculateUserMetrics()', github_file_url, 212), _calculateUserMetrics);
 
-const calculatePeriodProfit = (
+/*WRAPPED*/ const _calculatePeriodProfit = (
   contract: CPMMContract,
   bets: Bet[],
   period: 'day' | 'week' | 'month'
@@ -287,3 +297,4 @@ const calculatePeriodProfit = (
     value: currentBetsValue,
   }
 }
+/*LOG2   */ const calculatePeriodProfit = logCall('Entering ' + codeUrl('calculatePeriodProfit()', github_file_url, 244), _calculatePeriodProfit);

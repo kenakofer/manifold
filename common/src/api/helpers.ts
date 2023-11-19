@@ -9,7 +9,7 @@ import { SafeParseError, z } from 'zod'
 
 export type Json = Record<string, unknown>
 
-export const validate = <T extends z.ZodTypeAny>(schema: T, val: unknown) => {
+/*WRAPPED*/ export const _validate = <T extends z.ZodTypeAny>(schema: T, val: unknown) => {
   const result = schema.safeParse(val)
   if (!result.success) {
     const issues = (result as SafeParseError<T>).error.issues.map((i) => {
@@ -25,3 +25,4 @@ export const validate = <T extends z.ZodTypeAny>(schema: T, val: unknown) => {
     return result.data as z.infer<T>
   }
 }
+/*LOG2   */ export const validate = logCall('Entering ' + codeUrl('validate()', github_file_url, 85), _validate);

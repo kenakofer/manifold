@@ -1,3 +1,5 @@
+const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/new-contract.ts'
+const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/new-contract.ts'
 import { NestedLogger, logCall, codeUrl } from './playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 const file = 'common/src/new-contract.ts'
@@ -27,7 +29,7 @@ import { getMultiCpmmLiquidity } from './calculate-cpmm'
 export const NEW_MARKET_IMPORTANCE_SCORE = 0.25
 
 
-export function getNewContract(
+/*WRAPPED*/ export function _getNewContract(
   id: string,
   slug: string,
   creator: User,
@@ -118,11 +120,11 @@ export function getNewContract(
 
   return contract as Contract
 }
+/*LOG2   */ export const getNewContract = logCall('Entering ' + codeUrl('getNewContract()', github_file_url, 26), _getNewContract);
 
-/*
-import { PHANTOM_ANTE } from './antes'
-import { calcDpmInitialPool } from './calculate-dpm'
-const getBinaryDpmProps = (initialProb: number, ante: number) => {
+// import { PHANTOM_ANTE } from './antes'
+// import { calcDpmInitialPool } from './calculate-dpm'
+/*WRAPPED*//* const _getBinaryDpmProps = (initialProb: number, ante: number) => {
   const { sharesYes, sharesNo, poolYes, poolNo, phantomYes, phantomNo } =
     calcDpmInitialPool(initialProb, ante, PHANTOM_ANTE)
 
@@ -139,8 +141,9 @@ const getBinaryDpmProps = (initialProb: number, ante: number) => {
   return system
 }
 */
+// /*LOG2   */ const getBinaryDpmProps = logCall('Entering ' + codeUrl('getBinaryDpmProps()', github_file_url, 121), _getBinaryDpmProps);
 
-const getBinaryCpmmProps = (initialProb: number, ante: number) => {
+/*WRAPPED*/ const _getBinaryCpmmProps = (initialProb: number, ante: number) => {
   const pool = { YES: ante, NO: ante }
   const p = initialProb / 100
 
@@ -158,8 +161,9 @@ const getBinaryCpmmProps = (initialProb: number, ante: number) => {
 
   return system
 }
+/*LOG2   */ const getBinaryCpmmProps = logCall('Entering ' + codeUrl('getBinaryCpmmProps()', github_file_url, 139), _getBinaryCpmmProps);
 
-const getPseudoNumericCpmmProps = (
+/*WRAPPED*/ const _getPseudoNumericCpmmProps = (
   initialProb: number,
   ante: number,
   min: number,
@@ -176,15 +180,17 @@ const getPseudoNumericCpmmProps = (
 
   return system
 }
-const getStonkCpmmProps = (initialProb: number, ante: number) => {
+/*LOG2   */ const getPseudoNumericCpmmProps = logCall('Entering ' + codeUrl('getPseudoNumericCpmmProps()', github_file_url, 158), _getPseudoNumericCpmmProps);
+/*WRAPPED*/ const _getStonkCpmmProps = (initialProb: number, ante: number) => {
   const system: CPMM & Stonk = {
     ...getBinaryCpmmProps(initialProb, ante),
     outcomeType: 'STONK',
   }
   return system
 }
+/*LOG2   */ const getStonkCpmmProps = logCall('Entering ' + codeUrl('getStonkCpmmProps()', github_file_url, 175), _getStonkCpmmProps);
 
-const getMultipleChoiceProps = (
+/*WRAPPED*/ const _getMultipleChoiceProps = (
   contractId: string,
   userId: string,
   answers: string[],
@@ -215,8 +221,9 @@ const getMultipleChoiceProps = (
 
   return system
 }
+/*LOG2   */ const getMultipleChoiceProps = logCall('Entering ' + codeUrl('getMultipleChoiceProps()', github_file_url, 183), _getMultipleChoiceProps);
 
-function createAnswers(
+/*WRAPPED*/ function _createAnswers(
   contractId: string,
   userId: string,
   addAnswersMode: add_answers_mode,
@@ -273,8 +280,9 @@ function createAnswers(
     return answer
   })
 }
+/*LOG2   */ const createAnswers = logCall('Entering ' + codeUrl('createAnswers()', github_file_url, 215), _createAnswers);
 
-const getBountiedQuestionProps = () => {
+/*WRAPPED*/ const _getBountiedQuestionProps = () => {
   const system: NonBet & BountiedQuestion = {
     mechanism: 'none',
     outcomeType: 'BOUNTIED_QUESTION',
@@ -285,8 +293,9 @@ const getBountiedQuestionProps = () => {
 
   return system
 }
+/*LOG2   */ const getBountiedQuestionProps = logCall('Entering ' + codeUrl('getBountiedQuestionProps()', github_file_url, 273), _getBountiedQuestionProps);
 
-const getPollProps = (answers: string[]) => {
+/*WRAPPED*/ const _getPollProps = (answers: string[]) => {
   const ids = answers.map(() => randomString())
 
   const options: PollOption[] = answers.map((answer, i) => ({
@@ -303,3 +312,4 @@ const getPollProps = (answers: string[]) => {
   }
   return system
 }
+/*LOG2   */ const getPollProps = logCall('Entering ' + codeUrl('getPollProps()', github_file_url, 285), _getPollProps);

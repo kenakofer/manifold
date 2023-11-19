@@ -3,11 +3,12 @@ import { NestedLogger, logCall, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/calculate/uniswap2.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/calculate/uniswap2.ts'
-export function calculatePrice(pool: { [outcome: string]: number }) {
+/*WRAPPED*/ export function _calculatePrice(pool: { [outcome: string]: number }) {
   return pool['M$'] / pool['SHARE']
 }
+/*LOG2   */ export const calculatePrice = logCall('Entering ' + codeUrl('calculatePrice()', github_file_url, 1), _calculatePrice);
 
-export function calculateShares(
+/*WRAPPED*/ export function _calculateShares(
   pool: { [outcome: string]: number },
   mana: number
 ) {
@@ -15,10 +16,11 @@ export function calculateShares(
   // Holding the Uniswapv2 constant of k = mana * shares
   return pool['SHARE'] - afterSwap(pool, 'M$', mana)['SHARE']
 }
+/*LOG2   */ export const calculateShares = logCall('Entering ' + codeUrl('calculateShares()', github_file_url, 5), _calculateShares);
 
 // Returns the new pool after the specified number of tokens are
 // swapped into the pool
-export function afterSwap(
+/*WRAPPED*/ export function _afterSwap(
   pool: { [outcome: string]: number },
   token: 'M$' | 'SHARE',
   amount: number
@@ -36,10 +38,12 @@ export function afterSwap(
   }
   return newPool
 }
+/*LOG2   */ export const afterSwap = logCall('Entering ' + codeUrl('afterSwap()', github_file_url, 16), _afterSwap);
 
-export function calculatePriceAfterBuy(
+/*WRAPPED*/ export function _calculatePriceAfterBuy(
   pool: { [outcome: string]: number },
   mana: number
 ) {
   return calculatePrice(afterSwap(pool, 'M$', mana))
 }
+/*LOG2   */ export const calculatePriceAfterBuy = logCall('Entering ' + codeUrl('calculatePriceAfterBuy()', github_file_url, 35), _calculatePriceAfterBuy);

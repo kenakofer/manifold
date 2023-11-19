@@ -10,5 +10,6 @@ export const WEEK_MS = 7 * DAY_MS
 export const MONTH_MS = 30 * DAY_MS
 export const YEAR_MS = 365 * DAY_MS
 
-export const sleep = (ms: number) =>
+/*WRAPPED*/ export const _sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms))
+/*LOG2   */ export const sleep = logCall('Entering ' + codeUrl('sleep()', github_file_url, 8), _sleep);

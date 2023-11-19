@@ -19,7 +19,7 @@ const ANTES = {
 
 export const MINIMUM_BOUNTY = 5
 
-export const getAnte = (
+/*WRAPPED*/ export const _getAnte = (
   outcomeType: OutcomeType,
   numAnswers: number | undefined
 ) => {
@@ -31,6 +31,7 @@ export const getAnte = (
 
   return ante
 }
+/*LOG2   */ export const getAnte = logCall('Entering ' + codeUrl('getAnte()', github_file_url, 17), _getAnte);
 
 export const STARTING_BALANCE = 500
 export const STARTING_BONUS = 500

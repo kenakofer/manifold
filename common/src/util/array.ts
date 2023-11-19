@@ -5,18 +5,20 @@ const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/m
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/array.ts'
 import { compact, flattenDeep, isEqual } from 'lodash'
 
-export function filterDefined<T>(array: (T | null | undefined)[]) {
+/*WRAPPED*/ export function _filterDefined<T>(array: (T | null | undefined)[]) {
   return array.filter((item) => item !== null && item !== undefined) as T[]
 }
+/*LOG2   */ export const filterDefined = logCall('Entering ' + codeUrl('filterDefined()', github_file_url, 3), _filterDefined);
 
 type Falsey = false | undefined | null | 0 | ''
 type FalseyValueArray<T> = T | Falsey | FalseyValueArray<T>[]
 
-export function buildArray<T>(...params: FalseyValueArray<T>[]) {
+/*WRAPPED*/ export function _buildArray<T>(...params: FalseyValueArray<T>[]) {
   return compact(flattenDeep(params)) as T[]
 }
+/*LOG2   */ export const buildArray = logCall('Entering ' + codeUrl('buildArray()', github_file_url, 10), _buildArray);
 
-export function groupConsecutive<T, U>(xs: T[], key: (x: T) => U) {
+/*WRAPPED*/ export function _groupConsecutive<T, U>(xs: T[], key: (x: T) => U) {
   if (!xs.length) {
     return []
   }
@@ -34,3 +36,4 @@ export function groupConsecutive<T, U>(xs: T[], key: (x: T) => U) {
   result.push(curr)
   return result
 }
+/*LOG2   */ export const groupConsecutive = logCall('Entering ' + codeUrl('groupConsecutive()', github_file_url, 14), _groupConsecutive);

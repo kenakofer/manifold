@@ -8,7 +8,7 @@ import { Bet } from './bet'
 import { getProbability } from './calculate'
 import { CPMMContract, CPMMMultiContract } from './contract'
 
-export function calculateFixedPayout(
+/*WRAPPED*/ export function _calculateFixedPayout(
   contract: CPMMContract,
   bet: Bet,
   outcome: string
@@ -18,19 +18,22 @@ export function calculateFixedPayout(
 
   return calculateStandardFixedPayout(bet, outcome)
 }
+/*LOG2   */ export const calculateFixedPayout = logCall('Entering ' + codeUrl('calculateFixedPayout()', github_file_url, 6), _calculateFixedPayout);
 
-export function calculateFixedCancelPayout(bet: Bet) {
+/*WRAPPED*/ export function _calculateFixedCancelPayout(bet: Bet) {
   return bet.amount
 }
+/*LOG2   */ export const calculateFixedCancelPayout = logCall('Entering ' + codeUrl('calculateFixedCancelPayout()', github_file_url, 17), _calculateFixedCancelPayout);
 
-export function calculateStandardFixedPayout(bet: Bet, outcome: string) {
+/*WRAPPED*/ export function _calculateStandardFixedPayout(bet: Bet, outcome: string) {
   const { outcome: betOutcome, shares } = bet
 
   if (betOutcome !== outcome) return 0
   return shares
 }
+/*LOG2   */ export const calculateStandardFixedPayout = logCall('Entering ' + codeUrl('calculateStandardFixedPayout()', github_file_url, 21), _calculateStandardFixedPayout);
 
-function calculateFixedMktPayout(contract: CPMMContract, bet: Bet) {
+/*WRAPPED*/ function _calculateFixedMktPayout(contract: CPMMContract, bet: Bet) {
   const { resolutionProbability } = contract
   const prob =
     resolutionProbability !== undefined
@@ -41,8 +44,9 @@ function calculateFixedMktPayout(contract: CPMMContract, bet: Bet) {
   const betP = outcome === 'YES' ? prob : 1 - prob
   return betP * shares
 }
+/*LOG2   */ const calculateFixedMktPayout = logCall('Entering ' + codeUrl('calculateFixedMktPayout()', github_file_url, 28), _calculateFixedMktPayout);
 
-function calculateBetPayoutMulti(contract: CPMMMultiContract, bet: Bet) {
+/*WRAPPED*/ function _calculateBetPayoutMulti(contract: CPMMMultiContract, bet: Bet) {
   let prob = 0
   const { answerId } = bet
   if (answerId) {
@@ -63,8 +67,9 @@ function calculateBetPayoutMulti(contract: CPMMMultiContract, bet: Bet) {
   const betP = outcome === 'YES' ? prob : 1 - prob
   return betP * shares
 }
+/*LOG2   */ const calculateBetPayoutMulti = logCall('Entering ' + codeUrl('calculateBetPayoutMulti()', github_file_url, 40), _calculateBetPayoutMulti);
 
-export function calculateFixedPayoutMulti(
+/*WRAPPED*/ export function _calculateFixedPayoutMulti(
   contract: CPMMMultiContract,
   bet: Bet,
   outcome: string
@@ -72,3 +77,4 @@ export function calculateFixedPayoutMulti(
   if (outcome === 'CANCEL') return calculateFixedCancelPayout(bet)
   return calculateBetPayoutMulti(contract, bet)
 }
+/*LOG2   */ export const calculateFixedPayoutMulti = logCall('Entering ' + codeUrl('calculateFixedPayoutMulti()', github_file_url, 62), _calculateFixedPayoutMulti);

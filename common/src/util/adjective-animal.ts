@@ -178,23 +178,26 @@ const animals = [
   'villains',
 ]
 
-export const getRandomAdjectiveAnimal = () => {
+/*WRAPPED*/ export const _getRandomAdjectiveAnimal = () => {
   const adj = adjectives[Math.floor(Math.random() * adjectives.length)]
   const animal = animals[Math.floor(Math.random() * animals.length)]
   return `${adj}-${animal}`
 }
+/*LOG2   */ export const getRandomAdjectiveAnimal = logCall('Entering ' + codeUrl('getRandomAdjectiveAnimal()', github_file_url, 176), _getRandomAdjectiveAnimal);
 
-export const genNewAdjectiveAnimal = (ids: Set<string>) => {
+/*WRAPPED*/ export const _genNewAdjectiveAnimal = (ids: Set<string>) => {
   let adjAnimal = getRandomAdjectiveAnimal()
   while (ids.has(adjAnimal)) {
     adjAnimal = getRandomAdjectiveAnimal()
   }
   return adjAnimal
 }
+/*LOG2   */ export const genNewAdjectiveAnimal = logCall('Entering ' + codeUrl('genNewAdjectiveAnimal()', github_file_url, 182), _genNewAdjectiveAnimal);
 
-export const toLabel = (adjAnimal: string) => {
+/*WRAPPED*/ export const _toLabel = (adjAnimal: string) => {
   return adjAnimal
     .split('-')
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(' ')
 }
+/*LOG2   */ export const toLabel = logCall('Entering ' + codeUrl('toLabel()', github_file_url, 190), _toLabel);

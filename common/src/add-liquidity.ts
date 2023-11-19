@@ -8,7 +8,7 @@ import { CPMMContract, CPMMMultiContract } from './contract'
 import { LiquidityProvision } from './liquidity-provision'
 import { removeUndefinedProps } from './util/object'
 
-export const getNewLiquidityProvision = (
+/*WRAPPED*/ export const _getNewLiquidityProvision = (
   userId: string,
   amount: number,
   contract: CPMMContract | CPMMMultiContract,
@@ -47,3 +47,4 @@ export const getNewLiquidityProvision = (
 
   return { newLiquidityProvision, newTotalLiquidity, newSubsidyPool }
 }
+/*LOG2   */ export const getNewLiquidityProvision = logCall('Entering ' + codeUrl('getNewLiquidityProvision()', github_file_url, 6), _getNewLiquidityProvision);

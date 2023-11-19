@@ -16,7 +16,7 @@ import { floatingEqual } from './util/math'
 
 const DEBUG = false
 
-export function calculateCpmmMultiArbitrageBet(
+/*WRAPPED*/ export function _calculateCpmmMultiArbitrageBet(
   answers: Answer[],
   answerToBuy: Answer,
   outcome: 'YES' | 'NO',
@@ -60,8 +60,9 @@ export function calculateCpmmMultiArbitrageBet(
   }
   return result
 }
+/*LOG2   */ export const calculateCpmmMultiArbitrageBet = logCall('Entering ' + codeUrl('calculateCpmmMultiArbitrageBet()', github_file_url, 14), _calculateCpmmMultiArbitrageBet);
 
-function calculateCpmmMultiArbitrageBetYes(
+/*WRAPPED*/ function _calculateCpmmMultiArbitrageBetYes(
   answers: Answer[],
   answerToBuy: Answer,
   betAmount: number,
@@ -159,8 +160,9 @@ function calculateCpmmMultiArbitrageBetYes(
   const otherBetResults = noBetResults.map((r) => ({ ...r, outcome: 'NO' }))
   return { newBetResult, otherBetResults }
 }
+/*LOG2   */ const calculateCpmmMultiArbitrageBetYes = logCall('Entering ' + codeUrl('calculateCpmmMultiArbitrageBetYes()', github_file_url, 59), _calculateCpmmMultiArbitrageBetYes);
 
-const buyNoSharesInOtherAnswersThenYesInAnswer = (
+/*WRAPPED*/ const _buyNoSharesInOtherAnswersThenYesInAnswer = (
   answers: Answer[],
   answerToBuy: Answer,
   unfilledBetsByAnswer: Dictionary<LimitBet[]>,
@@ -239,8 +241,9 @@ const buyNoSharesInOtherAnswersThenYesInAnswer = (
 
   return { noBetResults, yesBetResult }
 }
+/*LOG2   */ const buyNoSharesInOtherAnswersThenYesInAnswer = logCall('Entering ' + codeUrl('buyNoSharesInOtherAnswersThenYesInAnswer()', github_file_url, 158), _buyNoSharesInOtherAnswersThenYesInAnswer);
 
-function calculateCpmmMultiArbitrageBetNo(
+/*WRAPPED*/ function _calculateCpmmMultiArbitrageBetNo(
   answers: Answer[],
   answerToBuy: Answer,
   betAmount: number,
@@ -336,8 +339,9 @@ function calculateCpmmMultiArbitrageBetNo(
   const otherBetResults = yesBetResults.map((r) => ({ ...r, outcome: 'YES' }))
   return { newBetResult, otherBetResults }
 }
+/*LOG2   */ const calculateCpmmMultiArbitrageBetNo = logCall('Entering ' + codeUrl('calculateCpmmMultiArbitrageBetNo()', github_file_url, 238), _calculateCpmmMultiArbitrageBetNo);
 
-const buyYesSharesInOtherAnswersThenNoInAnswer = (
+/*WRAPPED*/ const _buyYesSharesInOtherAnswersThenNoInAnswer = (
   answers: Answer[],
   answerToBuy: Answer,
   unfilledBetsByAnswer: Dictionary<LimitBet[]>,
@@ -412,8 +416,9 @@ const buyYesSharesInOtherAnswersThenNoInAnswer = (
 
   return { yesBetResults, noBetResult }
 }
+/*LOG2   */ const buyYesSharesInOtherAnswersThenNoInAnswer = logCall('Entering ' + codeUrl('buyYesSharesInOtherAnswersThenNoInAnswer()', github_file_url, 335), _buyYesSharesInOtherAnswersThenNoInAnswer);
 
-export const buyNoSharesUntilAnswersSumToOne = (
+/*WRAPPED*/ export const _buyNoSharesUntilAnswersSumToOne = (
   answers: Answer[],
   unfilledBets: LimitBet[],
   balanceByUserId: { [userId: string]: number }
@@ -453,8 +458,9 @@ export const buyNoSharesUntilAnswersSumToOne = (
     noShares
   )
 }
+/*LOG2   */ export const buyNoSharesUntilAnswersSumToOne = logCall('Entering ' + codeUrl('buyNoSharesUntilAnswersSumToOne()', github_file_url, 411), _buyNoSharesUntilAnswersSumToOne);
 
-const buyNoSharesInAnswers = (
+/*WRAPPED*/ const _buyNoSharesInAnswers = (
   answers: Answer[],
   unfilledBetsByAnswer: Dictionary<LimitBet[]>,
   balanceByUserId: { [userId: string]: number },
@@ -503,8 +509,9 @@ const buyNoSharesInAnswers = (
 
   return { noBetResults, extraMana }
 }
+/*LOG2   */ const buyNoSharesInAnswers = logCall('Entering ' + codeUrl('buyNoSharesInAnswers()', github_file_url, 452), _buyNoSharesInAnswers);
 
-export function calculateCpmmMultiArbitrageSellNo(
+/*WRAPPED*/ export function _calculateCpmmMultiArbitrageSellNo(
   answers: Answer[],
   answerToSell: Answer,
   noShares: number,
@@ -684,8 +691,9 @@ export function calculateCpmmMultiArbitrageSellNo(
   const otherBetResults = noBetResults.map((r) => ({ ...r, outcome: 'NO' }))
   return { newBetResult, otherBetResults }
 }
+/*LOG2   */ export const calculateCpmmMultiArbitrageSellNo = logCall('Entering ' + codeUrl('calculateCpmmMultiArbitrageSellNo()', github_file_url, 502), _calculateCpmmMultiArbitrageSellNo);
 
-export function calculateCpmmMultiArbitrageSellYes(
+/*WRAPPED*/ export function _calculateCpmmMultiArbitrageSellYes(
   answers: Answer[],
   answerToSell: Answer,
   yesShares: number,
@@ -860,3 +868,4 @@ export function calculateCpmmMultiArbitrageSellYes(
   const otherBetResults = yesBetResults.map((r) => ({ ...r, outcome: 'YES' }))
   return { newBetResult, otherBetResults }
 }
+/*LOG2   */ export const calculateCpmmMultiArbitrageSellYes = logCall('Entering ' + codeUrl('calculateCpmmMultiArbitrageSellYes()', github_file_url, 683), _calculateCpmmMultiArbitrageSellYes);

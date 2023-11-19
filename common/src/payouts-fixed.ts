@@ -10,7 +10,7 @@ import { CPMMContract, CPMMMultiContract } from './contract'
 import { noFees } from './fees'
 import { LiquidityProvision } from './liquidity-provision'
 
-export const getFixedCancelPayouts = (
+/*WRAPPED*/ export const _getFixedCancelPayouts = (
   bets: Bet[],
   liquidities: LiquidityProvision[]
 ) => {
@@ -30,8 +30,9 @@ export const getFixedCancelPayouts = (
 
   return { payouts, creatorPayout, liquidityPayouts, collectedFees: noFees }
 }
+/*LOG2   */ export const getFixedCancelPayouts = logCall('Entering ' + codeUrl('getFixedCancelPayouts()', github_file_url, 8), _getFixedCancelPayouts);
 
-export const getStandardFixedPayouts = (
+/*WRAPPED*/ export const _getStandardFixedPayouts = (
   outcome: string,
   contract:
     | CPMMContract
@@ -55,8 +56,9 @@ export const getStandardFixedPayouts = (
 
   return { payouts, creatorPayout, liquidityPayouts, collectedFees }
 }
+/*LOG2   */ export const getStandardFixedPayouts = logCall('Entering ' + codeUrl('getStandardFixedPayouts()', github_file_url, 29), _getStandardFixedPayouts);
 
-export const getMultiFixedPayouts = (
+/*WRAPPED*/ export const _getMultiFixedPayouts = (
   contract: CPMMMultiContract,
   resolutions: { [answerId: string]: number },
   bets: Bet[],
@@ -82,8 +84,9 @@ export const getMultiFixedPayouts = (
 
   return { payouts, liquidityPayouts, creatorPayout: 0, collectedFees: noFees }
 }
+/*LOG2   */ export const getMultiFixedPayouts = logCall('Entering ' + codeUrl('getMultiFixedPayouts()', github_file_url, 54), _getMultiFixedPayouts);
 
-export const getLiquidityPoolPayouts = (
+/*WRAPPED*/ export const _getLiquidityPoolPayouts = (
   contract: CPMMContract,
   outcome: string,
   liquidities: LiquidityProvision[]
@@ -99,8 +102,9 @@ export const getLiquidityPoolPayouts = (
     payout: weight * finalPool,
   }))
 }
+/*LOG2   */ export const getLiquidityPoolPayouts = logCall('Entering ' + codeUrl('getLiquidityPoolPayouts()', github_file_url, 81), _getLiquidityPoolPayouts);
 
-export const getMultiLiquidityPoolPayouts = (
+/*WRAPPED*/ export const _getMultiLiquidityPoolPayouts = (
   contract: CPMMMultiContract,
   resolutions: { [answerId: string]: number },
   liquidities: LiquidityProvision[]
@@ -119,8 +123,9 @@ export const getMultiLiquidityPoolPayouts = (
     }))
     .filter(({ payout }) => payout >= 1e-3)
 }
+/*LOG2   */ export const getMultiLiquidityPoolPayouts = logCall('Entering ' + codeUrl('getMultiLiquidityPoolPayouts()', github_file_url, 98), _getMultiLiquidityPoolPayouts);
 
-export const getMktFixedPayouts = (
+/*WRAPPED*/ export const _getMktFixedPayouts = (
   contract:
     | CPMMContract
     | (CPMMMultiContract & { shouldAnswersSumToOne: false }),
@@ -149,8 +154,9 @@ export const getMktFixedPayouts = (
 
   return { payouts, creatorPayout, liquidityPayouts, collectedFees }
 }
+/*LOG2   */ export const getMktFixedPayouts = logCall('Entering ' + codeUrl('getMktFixedPayouts()', github_file_url, 118), _getMktFixedPayouts);
 
-export const getLiquidityPoolProbPayouts = (
+/*WRAPPED*/ export const _getLiquidityPoolProbPayouts = (
   contract: CPMMContract,
   outcomeProbs: { [outcome: string]: number },
   liquidities: LiquidityProvision[]
@@ -171,3 +177,4 @@ export const getLiquidityPoolProbPayouts = (
     payout: weight * finalPool,
   }))
 }
+/*LOG2   */ export const getLiquidityPoolProbPayouts = logCall('Entering ' + codeUrl('getLiquidityPoolProbPayouts()', github_file_url, 148), _getLiquidityPoolProbPayouts);

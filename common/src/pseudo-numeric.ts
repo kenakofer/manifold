@@ -7,15 +7,16 @@ import { Contract, PseudoNumericContract, StonkContract } from './contract'
 import { formatLargeNumber, formatPercent } from './util/format'
 import { getStonkPriceAtProb } from './stonk'
 
-export function formatNumericProbability(
+/*WRAPPED*/ export function _formatNumericProbability(
   p: number,
   contract: PseudoNumericContract | StonkContract
 ) {
   const value = getMappedValue(contract, p)
   return formatLargeNumber(value)
 }
+/*LOG2   */ export const formatNumericProbability = logCall('Entering ' + codeUrl('formatNumericProbability()', github_file_url, 5), _formatNumericProbability);
 
-export const getMappedValue = (contract: Contract, prob: number) => {
+/*WRAPPED*/ export const _getMappedValue = (contract: Contract, prob: number) => {
   if (
     contract.outcomeType !== 'PSEUDO_NUMERIC' &&
     contract.outcomeType !== 'STONK'
@@ -34,8 +35,9 @@ export const getMappedValue = (contract: Contract, prob: number) => {
 
   return prob * (max - min) + min
 }
+/*LOG2   */ export const getMappedValue = logCall('Entering ' + codeUrl('getMappedValue()', github_file_url, 13), _getMappedValue);
 
-export const getFormattedMappedValue = (contract: Contract, prob: number) => {
+/*WRAPPED*/ export const _getFormattedMappedValue = (contract: Contract, prob: number) => {
   const { outcomeType } = contract
   if (outcomeType !== 'PSEUDO_NUMERIC' && outcomeType !== 'STONK')
     return formatPercent(prob)
@@ -43,8 +45,9 @@ export const getFormattedMappedValue = (contract: Contract, prob: number) => {
   const value = getMappedValue(contract, prob)
   return formatLargeNumber(value)
 }
+/*LOG2   */ export const getFormattedMappedValue = logCall('Entering ' + codeUrl('getFormattedMappedValue()', github_file_url, 33), _getFormattedMappedValue);
 
-export const getPseudoProbability = (
+/*WRAPPED*/ export const _getPseudoProbability = (
   value: number,
   min: number,
   max: number,
@@ -59,3 +62,4 @@ export const getPseudoProbability = (
 
   return (value - min) / (max - min)
 }
+/*LOG2   */ export const getPseudoProbability = logCall('Entering ' + codeUrl('getPseudoProbability()', github_file_url, 42), _getPseudoProbability);

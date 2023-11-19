@@ -7,7 +7,7 @@ const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5c
 
 export type Point = { x: number; y: number }
 
-export function base64toPoints(base64urlString: string) {
+/*WRAPPED*/ export function _base64toPoints(base64urlString: string) {
   const b64 = base64urlString.replace(/-/g, '+').replace(/_/g, '/')
   const bin = atob(b64)
   const u = Uint8Array.from(bin, (c) => c.charCodeAt(0))
@@ -19,3 +19,4 @@ export function base64toPoints(base64urlString: string) {
   }
   return points
 }
+/*LOG2   */ export const base64toPoints = logCall('Entering ' + codeUrl('base64toPoints()', github_file_url, 5), _base64toPoints);

@@ -49,7 +49,7 @@ export type BetInfo = {
   newP?: number
 }
 
-const computeFill = (
+/*WRAPPED*/ const _computeFill = (
   amount: number,
   outcome: 'YES' | 'NO',
   limitProb: number | undefined,
@@ -152,8 +152,9 @@ const computeFill = (
   }
   return { maker, taker }
 }
+/*LOG2   */ const computeFill = logCall('Entering ' + codeUrl('computeFill()', github_file_url, 44), _computeFill);
 
-export const computeFills = (
+/*WRAPPED*/ export const _computeFills = (
   state: CpmmState,
   outcome: 'YES' | 'NO',
   betAmount: number,
@@ -245,8 +246,9 @@ export const computeFills = (
 
   return { takers, makers, totalFees, cpmmState, ordersToCancel }
 }
+/*LOG2   */ export const computeFills = logCall('Entering ' + codeUrl('computeFills()', github_file_url, 148), _computeFills);
 
-export const computeCpmmBet = (
+/*WRAPPED*/ export const _computeCpmmBet = (
   cpmmState: CpmmState,
   outcome: 'YES' | 'NO',
   betAmount: number,
@@ -287,8 +289,9 @@ export const computeCpmmBet = (
     ...afterCpmmState,
   }
 }
+/*LOG2   */ export const computeCpmmBet = logCall('Entering ' + codeUrl('computeCpmmBet()', github_file_url, 236), _computeCpmmBet);
 
-export const getBinaryCpmmBetInfo = (
+/*WRAPPED*/ export const _getBinaryCpmmBetInfo = (
   contract: CPMMBinaryContract | PseudoNumericContract | StonkContract,
   outcome: 'YES' | 'NO',
   betAmount: number,
@@ -356,8 +359,9 @@ export const getBinaryCpmmBetInfo = (
     ordersToCancel,
   }
 }
+/*LOG2   */ export const getBinaryCpmmBetInfo = logCall('Entering ' + codeUrl('getBinaryCpmmBetInfo()', github_file_url, 278), _getBinaryCpmmBetInfo);
 
-export const getNewMultiBetInfo = (
+/*WRAPPED*/ export const _getNewMultiBetInfo = (
   outcome: string,
   amount: number,
   contract: DPMContract
@@ -396,8 +400,9 @@ export const getNewMultiBetInfo = (
 
   return { newBet, newPool, newTotalShares, newTotalBets }
 }
+/*LOG2   */ export const getNewMultiBetInfo = logCall('Entering ' + codeUrl('getNewMultiBetInfo()', github_file_url, 339), _getNewMultiBetInfo);
 
-export const getNewMultiCpmmBetInfo = (
+/*WRAPPED*/ export const _getNewMultiCpmmBetInfo = (
   contract: CPMMMultiContract,
   answers: Answer[],
   answer: Answer,
@@ -474,8 +479,9 @@ export const getNewMultiCpmmBetInfo = (
 
   return { newBet, newPool, makers, ordersToCancel }
 }
+/*LOG2   */ export const getNewMultiCpmmBetInfo = logCall('Entering ' + codeUrl('getNewMultiCpmmBetInfo()', github_file_url, 379), _getNewMultiCpmmBetInfo);
 
-const getNewMultiCpmmBetInfoSumsToOne = (
+/*WRAPPED*/ const _getNewMultiCpmmBetInfoSumsToOne = (
   contract: CPMMMultiContract,
   answers: Answer[],
   answer: Answer,
@@ -564,8 +570,9 @@ const getNewMultiCpmmBetInfoSumsToOne = (
     otherBetResults: otherResultsWithBet,
   }
 }
+/*LOG2   */ const getNewMultiCpmmBetInfoSumsToOne = logCall('Entering ' + codeUrl('getNewMultiCpmmBetInfoSumsToOne()', github_file_url, 457), _getNewMultiCpmmBetInfoSumsToOne);
 
-export const getBetDownToOneMultiBetInfo = (
+/*WRAPPED*/ export const _getBetDownToOneMultiBetInfo = (
   contract: CPMMMultiContract,
   answers: Answer[],
   unfilledBets: LimitBet[],
@@ -615,3 +622,4 @@ export const getBetDownToOneMultiBetInfo = (
     extraMana,
   }
 }
+/*LOG2   */ export const getBetDownToOneMultiBetInfo = logCall('Entering ' + codeUrl('getBetDownToOneMultiBetInfo()', github_file_url, 547), _getBetDownToOneMultiBetInfo);

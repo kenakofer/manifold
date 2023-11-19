@@ -10,7 +10,7 @@ import {
 } from '../antes'
 import { getNewLiquidityProvision } from '../add-liquidity'
 
-export const addHouseSubsidy = (contract: CPMMContract | CPMMMultiContract, amount: number) => {
+/*WRAPPED*/ export const _addHouseSubsidy = (contract: CPMMContract | CPMMMultiContract, amount: number) => {
   const providerId = HOUSE_LIQUIDITY_PROVIDER_ID
 
   const { newLiquidityProvision, newTotalLiquidity, newSubsidyPool } =
@@ -23,8 +23,9 @@ export const addHouseSubsidy = (contract: CPMMContract | CPMMMultiContract, amou
 
   return { newLiquidityProvision, newTotalLiquidity, newSubsidyPool }
 }
+/*LOG2   */ export const addHouseSubsidy = logCall('Entering ' + codeUrl('addHouseSubsidy()', github_file_url, 14), _addHouseSubsidy);
 
-export const addHouseSubsidyToAnswer = (
+/*WRAPPED*/ export const _addHouseSubsidyToAnswer = (
   contract: CPMMContract | CPMMMultiContract,
   answerId: string,
   amount: number
@@ -42,3 +43,4 @@ export const addHouseSubsidyToAnswer = (
 
   return { newLiquidityProvision, newTotalLiquidity, newSubsidyPool }
 }
+/*LOG2   */ export const addHouseSubsidyToAnswer = logCall('Entering ' + codeUrl('addHouseSubsidyToAnswer()', github_file_url, 45), _addHouseSubsidyToAnswer);

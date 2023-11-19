@@ -3,7 +3,7 @@ import { NestedLogger, logCall, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/slugify.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/slugify.ts'
-export const slugify = (
+/*WRAPPED*/ export const _slugify = (
   text: string,
   separator = '-',
   maxLength = 35
@@ -19,3 +19,4 @@ export const slugify = (
     .substring(0, maxLength)
     .replace(new RegExp(separator + '+$', 'g'), '') // remove terminal separators
 }
+/*LOG2   */ export const slugify = logCall('Entering ' + codeUrl('slugify()', github_file_url, 1), _slugify);

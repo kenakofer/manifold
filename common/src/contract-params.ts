@@ -15,7 +15,7 @@ import {
 import { removeUndefinedProps } from './util/object'
 import { Bet } from './bet'
 
-export async function getContractParams(
+/*WRAPPED*/ export async function _getContractParams(
   cm_dict: ContractMetricsDictionary,
   bet_dict: BetDictionary,
   contract: Contract,
@@ -72,3 +72,4 @@ export async function getContractParams(
     }),
   }
 }
+/*LOG2   */ export const getContractParams = logCall('Entering ' + codeUrl('getContractParams()', github_file_url, 28), _getContractParams);

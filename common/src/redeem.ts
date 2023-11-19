@@ -16,7 +16,7 @@ type RedeemableBet = Pick<
   'outcome' | 'shares' | 'sharesByOutcome' | 'loanAmount'
 >
 
-export const getBinaryRedeemableAmount = (bets: RedeemableBet[]) => {
+/*WRAPPED*/ export const _getBinaryRedeemableAmount = (bets: RedeemableBet[]) => {
   const [yesBets, noBets] = partition(bets, (b) => b.outcome === 'YES')
   const yesShares = sumBy(yesBets, (b) => b.shares)
   const noShares = sumBy(noBets, (b) => b.shares)
@@ -29,8 +29,9 @@ export const getBinaryRedeemableAmount = (bets: RedeemableBet[]) => {
   const netAmount = shares - loanPayment
   return { shares, loanPayment, netAmount }
 }
+/*LOG2   */ export const getBinaryRedeemableAmount = logCall('Entering ' + codeUrl('getBinaryRedeemableAmount()', github_file_url, 14), _getBinaryRedeemableAmount);
 
-export const getRedemptionBets = (
+/*WRAPPED*/ export const _getRedemptionBets = (
   contract: Contract,
   shares: number,
   loanPayment: number,
@@ -72,3 +73,4 @@ export const getRedemptionBets = (
   })
   return [yesBet, noBet]
 }
+/*LOG2   */ export const getRedemptionBets = logCall('Entering ' + codeUrl('getRedemptionBets()', github_file_url, 28), _getRedemptionBets);

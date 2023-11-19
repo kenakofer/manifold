@@ -3,10 +3,11 @@ import { NestedLogger, logCall, codeUrl } from '../playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/util/json.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/util/json.ts'
-export const safeJsonParse = (json: string | undefined | null) => {
+/*WRAPPED*/ export const _safeJsonParse = (json: string | undefined | null) => {
   try {
     return JSON.parse(json ?? '')
   } catch (e) {
     return null
   }
 }
+/*LOG2   */ export const safeJsonParse = logCall('Entering ' + codeUrl('safeJsonParse()', github_file_url, 1), _safeJsonParse);

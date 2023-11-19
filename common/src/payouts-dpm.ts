@@ -10,7 +10,7 @@ import { DPMContract, StillOpenDPMContract } from './contract'
 import { DPM_CREATOR_FEE, DPM_FEES, DPM_PLATFORM_FEE } from './fees'
 import { addObjects } from './util/object'
 
-export const getDpmCancelPayouts = (contract: DPMContract, bets: Bet[]) => {
+/*WRAPPED*/ export const _getDpmCancelPayouts = (contract: DPMContract, bets: Bet[]) => {
   const { pool } = contract
   const poolTotal = sum(Object.values(pool))
 
@@ -28,8 +28,9 @@ export const getDpmCancelPayouts = (contract: DPMContract, bets: Bet[]) => {
     collectedFees: contract.collectedFees,
   }
 }
+/*LOG2   */ export const getDpmCancelPayouts = logCall('Entering ' + codeUrl('getDpmCancelPayouts()', github_file_url, 8), _getDpmCancelPayouts);
 
-export const getDpmStandardPayouts = (
+/*WRAPPED*/ export const _getDpmStandardPayouts = (
   outcome: string,
   contract: DPMContract,
   bets: Bet[]
@@ -64,8 +65,9 @@ export const getDpmStandardPayouts = (
     collectedFees,
   }
 }
+/*LOG2   */ export const getDpmStandardPayouts = logCall('Entering ' + codeUrl('getDpmStandardPayouts()', github_file_url, 27), _getDpmStandardPayouts);
 
-export const getPayoutsMultiOutcome = (
+/*WRAPPED*/ export const _getPayoutsMultiOutcome = (
   resolutions: { [outcome: string]: number },
   contract: StillOpenDPMContract,
   bets: Bet[]
@@ -106,3 +108,4 @@ export const getPayoutsMultiOutcome = (
     collectedFees,
   }
 }
+/*LOG2   */ export const getPayoutsMultiOutcome = logCall('Entering ' + codeUrl('getPayoutsMultiOutcome()', github_file_url, 63), _getPayoutsMultiOutcome);

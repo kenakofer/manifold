@@ -63,7 +63,7 @@ export const BASE_FEED_REASON_TYPE_SCORES: {
   similar_interest_vector_to_news_vector: 0.1,
 }
 
-export const getRelevanceScore = (
+/*WRAPPED*/ export const _getRelevanceScore = (
   feedDataType: FEED_DATA_TYPES,
   reasons: FEED_REASON_TYPES[],
   importanceScore: number,
@@ -83,6 +83,7 @@ export const getRelevanceScore = (
     (1 - interestDistance) * 0.2
   )
 }
+/*LOG2   */ export const getRelevanceScore = logCall('Entering ' + codeUrl('getRelevanceScore()', github_file_url, 61), _getRelevanceScore);
 
 export type CreatorDetails = {
   id: string
@@ -183,9 +184,10 @@ export const FeedExplanationDictionary: Record<
   },
 }
 
-export function getExplanation(
+/*WRAPPED*/ export function _getExplanation(
   feedDataType: FEED_DATA_TYPES,
   feedReasonType: FEED_REASON_TYPES | DEPRECATED_FEED_REASON_TYPES
 ): string | undefined {
   return FeedExplanationDictionary[feedDataType][feedReasonType]
 }
+/*LOG2   */ export const getExplanation = logCall('Entering ' + codeUrl('getExplanation()', github_file_url, 181), _getExplanation);

@@ -24,7 +24,7 @@ export interface LootBoxItem {
 
 export type LootBox = LootBoxItem[]
 
-export const createLootBox = (contracts: BinaryContract[]): LootBox => {
+/*WRAPPED*/ export const _createLootBox = (contracts: BinaryContract[]): LootBox => {
   const boxValue = getBoxValue()
 
   const n = Math.ceil(Math.random() * 4)
@@ -42,12 +42,14 @@ export const createLootBox = (contracts: BinaryContract[]): LootBox => {
 
   return box
 }
+/*LOG2   */ export const createLootBox = logCall('Entering ' + codeUrl('createLootBox()', github_file_url, 22), _createLootBox);
 
-const getBoxValue = () => {
+/*WRAPPED*/ const _getBoxValue = () => {
   return Math.random() > 0.5 ? winDistribution() : loseDistribution()
 }
+/*LOG2   */ const getBoxValue = logCall('Entering ' + codeUrl('getBoxValue()', github_file_url, 41), _getBoxValue);
 
-const winDistribution = () =>
+/*WRAPPED*/ const _winDistribution = () =>
   clamp(
     Math.round(
       LOOTBOX_COST + customLogNormalSample(20, LOOTBOX_MAX - LOOTBOX_COST)
@@ -56,7 +58,7 @@ const winDistribution = () =>
     LOOTBOX_MAX
   )
 
-const loseDistribution = () =>
+/*WRAPPED*/ const _loseDistribution = () =>
   clamp(
     Math.round(normalSample(LOOTBOX_MIN + 5, 10)),
     LOOTBOX_MIN,
@@ -64,33 +66,39 @@ const loseDistribution = () =>
   )
 
 
-export const lootBoxExpectation = () => {
+/*WRAPPED*/ export const _lootBoxExpectation = () => {
   let e = 0
   for (let i = 0; i < 1e6; i++) e += getBoxValue()
   return e / 1e6
 }
+/*LOG2   */ export const lootBoxExpectation = logCall('Entering ' + codeUrl('lootBoxExpectation()', github_file_url, 62), _lootBoxExpectation);
+/*LOG2   */ const loseDistribution = logCall('Entering ' + codeUrl('loseDistribution()', github_file_url, 54), _loseDistribution);
+/*LOG2   */ const winDistribution = logCall('Entering ' + codeUrl('winDistribution()', github_file_url, 45), _winDistribution);
 
-function normalSample(mean = 0, stdev = 1) {
+/*WRAPPED*/ function _normalSample(mean = 0, stdev = 1) {
   const u = 1 - Math.random() // Converting [0,1) to (0,1]
   const v = Math.random()
   const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
   return z * stdev + mean
 }
+/*LOG2   */ const normalSample = logCall('Entering ' + codeUrl('normalSample()', github_file_url, 68), _normalSample);
 
-function logNormalSample(mu: number, sigma: number) {
+/*WRAPPED*/ function _logNormalSample(mu: number, sigma: number) {
   const u1 = Math.random()
   const u2 = Math.random()
   const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2)
   return Math.exp(mu + sigma * z0)
 }
+/*LOG2   */ const logNormalSample = logCall('Entering ' + codeUrl('logNormalSample()', github_file_url, 75), _logNormalSample);
 
-function customLogNormalSample(mean: number, targetMax: number) {
+/*WRAPPED*/ function _customLogNormalSample(mean: number, targetMax: number) {
   const mu = Math.log(mean) - 0.5 * Math.log(1 + (targetMax - mean) / mean)
   const sigma = Math.sqrt(Math.log(1 + (targetMax - mean) / mean))
   return logNormalSample(mu, sigma)
 }
+/*LOG2   */ const customLogNormalSample = logCall('Entering ' + codeUrl('customLogNormalSample()', github_file_url, 82), _customLogNormalSample);
 
-function generateWeights(n: number) {
+/*WRAPPED*/ function _generateWeights(n: number) {
   const randomProbabilities = new Array(n)
   let remainingProb = 1
 
@@ -104,8 +112,9 @@ function generateWeights(n: number) {
 
   return shuffle(randomProbabilities)
 }
+/*LOG2   */ const generateWeights = logCall('Entering ' + codeUrl('generateWeights()', github_file_url, 88), _generateWeights);
 
-export const createLootBet = (
+/*WRAPPED*/ export const _createLootBet = (
   user: User,
   contract: BinaryContract,
   outcome: 'YES' | 'NO',
@@ -135,3 +144,4 @@ export const createLootBet = (
     visibility: contract.visibility,
   }
 }
+/*LOG2   */ export const createLootBet = logCall('Entering ' + codeUrl('createLootBet()', github_file_url, 103), _createLootBet);

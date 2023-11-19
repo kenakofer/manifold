@@ -11,28 +11,32 @@ import { binarySearch } from './util/algos'
 // TODO: Remove min pool shares. Switch to throwing an error if k invariant is violated.
 const MIN_POOL_SHARES = 1e-20
 
-export function getProb(pool: { [outcome: string]: number }, outcome: string) {
+/*WRAPPED*/ export function _getProb(pool: { [outcome: string]: number }, outcome: string) {
   if (pool[outcome] === undefined) throw new Error('Invalid outcome')
 
   const inverseShareSum = sumBy(Object.values(pool), (value) => 1 / value)
   return 1 / (pool[outcome] * inverseShareSum)
 }
+/*LOG2   */ export const getProb = logCall('Entering ' + codeUrl('getProb()', github_file_url, 9), _getProb);
 
-export function poolToProbs(pool: { [outcome: string]: number }) {
+/*WRAPPED*/ export function _poolToProbs(pool: { [outcome: string]: number }) {
   const inverseShareSum = sumBy(Object.values(pool), (value) => 1 / value)
   return mapValues(pool, (s) => 1 / (s * inverseShareSum))
 }
+/*LOG2   */ export const poolToProbs = logCall('Entering ' + codeUrl('poolToProbs()', github_file_url, 16), _poolToProbs);
 
-const getK = (pool: { [outcome: string]: number }) => {
+/*WRAPPED*/ const _getK = (pool: { [outcome: string]: number }) => {
   const values = Object.values(pool)
   return sumBy(values, Math.log)
 }
+/*LOG2   */ const getK = logCall('Entering ' + codeUrl('getK()', github_file_url, 21), _getK);
 
-export const getLiquidity = (pool: { [outcome: string]: number }) => {
+/*WRAPPED*/ export const _getLiquidity = (pool: { [outcome: string]: number }) => {
   return Math.exp(getK(pool) / Object.keys(pool).length)
 }
+/*LOG2   */ export const getLiquidity = logCall('Entering ' + codeUrl('getLiquidity()', github_file_url, 26), _getLiquidity);
 
-export function buy(
+/*WRAPPED*/ export function _buy(
   pool: {
     [outcome: string]: number
   },
@@ -57,8 +61,9 @@ export function buy(
 
   return { newPool, shares }
 }
+/*LOG2   */ export const buy = logCall('Entering ' + codeUrl('buy()', github_file_url, 30), _buy);
 
-export function sell(
+/*WRAPPED*/ export function _sell(
   pool: {
     [outcome: string]: number
   },
@@ -85,8 +90,9 @@ export function sell(
 
   return { newPool, saleAmount }
 }
+/*LOG2   */ export const sell = logCall('Entering ' + codeUrl('sell()', github_file_url, 56), _sell);
 
-export function shortSell(
+/*WRAPPED*/ export function _shortSell(
   pool: {
     [outcome: string]: number
   },
@@ -119,8 +125,9 @@ export function shortSell(
 
   return { newPool, gainedShares }
 }
+/*LOG2   */ export const shortSell = logCall('Entering ' + codeUrl('shortSell()', github_file_url, 84), _shortSell);
 
-export function test() {
+/*WRAPPED*/ export function _test() {
   const pool = {
     A: 100,
     B: 100,
@@ -142,3 +149,4 @@ export function test() {
   console.log('k', getK(poolAfterShortSell))
   console.log('liquidity', getLiquidity(poolAfterShortSell))
 }
+/*LOG2   */ export const test = logCall('Entering ' + codeUrl('test()', github_file_url, 118), _test);

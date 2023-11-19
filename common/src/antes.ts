@@ -26,7 +26,7 @@ type NormalizedBet<T extends Bet = Bet> = Omit<
   'userAvatarUrl' | 'userName' | 'userUsername'
 >
 
-export function getCpmmInitialLiquidity(
+/*WRAPPED*/ export function _getCpmmInitialLiquidity(
   provider: User,
   contract: CPMMBinaryContract | CPMMMultiContract,
   anteId: string,
@@ -50,8 +50,9 @@ export function getCpmmInitialLiquidity(
 
   return lp
 }
+/*LOG2   */ export const getCpmmInitialLiquidity = logCall('Entering ' + codeUrl('getCpmmInitialLiquidity()', github_file_url, 22), _getCpmmInitialLiquidity);
 
-export function getMultipleChoiceAntes(
+/*WRAPPED*/ export function _getMultipleChoiceAntes(
   creator: User,
   contract: DpmMultipleChoiceContract,
   answers: string[],
@@ -97,3 +98,4 @@ export function getMultipleChoiceAntes(
 
   return { bets, answerObjects }
 }
+/*LOG2   */ export const getMultipleChoiceAntes = logCall('Entering ' + codeUrl('getMultipleChoiceAntes()', github_file_url, 47), _getMultipleChoiceAntes);

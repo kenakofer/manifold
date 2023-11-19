@@ -18,20 +18,22 @@ import { calculateDpmRawShareValue } from './calculate-dpm'
 
 export const LOAN_DAILY_RATE = 0.04
 
-const calculateNewLoan = (investedValue: number, loanTotal: number) => {
+/*WRAPPED*/ const _calculateNewLoan = (investedValue: number, loanTotal: number) => {
   const netValue = investedValue - loanTotal
   return netValue * LOAN_DAILY_RATE
 }
+/*LOG2   */ const calculateNewLoan = logCall('Entering ' + codeUrl('calculateNewLoan()', github_file_url, 16), _calculateNewLoan);
 
-export const getUserLoanUpdates = (
+/*WRAPPED*/ export const _getUserLoanUpdates = (
   betsByContractId: { [contractId: string]: Bet[] },
   contractsById: { [contractId: string]: Contract }
 ) => {
   const updates = calculateLoanBetUpdates(betsByContractId, contractsById)
   return { updates, payout: sumBy(updates, (update) => update.newLoan) }
 }
+/*LOG2   */ export const getUserLoanUpdates = logCall('Entering ' + codeUrl('getUserLoanUpdates()', github_file_url, 21), _getUserLoanUpdates);
 
-export const isUserEligibleForLoan = (
+/*WRAPPED*/ export const _isUserEligibleForLoan = (
   portfolio: PortfolioMetrics | undefined
 ) => {
   if (!portfolio) return true
@@ -39,8 +41,9 @@ export const isUserEligibleForLoan = (
   const { investmentValue } = portfolio
   return investmentValue > 0
 }
+/*LOG2   */ export const isUserEligibleForLoan = logCall('Entering ' + codeUrl('isUserEligibleForLoan()', github_file_url, 29), _isUserEligibleForLoan);
 
-const calculateLoanBetUpdates = (
+/*WRAPPED*/ const _calculateLoanBetUpdates = (
   betsByContractId: Dictionary<Bet[]>,
   contractsById: Dictionary<Contract>
 ) => {
@@ -67,8 +70,9 @@ const calculateLoanBetUpdates = (
     }
   })
 }
+/*LOG2   */ const calculateLoanBetUpdates = logCall('Entering ' + codeUrl('calculateLoanBetUpdates()', github_file_url, 38), _calculateLoanBetUpdates);
 
-const getCpmmContractLoanUpdate = (
+/*WRAPPED*/ const _getCpmmContractLoanUpdate = (
   contract: CPMMContract | CPMMMultiContract,
   bets: Bet[]
 ) => {
@@ -91,8 +95,9 @@ const getCpmmContractLoanUpdate = (
     loanTotal,
   }
 }
+/*LOG2   */ const getCpmmContractLoanUpdate = logCall('Entering ' + codeUrl('getCpmmContractLoanUpdate()', github_file_url, 66), _getCpmmContractLoanUpdate);
 
-const getDpmContractLoanUpdate = (contract: DPMContract, bets: Bet[]) => {
+/*WRAPPED*/ const _getDpmContractLoanUpdate = (contract: DPMContract, bets: Bet[]) => {
   const openBets = bets.filter((bet) => !bet.isSold && !bet.sale)
 
   return openBets.map((bet) => {
@@ -117,3 +122,4 @@ const getDpmContractLoanUpdate = (contract: DPMContract, bets: Bet[]) => {
     }
   })
 }
+/*LOG2   */ const getDpmContractLoanUpdate = logCall('Entering ' + codeUrl('getDpmContractLoanUpdate()', github_file_url, 90), _getDpmContractLoanUpdate);
