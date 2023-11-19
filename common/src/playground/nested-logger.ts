@@ -86,7 +86,7 @@ export class NestedLogger {
 
 //Return an html string that will be displayed in the log
 export function codeUrl(text: string, url: string, line_number?: number) {
-  return `<a href="${MANIFOLD_GIT_URL}${url}#L${line_number}" target="_blank">${text}</a>`;
+  return `<a href="${url}#L${line_number}" target="_blank">${text}</a>`;
 }
 
 export function logCall<T extends (...args: any[]) => any>(message: string, func: T): T {
