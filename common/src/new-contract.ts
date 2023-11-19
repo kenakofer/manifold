@@ -1,4 +1,4 @@
-import { NestedLogger, logIndent, codeUrl } from './playground/nested-logger'
+import { NestedLogger, logCall, codeUrl } from './playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; } }
 const file = 'common/src/new-contract.ts'
 

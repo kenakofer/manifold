@@ -89,7 +89,7 @@ export function codeUrl(text: string, url: string, line_number?: number) {
   return `<a href="${MANIFOLD_GIT_URL}${url}#L${line_number}" target="_blank">${text}</a>`;
 }
 
-export function logIndent<T extends (...args: any[]) => any>(message: string, func: T): T {
+export function logCall<T extends (...args: any[]) => any>(message: string, func: T): T {
   return function (...args: any[]) {
     const indent_level = window.logger.getCurrentNestingLevel();
     window.logger.log(message);

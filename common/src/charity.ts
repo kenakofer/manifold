@@ -1,5 +1,5 @@
 import { PlaygroundState } from './playground/playground-state'
-import { NestedLogger, logIndent, codeUrl } from './playground/nested-logger'
+import { NestedLogger, logCall, codeUrl } from './playground/nested-logger'
 declare global { interface Window { logger: NestedLogger; pState: PlaygroundState } }
 const raw_github_file_url = 'https://raw.githubusercontent.com/manifoldmarkets/manifold/74ab5cae/common/src/charity.ts'
 const github_file_url = 'https://github.com/manifoldmarkets/manifold/blob/74ab5cae/common/src/charity.ts'
@@ -28,25 +28,25 @@ export const charities: Charity[] = [
       'https://firebasestorage.googleapis.com/v0/b/mantic-markets.appspot.com/o/dream%2Fq2ZgMOOn7c.png?alt=media&token=01921c11-b303-4fec-9736-93c6531ef14b',
     description: `(By Zvi Mowshowitz)
 
-If we do not address the deep dysfunctions of our government and its policies, we put our democracy and entire civilization at risk. People whose lives are getting worse, who have no hope and cannot envision a future, inevitably turn to authoritarianism. A focus on telling people how terrible and fascist Donald Trump is did not work well in 2016 or 2020 and is not the best way to keep him out of the White House in 2024. It will not help us prosper and overcome political differences. Even if he is kept out in 2024, either we turn things around or things will keep getting worse. 
+If we do not address the deep dysfunctions of our government and its policies, we put our democracy and entire civilization at risk. People whose lives are getting worse, who have no hope and cannot envision a future, inevitably turn to authoritarianism. A focus on telling people how terrible and fascist Donald Trump is did not work well in 2016 or 2020 and is not the best way to keep him out of the White House in 2024. It will not help us prosper and overcome political differences. Even if he is kept out in 2024, either we turn things around or things will keep getting worse.
 
-My new project, together with Moshe Looks and Alyssa Vance, is to chart paths forward to improve federal policy, and lay groundwork to implement those improvements. That means taking into account political feasibility. It means getting the proposals and messaging into the hands of candidates. It means commissioning academic studies quantifying costs and benefits and advance drafting of legislative language. 
+My new project, together with Moshe Looks and Alyssa Vance, is to chart paths forward to improve federal policy, and lay groundwork to implement those improvements. That means taking into account political feasibility. It means getting the proposals and messaging into the hands of candidates. It means commissioning academic studies quantifying costs and benefits and advance drafting of legislative language.
 
-Consider the pandemic. Our government’s actions these past two years not only failed to make the pandemic better, they often actively made the pandemic worse while spending trillions. Our response to a potential next pandemic, monkeypox, was similarly botched. 
+Consider the pandemic. Our government’s actions these past two years not only failed to make the pandemic better, they often actively made the pandemic worse while spending trillions. Our response to a potential next pandemic, monkeypox, was similarly botched.
 
-Some of my most read posts point out clear cases where the government makes things worse, like car seat mandates so bad they serve as contraception, a law that makes it impossible to maintain modern ports in working order for basically no reason, and rules against container stacking that did major damage to our supply chains. 
+Some of my most read posts point out clear cases where the government makes things worse, like car seat mandates so bad they serve as contraception, a law that makes it impossible to maintain modern ports in working order for basically no reason, and rules against container stacking that did major damage to our supply chains.
 
 A few years ago I would have left such tasks to ‘the adults in the room.’ There are no such adults. Someone has to, and no one else will. If you tell me someone is already on the case and Doing the Thing, this means little. The situation is not ‘handled.’ Elites have lost all credibility.
 
-I also believe that almost all existing organizations nominally dedicated to such purposes face poor incentive structures due to how they are funded and garner attention, and are not testing the hypothesis that the problem could be solved. I will test that hypothesis. 
+I also believe that almost all existing organizations nominally dedicated to such purposes face poor incentive structures due to how they are funded and garner attention, and are not testing the hypothesis that the problem could be solved. I will test that hypothesis.
 
-There is far more hope for improvement than almost anyone realizes. Lobbying when done right is remarkably cheap and effective. Secret congress can be productive. Many marginal improvements are highly valuable, with no substantial downsides and compounding benefits. 
+There is far more hope for improvement than almost anyone realizes. Lobbying when done right is remarkably cheap and effective. Secret congress can be productive. Many marginal improvements are highly valuable, with no substantial downsides and compounding benefits.
 
-Low-hanging improvement is often as simple as not restricting supply and not subsidizing demand. A sample: Reforming NEPA, the NRC, zoning and the FDA including a right to try for drugs, pandemic preparedness, repealing protectionist policies (Jones Act, Dredge Act, ‘made in America’, etc), ending qualified immunity and civil forfeiture, legalizing marijuana, avoiding 100%+ marginal tax rates, increasing high-skill immigration, fixing student loans, and NGDP level targeting by the Federal Reserve. The civil service and procurement urgently need reform. 
+Low-hanging improvement is often as simple as not restricting supply and not subsidizing demand. A sample: Reforming NEPA, the NRC, zoning and the FDA including a right to try for drugs, pandemic preparedness, repealing protectionist policies (Jones Act, Dredge Act, ‘made in America’, etc), ending qualified immunity and civil forfeiture, legalizing marijuana, avoiding 100%+ marginal tax rates, increasing high-skill immigration, fixing student loans, and NGDP level targeting by the Federal Reserve. The civil service and procurement urgently need reform.
 
 Campaigns bleed tons of value all the time, leaving large room for improvement. Big mistakes made the difference in 2016, almost did in 2020 and are likely again in the future.
 
-We need your help - growing the team, engineering new software, analyzing policy space, finding experts, making connections, commissioning academic studies, drafting laws, writing up results, refining messaging, ultimately lobbying and working with campaigns, and of course raising money. 
+We need your help - growing the team, engineering new software, analyzing policy space, finding experts, making connections, commissioning academic studies, drafting laws, writing up results, refining messaging, ultimately lobbying and working with campaigns, and of course raising money.
 
 If you are interested in hearing more please get in touch at hello@balsaresearch.com and start the subject line with the most relevant category: policy (include what area if applicable), tech, media, networking, lobbying, campaigning or money, and then tell us about yourself and what interests you, or fill out this Google Doc.`,
   },
@@ -57,11 +57,11 @@ If you are interested in hearing more please get in touch at hello@balsaresearch
       'Accelerating the development of each vaccine by even a couple of days via COVID-19 human challenge trials could save thousands of lives.',
     photo: 'https://i.imgur.com/bUDdzUE.png',
     description: `1Day Sooner is a non-profit that advocates on behalf of COVID-19 challenge trial volunteers.
-      
+
     After a vaccine candidate is created in a lab, it is developed through a combination of pre-clinical evaluation and three phases of clinical trials that test its safety and efficacy. In traditional Phase III trials, participants receive the vaccine candidate or a placebo/active comparator, and efficacy is judged by comparing the prevalence of infection in the vaccine group and the placebo/comparator group, to test the hypothesis that significantly fewer participants in the vaccine group get infected. In these traditional trials, after receiving the treatment, participants return to their homes and their normal daily lives so as to test the treatment under real world conditions. Since only a small proportion of these participants may encounter the disease, it may take a large number of participants and a good deal of time for these trials to reveal differences between the vaccine and placebo groups.
-      
+
     In a human challenge trial (HCT), willing participants would receive the vaccine candidate or placebo and, after some time for the vaccine to take effect, be deliberately exposed to live coronavirus. Since exposure to the virus is guaranteed in HCTs, it may be possible to judge a vaccine candidate’s efficacy more quickly and with far fewer participants than a standard Phase III trial. While HCT efficacy results do not traditionally provide sufficient basis for licensure on their own, they could allow us to (1) more quickly weed out disappointing vaccine candidates or (2) promote the development of promising candidates in conjunction with traditional Phase III studies.
-      
+
     In addition, by gathering detailed data on the process of infection and vaccine protection in a clinical setting, researchers could learn information that proves extremely useful for broader vaccine and therapeutic development efforts. Altogether, there are scenarios in which the speed of HCTs and the richness of the data they provide accelerate the development of an effective and broadly accessible COVID-19 vaccine, with thousands of lives spared (depending on the pandemic’s long-term trajectory).`,
   },
   {
@@ -71,9 +71,9 @@ If you are interested in hearing more please get in touch at hello@balsaresearch
       'The Quantified Uncertainty Research Institute advances forecasting and epistemics to improve the long-term future of humanity.',
     photo: 'https://i.imgur.com/ZsSXPjH.png',
     description: `QURI researches systematic practices to specify and estimate the most important parameters for the most important or scalable decisions. Research areas include forecasting, epistemics, evaluations, ontology, and estimation.
-    
+
     We emphasize technological solutions that can heavily scale in the next 5 to 30 years.
-    
+
     We believe that humanity’s success in the next few hundred years will lie intensely on its ability to coordinate and make good decisions. If important governmental and philanthropic bodies become significantly more effective, this will make society far more resilient to many kinds of challenges ahead.`,
   },
   {
@@ -82,7 +82,7 @@ If you are interested in hearing more please get in touch at hello@balsaresearch
     preview:
       'We shape technology for public benefit by advancing sciences of connection and integration. Our goal is a world where the systems that surround us benefit us all.',
     photo: 'https://i.imgur.com/lzZxvHt.jpg',
-    description: `Our lives have been transformed by global networks of trade, travel, and communication. Driven by new technologies, these networks enrich our lives, but also lead to new threats, including surveillance, polarization, and pandemics. 
+    description: `Our lives have been transformed by global networks of trade, travel, and communication. Driven by new technologies, these networks enrich our lives, but also lead to new threats, including surveillance, polarization, and pandemics.
 
 At Topos, we pioneer emerging mathematical sciences of connection and integration to steer humanity towards a better future.`,
     tags: ['New'] as const,
@@ -102,9 +102,9 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
     preview:
       'The Long-Term Future Fund aims to improve the long-term trajectory of civilization by making grants that address global catastrophic risks.',
     description: `The Long-Term Future Fund aims to positively influence the long-term trajectory of civilization by making grants that address global catastrophic risks, especially potential risks from advanced artificial intelligence and pandemics. In addition, we seek to promote, implement, and advocate for longtermist ideas, and to otherwise increase the likelihood that future generations will flourish.
-    
+
     The Fund has a broad remit to make grants that promote, implement and advocate for longtermist ideas. Many of our grants aim to address potential risks from advanced artificial intelligence and to build infrastructure and advocate for longtermist projects. However, we welcome applications related to long-term institutional reform or other global catastrophic risks (e.g., pandemics or nuclear conflict).
-    
+
     We intend to support:
     - Projects that directly contribute to reducing existential risks through technical research, policy analysis, advocacy, and/or demonstration projects
     - Training for researchers or practitioners who work to mitigate existential risks, or help with relevant recruitment efforts, or infrastructure for people working on longtermist projects
@@ -130,13 +130,13 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
     preview:
       "The Global Health and Development Fund aims to improve people's lives, typically in the poorest regions of the world where the need for healthcare and economic empowerment is greatest.",
     description: `The Global Health and Development Fund recommends grants with the aim of improving people's lives, typically in the poorest regions of the world where the need for healthcare and economic empowerment is greatest. This will be achieved primarily by supporting projects that:
-    
+
     - Directly provide healthcare, or preventive measures that will improve health, well-being, or life expectancy
     - Directly provide services that raise incomes or otherwise improve economic conditions
     - Provide assistance to governments in the design and implementation of effective policies
-    
+
     In addition, the Global Health and Development Fund has a broad remit, and may fund other activities whose ultimate purpose is to serve people living in the poorest regions of the world, for example by raising additional funds (e.g. One for the World) or by exploring novel financing arrangements (e.g. Instiglio).
-    
+
     The Fund manager recommends grants to GiveWell top charities as a baseline, but will recommend higher-risk grants they believe to be more effective (in expectation) than GiveWell top charities. As such, the fund makes grants with a variety of different risk profiles.`,
   },
   {
@@ -151,9 +151,9 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
     - Promising research into animal advocacy or animal well-being
     - Activities that could make it easier to help animals in the future
     - Otherwise best-in-class opportunities
-    
+
     The Fund focuses on projects that primarily address farmed animals, as well as projects that could affect other large populations of nonhuman animals. Some examples of projects that the Fund could support:
-    
+
     - Supporting farmed animal advocacy in Asia
     - Researching ways to improve the welfare of farmed fish
     - Promoting alternative proteins in order to reduce demand for animal products
@@ -167,7 +167,7 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
     preview:
       'The Effective Altruism Infrastructure Fund aims to increase the impact of projects that use the principles of effective altruism.',
     description: `The Effective Altruism Infrastructure Fund (EA Infrastructure Fund) recommends grants that aim to improve the work of projects using principles of effective altruism, by increasing their access to talent, capital, and knowledge.
-    
+
     The EA Infrastructure Fund has historically attempted to make strategic grants to incubate and grow projects that attempt to use reason and evidence to do as much good as possible. These include meta-charities that fundraise for highly effective charities doing direct work on important problems, research organizations that improve our understanding of how to do good more effectively, and projects that promote principles of effective altruism in contexts like academia.`,
   },
   {
@@ -181,20 +181,20 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
     Longtermism is held back by two bottlenecks:
     1. Lots of funding, but few charities to deploy it.
     2. Lots of talent, but few charities creating jobs.
-    
+
     Solution: Longtermism needs more charities to deploy funding and create jobs. Our goal is to 10x the number of talented people working on longtermism by launching dozens of high impact charities.
-    
+
     This helps solve the bottlenecks because entrepreneurs “unlock” latent EA talent - if one person starts an organization that employs 100 people who weren’t previously working on AI safety, that doubles the number of people working on the problem.
-    
+
     Our process:
     1. Research the highest leverage ideas
     2. Find the right founders
     3. Connect them with mentors and funding
-    
-    We will be announcing more details about our incubation program soon. 
-    
+
+    We will be announcing more details about our incubation program soon.
+
     A few of the ideas we’ve incubated so far:
-    - The Nonlinear Library: Listen to top EA content on your podcast player. We use text-to-speech software to create an automatically updating repository of audio content from the EA Forum, Alignment Forum, and LessWrong. You can find it on all major podcast players here. 
+    - The Nonlinear Library: Listen to top EA content on your podcast player. We use text-to-speech software to create an automatically updating repository of audio content from the EA Forum, Alignment Forum, and LessWrong. You can find it on all major podcast players here.
     - EA Hiring Agency: Helping EA orgs scalably hire talent.
     - EA Houses: EA's Airbnb - Connecting EAs who have extra space with EAs who need space here.`,
   },
@@ -206,11 +206,11 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
       'We search for the charities that save or improve lives the most per dollar.',
     description: `
     GiveWell is a nonprofit dedicated to finding outstanding giving opportunities and publishing the full details of our analysis to help donors decide where to give.
-    
+
     We don't focus solely on financials, such as assessing administrative or fundraising costs. Instead, we conduct in-depth research to determine how much good a given program accomplishes (in terms of lives saved, lives improved, etc.) per dollar spent. Rather than rating as many charities as possible, we focus on the few charities that stand out most (by our criteria) in order to find and confidently recommend high-impact giving opportunities (our list of top charities).
-    
+
     Our top recommendation to GiveWell donors seeking to do the most good possible is to donate to the Maximum Impact Fund. Donations to the Maximum Impact Fund are granted each quarter. We use our latest research to grant the funds to the recommended charity (or charities) where we believe they’ll do the most good.
-    
+
     We grant funds from the Maximum Impact Fund to the recipient charity (or charities) at the end of each fiscal quarter. Our research team decides which charities have the highest priority funding needs at that time. This decision takes into consideration factors such as:
 
     - Which funding gaps we expect to be filled and unfilled
@@ -224,11 +224,11 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
     preview:
       'The Climate Change Fund aims to sustainably reach net-zero emissions globally, while still allowing growth to free millions from energy poverty.',
     description: `The Climate Change Fund aims to sustainably reach net-zero emissions globally.
-    
+
     Current levels of emissions are contributing to millions of deaths annually from air pollution and causing irrevocable damage to our planet. In addition, millions worldwide do not have access to modern energy technology, severely hampering development goals.
-    
+
     This Fund is committed to finding and funding sustainable solutions to the emissions crisis that still allow growth, freeing millions from the prison of energy poverty.
-    
+
     The Fund is a philanthropic co-funding vehicle that does not provide investment returns.`,
   },
   {
@@ -238,9 +238,9 @@ At Topos, we pioneer emerging mathematical sciences of connection and integratio
     preview:
       'The Patient Philanthropy Project aims to safeguard and benefit the long-term future of humanity',
     description: `The Patient Philanthropy Project focuses on how we can collectively grow our resources to support the long-term flourishing of humanity. It addresses a crucial gap: as a society, we spend much too little on safeguarding and benefiting future generations. In fact, we spend more money on ice cream each year than we do on preventing our own extinction. However, people in the future - who do not have a voice in their future survival or environment - matter. Lots of them may yet come into existence and we have the ability to positively affect their lives now, if only by making sure we avoid major catastrophes that could destroy our common future.
-    
+
     Housed within the Project is the Patient Philanthropy Fund, a philanthropic co-funding vehicle which invests to give and ensures capital is at the ready when extraordinary opportunities to safeguard and improve the long-term future arise.
-    
+
     The Fund’s patient approach means that we aim to identify the point in time when the highest-impact opportunities are available, which may be years, decades, or even centuries ahead.`,
   },
   {
@@ -297,7 +297,7 @@ Future plans: We expect to focus on similar theoretical problems in alignment un
     description: `At Rethink Charity, we’re excited about improving the world by providing vital support to high-impact charities and charitable projects. We equip them with tools to boost their impact, through our projects that empower their donors with tax-efficient giving options and strategically coordinated matching opportunities.
     What we do:
 
-    - Rethink Charity Forward is a cause-neutral donation routing fund for high-impact charities around the world. Canadians have used RC Forward to donate $10 million to high-impact charities since the project was launched in late 2017. 
+    - Rethink Charity Forward is a cause-neutral donation routing fund for high-impact charities around the world. Canadians have used RC Forward to donate $10 million to high-impact charities since the project was launched in late 2017.
 
     - EA Giving Tuesday supports both donors and highly effective nonprofits participating in Facebook’s annual Giving Tuesday match. In addition to setting up systems and processes, the team provides analysis-based recommendations, detailed instructions, and responsive support. The team’s goal is to make it as easy as possible for donors to direct matching dollars to highly effective nonprofits.`,
   },
@@ -320,11 +320,11 @@ Future plans: We expect to focus on similar theoretical problems in alignment un
     description: `Over the last few decades, scientific and technological progress have stagnated. Scientists conduct more research than ever before, but groundbreaking innovation is scarce. At the same time, identity politics and political polarization have reached new extremes, and social trends such as family stability and crime are worse than in previous decades and in some cases moving in the wrong direction. What explains these trends, and how can we reverse them?
 
     Much of the blame lies with the institutions we rely on for administration, innovation, and leadership. Instead of forward-looking governments, we have short-sighted politicians and bloated bureaucracies. Instead of real experts with proven track records, we have so-called ‘experts’ who appeal to the authority of their credentials. Instead of political leaders willing to face facts and make tough tradeoffs, we have politicians who appeal to ignorance and defer responsibility.
-    
+
     To fix our institutions, we need to rethink them from the ground up. That is why CSPI supports and funds research into the administrative systems, organizational structures, and political ideologies of modern governance. Only by understanding what makes these systems so often dysfunctional can we change them for the better.
-    
+
     CSPI believes that governments should be accountable to the populace as a whole, not special interest groups. We think experts should have greater say in public policy, but that there should be different standards for what qualifies as “expertise.” We want to end scientific and technological stagnation and usher in a new era of growth and innovation.
-    
+
     We are interested in funding and supporting research that can speak to these issues in the social sciences through grants and fellowships. CSPI particularly seek outs work that is unlikely to receive support elsewhere. See our home page for more about the kinds of research we are particularly interested in funding.`,
   },
   {
@@ -356,13 +356,13 @@ Future plans: We expect to focus on similar theoretical problems in alignment un
       'Our mission is to understand and improve the lives of wild animals.',
     description: `Although the natural world is a source of great beauty and happiness, vast numbers of animals routinely face serious challenges such as disease, hunger, or natural disasters. There is no “one-size-fits-all” solution to these threats. However, even as we recognize that improving the welfare of free-ranging wild animals is difficult, we believe that humans have a responsibility to help whenever we can.
 
-Our staff explores how humans can beneficially coexist with animals through the lens of wild animal welfare. 
+Our staff explores how humans can beneficially coexist with animals through the lens of wild animal welfare.
 
-We respect wild animals as individuals with their own needs and preferences, rather than seeing them as mere parts of ecosystems. But this approach demands a richer understanding of wild animals’ lives. 
+We respect wild animals as individuals with their own needs and preferences, rather than seeing them as mere parts of ecosystems. But this approach demands a richer understanding of wild animals’ lives.
 
 We want to take a proactive approach to managing the welfare benefits, threats, and uncertainties that are inherent to complex natural and urban environments. Yet, to take action safely, we must conduct research to understand the impacts of our actions. The transdisciplinary perspective of wild animal welfare draws upon ethics, ecology, and animal welfare science to gather the knowledge we need, facilitating evidence-based improvements to wild animals’ quality of life.
 
-Without sufficient public interest or research activity, solutions to the problems wild animals face will go undiscovered. 
+Without sufficient public interest or research activity, solutions to the problems wild animals face will go undiscovered.
 
 Wild Animal Initiative currently focuses on helping scientists, grantors, and decision-makers investigate important and understudied questions about wild animal welfare. Our work catalyzes research and applied projects that will open the door to a clearer picture of wild animals’ needs and how to enhance their well-being. Ultimately, we envision a world in which people actively choose to help wild animals — and have the knowledge they need to do so responsibly.`,
   },
@@ -560,10 +560,10 @@ Wild Animal Initiative currently focuses on helping scientists, grantors, and de
 
       Our Mission
       To end suicide among lesbian, gay, bisexual, transgender, queer & questioning young people.
-      
+
       Our Vision
       A world where all LGBTQ young people see a bright future for themselves.
-      
+
       Our Goal
       To serve 1.8 million crisis contacts annually, by the end of our 25th year, while continuing to innovate on our core services.`,
   },
@@ -685,9 +685,9 @@ We do this by crowdfunding loans and unlocking capital for the underserved, impr
     website: 'https://rethinkpriorities.org/',
     photo: 'https://i.imgur.com/Xs3D69w.png',
     preview: 'Uncovering actionable insights to make the world a better place.',
-    description: `Rethink Priorities’ mission is to generate the most significant possible impact for others in the present and the long-term future. 
+    description: `Rethink Priorities’ mission is to generate the most significant possible impact for others in the present and the long-term future.
 
-Using evidence and reason, we identify where resources would be most effective and help direct them there. We do this by conducting critical research to inform policymakers and philanthropists, and by guiding the development of new organizations to address key problems. 
+Using evidence and reason, we identify where resources would be most effective and help direct them there. We do this by conducting critical research to inform policymakers and philanthropists, and by guiding the development of new organizations to address key problems.
 
 Our work covers important and neglected cause areas, including animal welfare, artificial intelligence, climate change, global health and development, and other work to safeguard a flourishing long-term future. We also aim to understand and support effective altruism – the community of people focused on these issues.`,
   },
@@ -724,7 +724,7 @@ We use WELLBYs to compare the impact of charities that improve different outcome
 
 Globally, meat consumption is the highest it has ever been. According to the UN, global meat production is projected to double by 2050.
 
-With plant-based meat, cultivated meat, and fermentation, we can mitigate the environmental impact of our food system, decrease the risk of zoonotic disease, and ultimately feed more people with fewer resources. 
+With plant-based meat, cultivated meat, and fermentation, we can mitigate the environmental impact of our food system, decrease the risk of zoonotic disease, and ultimately feed more people with fewer resources.
 
 By making meat from plants and cultivating meat from cells, we can modernize meat production. `,
   },
@@ -762,7 +762,7 @@ Where appropriate, we publish our research in academic journals, which helps com
     preview:
       'The Machine Intelligence Research Institute does foundational mathematical research to ensure smarter-than-human AI has a positive impact',
     description: `MIRI’s mission is to ensure that the creation of smarter-than-human intelligence has a positive impact. We aim to make advanced intelligent systems behave as we intend even in the absence of immediate human supervision.
-    
+
     MIRI focuses on AI approaches that can be made transparent (e.g., precisely specified decision algorithms, not genetic algorithms), so that humans can understand why AI systems behave as they do. For safety purposes, a mathematical equation defining general intelligence is more desirable than an impressive but poorly-understood code kludge.
 
 Much of our research is therefore aimed at putting theoretical foundations under AI robustness work. We consider settings where traditional decision and probability theory frequently break down: settings where computation is expensive, there is no sharp agent/environment boundary, multiple agents exist, or self-referential reasoning is admitted.
@@ -780,7 +780,7 @@ In addition to our mathematical research, MIRI investigates important strategic 
     preview:
       'Charity Entrepreneurship launches high-impact nonprofits by connecting entrepreneurs with effective ideas, training, and funding.',
     description: `Each year, Charity Entrepreneurship dedicates hundreds of research hours to identifying the most effective charity ideas. Then we recruit aspiring entrepreneurs and, through our two-month Incubation Program, provide them with the training and funding to turn these ideas into high-impact organizations.
-    
+
 Our mission is to enable more effective charities to exist in the world. We strive to achieve this goal through our extensive research process and Incubation Program.
 
 Nonprofit entrepreneurship is also a highly neglected career opportunity that, fueled by a more analytical, effective-altruist mindset, can lead to cost-effective, evidence-based outcomes that are approximately equivalent to donating ~$200,000 to effective charities per year. It provides a chance to build a portfolio of useful skills and great career capital, and to have high job satisfaction while retaining substantial individual impact.`,
@@ -821,7 +821,7 @@ The focus is particularly on the long-term impacts of sophisticated artificial i
 
 Today, public discussion on these issues appears to be highly fragmented and of limited credibility. More credible and clearly communicated views on these issues might help improve estimates of the social returns to AI investment, identify neglected research areas, improve policy, or productively channel public interest in AI.
 
-The goal of the project is to clearly present and organize the considerations which inform contemporary views on these and related issues, to identify and explore disagreements, and to assemble whatever empirical evidence is relevant.    
+The goal of the project is to clearly present and organize the considerations which inform contemporary views on these and related issues, to identify and explore disagreements, and to assemble whatever empirical evidence is relevant.
 `,
   },
   {
@@ -845,10 +845,10 @@ The organization reports for the year 2021 to have prevented 14.1 million uninte
     photo: 'https://i.imgur.com/gd8O71v.png',
     preview: `Fish Welfare Initiative's mission is to improve the welfare of fish as much as possible, focusing specifically on farmed fish.`,
     description: `Fish Welfare Initiative is a startup organization whose mission is to improve the welfare of fish as much as possible. They focus specifically on farmed fish, i.e., fish raised in aquaculture.
-    
-    They collaborate with corporations, governments, and producers to improve fish welfare standards and practices with a simple broad approach: researching the most promising ways of improving fish welfare, and then enabling stakeholders to do so. 
+
+    They collaborate with corporations, governments, and producers to improve fish welfare standards and practices with a simple broad approach: researching the most promising ways of improving fish welfare, and then enabling stakeholders to do so.
     Following their initial research, their team now partners with NGOs to help farmers introduce higher welfare farming methods in the second-highest fish producing country in the world, India.
-    
+
     As of December 30 2022, they have potentially helped 1.14 and 1.4 million fish and shrimp respectively, with every $1 potentially helping 1.3 fish and every $100 13 fish.`,
   },
   {
@@ -876,7 +876,7 @@ We began in 1996 by archiving the Internet itself, a medium that was just beginn
     website: 'https://camfed.org/us/',
     photo: 'https://i.imgur.com/7b2aiRL.jpg',
     preview: `Camfed supports girls to learn, thrive and lead change.`,
-    description: `Camfed (also known as the Campaign for Female Education) was founded in 1993 and operates in Zimbabwe, Zambia, Ghana, Tanzania and Malawi with the goal of educating women. 
+    description: `Camfed (also known as the Campaign for Female Education) was founded in 1993 and operates in Zimbabwe, Zambia, Ghana, Tanzania and Malawi with the goal of educating women.
     Education is a very important resourse that is unfortunately not always made available, especially to women. Allowing someone to get an education allows them to do great things.`,
   },
   {
@@ -884,7 +884,7 @@ We began in 1996 by archiving the Internet itself, a medium that was just beginn
     website: 'https://www.hollows.org/au/',
     photo: 'https://i.imgur.com/GGzXksd.png',
     preview: `Fred Hollows Foundation focuses on preventable and treatable diseases such as cataract, trachoma and diabetic retinopathy`,
-    description: `The Fred Hollows Foundation has a very clear goal: we’re putting an end to avoidable blindness. 
+    description: `The Fred Hollows Foundation has a very clear goal: we’re putting an end to avoidable blindness.
     When this day comes, people in developing countries will get the same quality eye care the rest of the world takes for granted – and we won’t stop until this is done.`,
   },
   {
@@ -1000,7 +1000,7 @@ Water quality - Oxygen and ammonia levels, temperature, salinity and pH are key 
 
 Eyestalk ablation - Some hatcheries still practice crushing or cutting off the eyestalk of female shrimps to induce rapid maturation. Recent studies have demonstrated that avoiding eyestalk ablation can result in broodstock living longer and their offspring being more resistant to stress. Therefore, eliminating this practice is in the best interest of shrimps but also of the shrimp farming industry.
 
-They are highly neglected. Shrimp Welfare Project is the first organization focusing exclusively on the welfare of these animals. This has been made possible, in part, thanks to organizations such as Charity Entrepreneurship and Rethink Priorities raising the issue of invertebrate suffering.     
+They are highly neglected. Shrimp Welfare Project is the first organization focusing exclusively on the welfare of these animals. This has been made possible, in part, thanks to organizations such as Charity Entrepreneurship and Rethink Priorities raising the issue of invertebrate suffering.
     `,
     tags: ['New'] as const,
   },
