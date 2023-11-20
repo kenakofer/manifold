@@ -217,6 +217,10 @@ export class PlaygroundState {
     return this.users[id];
   }
 
+  getUsers() {
+    return Object.values(this.users);
+  }
+
   getFirstUser() {
     const users = Object.values(this.users);
     if (users.length > 0) return users[0];
