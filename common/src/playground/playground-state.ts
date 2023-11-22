@@ -265,6 +265,10 @@ export class PlaygroundState {
     return this.contracts[id];
   }
 
+  getContracts() {
+    return Object.values(this.contracts);
+  }
+
   getContractsByCreatorId(userId: string) {
     return Object.values(this.contracts).filter(contract => contract.creatorId === userId);
   }
